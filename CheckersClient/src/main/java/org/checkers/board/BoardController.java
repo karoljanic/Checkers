@@ -32,20 +32,6 @@ public class BoardController {
     }
 
     public void updateView() {
-        if(stage == null) {
-            stage = new Stage();
-            stage.setScene(view.getBoardView(model.getSize(), model.getWhitePieces(), model.getBlackPieces()));
-            stage.setTitle("Checkers");
-            stage.setResizable(true);
-
-            stage.show();
-            stage.setMaxHeight(stage.getHeight());
-            stage.setMaxWidth(stage.getWidth());
-        }
-        else {
-            stage.hide();
-            stage.setScene(view.getBoardView(model.getSize(), model.getWhitePieces(), model.getBlackPieces()));
-            stage.show();
-        }
+        view.update(model.getSize(), model.getWhitePieces(), model.getBlackPieces());
     }
 }

@@ -1,20 +1,17 @@
 package org.checkers.board;
 
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-import javafx.stage.Screen;
+
 import javafx.stage.Stage;
 import org.checkers.utils.WindowProperties;
 
 public class BoardView {
-    Scene getBoardView(int size, boolean[][] whitePieces, boolean[][] blackPieces) {
+    void update(int size, boolean[][] whitePieces, boolean[][] blackPieces) {
         double windowSize = WindowProperties.calculateWindowStageSize();
         double buttonSize = windowSize * 0.9 / size;
         double pieceSize = 0.8 * buttonSize / 2;
@@ -57,6 +54,14 @@ public class BoardView {
             }
         }
 
-        return new Scene(gridPane);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(gridPane));
+        stage.setTitle("Checkers");
+        stage.setResizable(true);
+
+        stage.show();
+        stage.setMaxHeight(stage.getHeight());
+        stage.setMaxWidth(stage.getWidth());
+
     }
 }

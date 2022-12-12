@@ -5,6 +5,9 @@ import javafx.stage.Stage;
 import org.checkers.board.Board;
 import org.checkers.board.BoardController;
 import org.checkers.board.BoardView;
+import org.checkers.menu.Menu;
+import org.checkers.menu.MenuController;
+import org.checkers.menu.MenuView;
 
 public class Main extends Application {
 
@@ -28,6 +31,16 @@ public class Main extends Application {
         BoardController boardController = new BoardController(boardModel, boardView);
 
         boardController.updateView();
+
+        /*
+        Menu menuModel = new Menu();
+        menuModel.setCheckersTypes(new String[]{"International Checkers", "Brazilian Checkers", "Thain Checkers"});
+
+        MenuView menuView = new MenuView();
+        MenuController menuController = new MenuController(menuModel, menuView);
+
+        menuController.updateView();
+         */
     }
 
     @Override
