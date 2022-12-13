@@ -1,13 +1,22 @@
-package org.checkers;
+package org.checkers.boards;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
+import org.checkers.boards.Piece.Color;
 
 public class ThaiBoard extends Board {
 
     @Override
-    protected boolean canMove(Point2D pointBefore, Point2D pointAfter) {
+    public ArrayList<ArrayList<Point2D>> getPossibleMoves(Color color) {
         // TODO Auto-generated method stub
-        return false;
+        return null;
+    }
+
+    @Override
+    protected void initializePieces() {
+        // TODO Auto-generated method stub
+        
     }
     
 }
