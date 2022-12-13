@@ -30,7 +30,7 @@ public class MainServer
                 waitingForGame.get(gameType).get(1), board).start();
             
             waitingForGame.get(gameType).remove(0);
-            waitingForGame.get(gameType).remove(1);
+            waitingForGame.get(gameType).remove(0);
         }
     }
 

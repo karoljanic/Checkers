@@ -21,13 +21,22 @@ public class CheckersGame extends Thread {
         try {
             InputStream input1 = player1.getInputStream();
             BufferedReader in1 = new BufferedReader(new InputStreamReader(input1));
+            ObjectInputStream objectIn1 = new ObjectInputStream(input1);
             OutputStream output1 = player2.getOutputStream();
             PrintWriter out1 = new PrintWriter(output1, true);
+            ObjectOutputStream objectOut1 = new ObjectOutputStream(output1);
 
             InputStream input2 = player1.getInputStream();
             BufferedReader in2 = new BufferedReader(new InputStreamReader(input2));
+            ObjectInputStream objectIn2 = new ObjectInputStream(input2);
             OutputStream output2 = player2.getOutputStream();
             PrintWriter out2 = new PrintWriter(output2, true);
+            ObjectOutputStream objectOut2 = new ObjectOutputStream(output2);
+
+            out1.println("white");
+            objectOut1.writeObject(board.getPieces());
+            out2.println("black");
+            objectOut2.writeObject(board.getPieces());
     
             String line;
             do {

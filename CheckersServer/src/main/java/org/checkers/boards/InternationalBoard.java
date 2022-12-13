@@ -14,11 +14,11 @@ public class InternationalBoard extends Board {
     protected void initializePieces() {
         //insert white pieces
         for (int i = 0; i <= 3; i++)
-            for (int j = 0; j < SIZE; j += 2)
+            for (int j = 0; j < 10; j += 2)
                 pieces.add(new Piece(new Point2D.Double(j, i), Color.WHITE));
         //insert black pieces
         for (int i = 9; i >= 6; i--)
-            for (int j = 1; j < SIZE; j += 2)
+            for (int j = 1; j < 10; j += 2)
                 pieces.add(new Piece(new Point2D.Double(j, i), Color.BLACK));
     }
 

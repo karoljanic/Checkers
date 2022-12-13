@@ -33,6 +33,10 @@ public abstract class Board {
         initializePieces();
     }
 
+    public ArrayList<Piece> getPieces() {
+        return pieces;
+    }
+
     public abstract ArrayList<ArrayList<Point2D>> getPossibleMoves(Color color);
 
     public boolean move(Point2D pointBefore, Point2D pointAfter, Color whosMove) {
@@ -53,6 +57,8 @@ public abstract class Board {
     }
 
     public Color whoWins() {
+        //TODO: end by blocking enemy's moves
+        //TODO: handle draw (?)
         if (howManyPieces(Color.WHITE) == 0)
             return Color.BLACK;
         if (howManyPieces(Color.BLACK) == 0)
