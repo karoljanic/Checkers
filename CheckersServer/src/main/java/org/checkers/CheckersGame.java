@@ -17,6 +17,7 @@ public class CheckersGame extends Thread {
     private final Board board;
 
     private int turn;
+    private static final int FINISHED = 0;
     private static final int FIRST = 1;
     private static final int SECOND = 2;
 
@@ -70,18 +71,20 @@ public class CheckersGame extends Thread {
     private void gameLoop(ObjectInputStream in1, ObjectOutputStream out1, ObjectInputStream in2, ObjectOutputStream out2)
     throws IOException {
         
-        while (true) { //TODO: update connection finishing condition
+        while (turn != FINISHED) {
 
             Color color = Color.WHITE;
             ObjectOutputStream out = out1;
             ObjectInputStream in = in1;
+            ObjectOutputStream otherOut = out2;
             if (turn == SECOND) {
                 color = Color.BLACK;
                 out = out2;
                 in = in2;
+                otherOut = out1;
             }
 
-            out.writeObject(board.getPossibleMoves(color));
+            out.writeObject(board.getPossibleMoves());
 
             ArrayList<Point> movePoints = new ArrayList<>();
             try { movePoints = (ArrayList<Point>) in.readObject(); }
@@ -95,6 +98,9 @@ public class CheckersGame extends Thread {
             }
                 
             out.writeObject(MoveStatus.SUCCESS);
+            out.writeObject(board.getPieces());
+
+            otherOut.writeObject(board.getPieces());
             
             if (turn == FIRST)
                 turn = SECOND;

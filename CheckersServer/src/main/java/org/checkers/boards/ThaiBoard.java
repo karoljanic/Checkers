@@ -25,18 +25,19 @@ public class ThaiBoard extends Board {
     }
 
     @Override
-    public ArrayList<ArrayList<Point>>[][] getPossibleMoves(Color color) {
+    protected ArrayList<ArrayList<Point>>[][] generatePossibleMoves() {
 
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
+                currentPossibleMoves[i][j] = new ArrayList<ArrayList<Point>>();
 
                 Piece piece = pieces[i][j];
-
-                if (!piece.getColor().equals(color))
+                if (piece == null)
                     continue;
 
                 int x = piece.getPosision().getX();
                 int y = piece.getPosision().getY();
+                Color color = piece.getColor();
 
                 if (piece.getType().equals(Type.KING)) {
                     int newX, newY;
@@ -46,6 +47,7 @@ public class ThaiBoard extends Board {
                     newY = y + 1;
                     while (newX < SIZE && newY < SIZE && pieces[newX][newY] == null) {
                         ArrayList<Point> tempArrayList = new ArrayList<>();
+                        tempArrayList.add(new Point(x, y));
                         tempArrayList.add(new Point(newX, newY));
                         currentPossibleMoves[i][j].add(tempArrayList);
                         newX += 1;
@@ -57,6 +59,7 @@ public class ThaiBoard extends Board {
                     newY = y + 1;
                     while (newX >= 0 && newY < SIZE && pieces[newX][newY] == null) {
                         ArrayList<Point> tempArrayList = new ArrayList<>();
+                        tempArrayList.add(new Point(x, y));
                         tempArrayList.add(new Point(newX, newY));
                         currentPossibleMoves[i][j].add(tempArrayList);
                         newX -= 1;
@@ -68,6 +71,7 @@ public class ThaiBoard extends Board {
                     newY = y - 1;
                     while (newX < SIZE && newY >= 0 && pieces[newX][newY] == null) {
                         ArrayList<Point> tempArrayList = new ArrayList<>();
+                        tempArrayList.add(new Point(x, y));
                         tempArrayList.add(new Point(newX, newY));
                         currentPossibleMoves[i][j].add(tempArrayList);
                         newX += 1;
@@ -79,6 +83,7 @@ public class ThaiBoard extends Board {
                     newY = y - 1;
                     while (newX >= 0 && newY >= 0 && pieces[newX][newY] == null) {
                         ArrayList<Point> tempArrayList = new ArrayList<>();
+                        tempArrayList.add(new Point(x, y));
                         tempArrayList.add(new Point(newX, newY));
                         currentPossibleMoves[i][j].add(tempArrayList);
                         newX -= 1;
@@ -95,6 +100,7 @@ public class ThaiBoard extends Board {
                 if (pieces[x - 1][y + verticalStep] == null 
                     && x - 1 > 0 && y + verticalStep > 0 && y + verticalStep < SIZE) {
                     ArrayList<Point> tempArrayList = new ArrayList<>();
+                    tempArrayList.add(new Point(x, y));
                     tempArrayList.add(new Point(x - 1, y + verticalStep));
                     currentPossibleMoves[i][j].add(tempArrayList);
                 }
@@ -102,6 +108,7 @@ public class ThaiBoard extends Board {
                 if (pieces[x + 1][y + verticalStep] == null 
                     && x + 1 < SIZE && y + verticalStep > 0 && y + verticalStep < SIZE) {
                     ArrayList<Point> tempArrayList = new ArrayList<>();
+                    tempArrayList.add(new Point(x, y));
                     tempArrayList.add(new Point(x + 1, y + verticalStep));
                     currentPossibleMoves[i][j].add(tempArrayList);
                 }
