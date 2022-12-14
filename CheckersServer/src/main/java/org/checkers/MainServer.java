@@ -31,6 +31,8 @@ public class MainServer
             
             waitingForGame.get(gameType).remove(0);
             waitingForGame.get(gameType).remove(0);
+
+            System.out.println("Started new game type " + gameType);
         }
     }
 
@@ -49,11 +51,11 @@ public class MainServer
                 Socket socket = serverSocket.accept();
 
                 InputStream input = socket.getInputStream();
-                BufferedReader in = new BufferedReader(new InputStreamReader(input));
-                OutputStream output = socket.getOutputStream();
-                PrintWriter out = new PrintWriter(output, true);
+                ObjectInputStream in = new ObjectInputStream(input);
 
-                String line = in.readLine();
+                String line = "";
+                try { line = (String)in.readObject(); }
+                catch (ClassNotFoundException e) {}
 
                 if (line.equals("international")) {
                     waitingForGame.get("International").add(socket);
@@ -68,12 +70,6 @@ public class MainServer
                 else if (line.equals("thai")) {
                     waitingForGame.get("thai").add(socket);
                     startGame("thai");
-                }
-
-                else {
-                    out.println("Unrecognised game type");
-                    socket.close();
-                    continue;
                 }
 
                 System.out.println("New client connected: " + line);

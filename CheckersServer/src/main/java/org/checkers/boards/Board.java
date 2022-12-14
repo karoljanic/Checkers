@@ -1,27 +1,25 @@
 package org.checkers.boards;
 
 import java.util.ArrayList;
-import java.awt.geom.Point2D;
-import org.checkers.boards.Piece.Color;
+
+import org.checkers.boards.elements.Piece;
+import org.checkers.boards.elements.Point;
+import org.checkers.boards.elements.Piece.Color;
 
 public abstract class Board {
 
-    protected ArrayList<ArrayList<Point2D>> currentPossibleMoves;
-    protected final ArrayList<Piece> pieces;
+    public static final int SIZE = 0;
 
-    protected Piece findPiece(Point2D point, Color color) {
-        for (Piece piece : pieces) {
-            if (piece.getColor().equals(color) && point.equals(piece.getPosision()))
-                return piece;
-        }
-        return null;
-    }
+    protected final ArrayList<ArrayList<Point>>[][] currentPossibleMoves;
+    protected final Piece[][] pieces;
 
     private int howManyPieces(Color color) {
         int count = 0;
-        for (Piece piece : pieces) {
-            if (piece.getColor().equals(color))
-                count++;
+        for (Piece[] piecesRow : pieces) {
+            for (Piece piece: piecesRow) {
+                if (piece.getColor().equals(color))
+                    count++;
+            }
         }
         return count;
     }
@@ -29,28 +27,36 @@ public abstract class Board {
     protected abstract void initializePieces();
 
     public Board() {
-        pieces = new ArrayList<>();
+        currentPossibleMoves = new ArrayList[SIZE][SIZE];
+        for (int i = 0; i < SIZE; i++)
+            for (int j = 0; j < SIZE; j++)
+                currentPossibleMoves[i][j] = new ArrayList<ArrayList<Point>>();
+
+        pieces = new Piece[SIZE][SIZE];
+        
         initializePieces();
     }
 
-    public ArrayList<Piece> getPieces() {
+    public Piece[][] getPieces() {
         return pieces;
     }
 
-    public abstract ArrayList<ArrayList<Point2D>> getPossibleMoves(Color color);
+    public abstract ArrayList<ArrayList<Point>>[][] getPossibleMoves(Color color);
 
-    public boolean move(Point2D pointBefore, Point2D pointAfter, Color whosMove) {
-        Piece pieceMakingMove = findPiece(pointAfter, whosMove);
+    public boolean move(ArrayList<Point> movPoints, Color whosMove) {
+        //TODO: delete that trash and write sth purposeful
 
-        Piece pieceOnDest = findPiece(pointAfter, Color.WHITE);
-        if (pieceOnDest == null)
-            pieceOnDest = findPiece(pointAfter, Color.BLACK);
-        
-        if (pieceMakingMove == null || pieceOnDest != null
-            || !getPossibleMoves(whosMove).get(pieces.indexOf(pieceMakingMove)).contains(pointAfter))
+        /*Piece pieceMakingMove = pieces[pointBefore.getX()][pointBefore.getY()];
+        if (!pieceMakingMove.getColor().equals(whosMove))
             return false;
+
+        Piece pieceOnDest = pieces[pointAfter.getX()][pointAfter.getY()];
+        */
+        
+        /*if (pieceOnDest != null || !getPossibleMoves(whosMove).get(pieces.indexOf(pieceMakingMove)).contains(pointAfter))
+            return false; */
             
-        pieceMakingMove.move(pointAfter);
+        //pieceMakingMove.move(pointAfter);
         
         return true;
         

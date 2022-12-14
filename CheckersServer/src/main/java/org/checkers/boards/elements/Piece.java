@@ -1,26 +1,24 @@
-package org.checkers.boards;
-
-import java.awt.geom.Point2D;
+package org.checkers.boards.elements;
 
 public class Piece {
-    private final Point2D position;
+    private final Point position;
     private final Color color;
     private Type type;
 
     public enum Color {WHITE, BLACK}
     public enum Type {MAN, KING}
 
-    public Piece(Point2D position, Color color) {
+    public Piece(Point position, Color color) {
         this.position = position;
         this.color = color;
         this.type = Type.MAN;
     }
 
-    public void move(Point2D newPosition) {
-        position.setLocation(newPosition.getX(), newPosition.getY());
+    public void move(Point newPosition) {
+        position.set(newPosition.getX(), newPosition.getY());
     }
 
-    public Point2D getPosision() {
+    public Point getPosision() {
         return position;
     }
 

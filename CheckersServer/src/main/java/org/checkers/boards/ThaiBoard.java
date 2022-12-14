@@ -1,102 +1,112 @@
 package org.checkers.boards;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import org.checkers.boards.Piece.Color;
-import org.checkers.boards.Piece.Type;
+import org.checkers.boards.elements.Piece;
+import org.checkers.boards.elements.Point;
+import org.checkers.boards.elements.Piece.Color;
+import org.checkers.boards.elements.Piece.Type;
 
 public class ThaiBoard extends Board {
 
-    private static final int SIZE = 8;
+    public static final int SIZE = 8;
 
     @Override
     protected void initializePieces() {
         //insert white pieces
         for (int i = 0; i <= 1; i++)
             for (int j = 0; j < 8; j += 2)
-                pieces.add(new Piece(new Point2D.Double(j, i), Color.WHITE));
+                pieces[j][i] = new Piece(new Point(j, i), Color.WHITE);
         //insert black pieces
         for (int i = 7; i >= 6; i--)
             for (int j = 1; j < 8; j += 2)
-                pieces.add(new Piece(new Point2D.Double(j, i), Color.BLACK));
+                pieces[j][i]  = new Piece(new Point(j, i), Color.BLACK);
         
     }
 
     @Override
-    public ArrayList<ArrayList<Point2D>> getPossibleMoves(Color color) {
+    public ArrayList<ArrayList<Point>>[][] getPossibleMoves(Color color) {
 
-        for (Piece piece : pieces) {
-            if (!piece.getColor().equals(color))
-                continue;
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
 
-            int index = pieces.indexOf(piece);
-            Point2D position = piece.getPosision();
+                Piece piece = pieces[i][j];
 
-            if (piece.getType().equals(Type.KING)) {
-                int newX, newY;
+                if (!piece.getColor().equals(color))
+                    continue;
 
-                //right-top direction
-                newX = (int)(position.getX() + 1);
-                newY = (int)(position.getY() + 1);
-                while (newX < SIZE && newY < SIZE
-                    && findPiece(new Point2D.Double(newX, newY), Color.WHITE) == null
-                    && findPiece(new Point2D.Double(newX, newY), Color.BLACK) == null) {
-                    currentPossibleMoves.get(index).add(new Point2D.Double(newX, newY));
-                    newX += 1;
-                    newY += 1;
+                int x = piece.getPosision().getX();
+                int y = piece.getPosision().getY();
+
+                if (piece.getType().equals(Type.KING)) {
+                    int newX, newY;
+
+                    //right-top direction
+                    newX = x + 1;
+                    newY = y + 1;
+                    while (newX < SIZE && newY < SIZE && pieces[newX][newY] == null) {
+                        ArrayList<Point> tempArrayList = new ArrayList<>();
+                        tempArrayList.add(new Point(newX, newY));
+                        currentPossibleMoves[i][j].add(tempArrayList);
+                        newX += 1;
+                        newY += 1;
+                    }
+
+                    //left-top direction
+                    newX = x - 1;
+                    newY = y + 1;
+                    while (newX >= 0 && newY < SIZE && pieces[newX][newY] == null) {
+                        ArrayList<Point> tempArrayList = new ArrayList<>();
+                        tempArrayList.add(new Point(newX, newY));
+                        currentPossibleMoves[i][j].add(tempArrayList);
+                        newX -= 1;
+                        newY += 1;
+                    }
+
+                    //right-bottom direction
+                    newX = x + 1;
+                    newY = y - 1;
+                    while (newX < SIZE && newY >= 0 && pieces[newX][newY] == null) {
+                        ArrayList<Point> tempArrayList = new ArrayList<>();
+                        tempArrayList.add(new Point(newX, newY));
+                        currentPossibleMoves[i][j].add(tempArrayList);
+                        newX += 1;
+                        newY -= 1;
+                    }
+
+                    //left-bottom direction
+                    newX = x - 1;
+                    newY = y - 1;
+                    while (newX >= 0 && newY >= 0 && pieces[newX][newY] == null) {
+                        ArrayList<Point> tempArrayList = new ArrayList<>();
+                        tempArrayList.add(new Point(newX, newY));
+                        currentPossibleMoves[i][j].add(tempArrayList);
+                        newX -= 1;
+                        newY -= 1;
+                    }
+
+                    continue;
                 }
 
-                //left-top direction
-                newX = (int)(position.getX() - 1);
-                newY = (int)(position.getY() + 1);
-                while (newX >= 0 && newY < SIZE
-                    && findPiece(new Point2D.Double(newX, newY), Color.WHITE) == null
-                    && findPiece(new Point2D.Double(newX, newY), Color.BLACK) == null) {
-                    currentPossibleMoves.get(index).add(new Point2D.Double(newX, newY));
-                    newX -= 1;
-                    newY += 1;
+                int verticalStep = 1;
+                if (color.equals(Color.BLACK))
+                    verticalStep = -1;
+
+                if (pieces[x - 1][y + verticalStep] == null 
+                    && x - 1 > 0 && y + verticalStep > 0 && y + verticalStep < SIZE) {
+                    ArrayList<Point> tempArrayList = new ArrayList<>();
+                    tempArrayList.add(new Point(x - 1, y + verticalStep));
+                    currentPossibleMoves[i][j].add(tempArrayList);
+                }
+                
+                if (pieces[x + 1][y + verticalStep] == null 
+                    && x + 1 < SIZE && y + verticalStep > 0 && y + verticalStep < SIZE) {
+                    ArrayList<Point> tempArrayList = new ArrayList<>();
+                    tempArrayList.add(new Point(x + 1, y + verticalStep));
+                    currentPossibleMoves[i][j].add(tempArrayList);
                 }
 
-                //right-bottom direction
-                newX = (int)(position.getX() + 1);
-                newY = (int)(position.getY() - 1);
-                while (newX < SIZE && newY >= 0
-                    && findPiece(new Point2D.Double(newX, newY), Color.WHITE) == null
-                    && findPiece(new Point2D.Double(newX, newY), Color.BLACK) == null) {
-                    currentPossibleMoves.get(index).add(new Point2D.Double(newX, newY));
-                    newX += 1;
-                    newY -= 1;
-                }
-
-                //left-bottom direction
-                newX = (int)(position.getX() - 1);
-                newY = (int)(position.getY() - 1);
-                while (newX >= 0 && newY >= 0
-                    && findPiece(new Point2D.Double(newX, newY), Color.WHITE) == null
-                    && findPiece(new Point2D.Double(newX, newY), Color.BLACK) == null) {
-                    currentPossibleMoves.get(index).add(new Point2D.Double(newX, newY));
-                    newX -= 1;
-                    newY -= 1;
-                }
-
-                continue;
             }
-
-            int verticalStep = 1;
-            if (color.equals(Color.BLACK))
-                verticalStep = -1;
-
-            if (findPiece(new Point2D.Double(position.getX() - 1, position.getY() + verticalStep), Color.WHITE) == null
-                && findPiece(new Point2D.Double(position.getX() - 1, position.getY() + verticalStep), Color.BLACK) == null
-                && position.getX() - 1 > 0 && position.getY() + verticalStep > 0 && position.getY() + verticalStep < SIZE)
-                currentPossibleMoves.get(index).add(new Point2D.Double(position.getX() - 1, position.getY() + verticalStep));
-            
-            if (findPiece(new Point2D.Double(position.getX() + 1, position.getY() + verticalStep), Color.WHITE) == null
-                && findPiece(new Point2D.Double(position.getX() + 1, position.getY() + verticalStep), Color.BLACK) == null
-                && position.getX() + 1 < SIZE && position.getY() + verticalStep > 0 && position.getY() + verticalStep < SIZE)
-                currentPossibleMoves.get(index).add(new Point2D.Double(position.getX() + 1, position.getY() + verticalStep));
-
         }
 
         return currentPossibleMoves;
