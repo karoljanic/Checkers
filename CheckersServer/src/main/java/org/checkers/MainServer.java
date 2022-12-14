@@ -9,38 +9,40 @@ import org.checkers.boards.*;
 
 public class MainServer
 {
-    private static final HashMap<String, ArrayList<Socket>> waitingForGame = new HashMap<>();
+    private enum GameType {INTERNATIONAL, BRAZILIAN, THAI}
 
-    private static void startGame(String gameType) {
-        if (waitingForGame.get(gameType).size() >= 2) {
+    private static final HashMap<GameType, ArrayList<Socket>> waitingForGame = new HashMap<>();
+
+    private static void startGame(GameType type) {
+        if (waitingForGame.get(type).size() >= 2) {
             Board board = null;
-            switch (gameType) {
-                case "international":
+            switch (type) {
+                case INTERNATIONAL:
                     board = new InternationalBoard();
                     break;
-                case "brazilian":
+                case BRAZILIAN:
                     board = new BrazilianBoard();
                     break;
-                case "thai":
+                case THAI:
                     board = new ThaiBoard();
                     break;
             }
 
-            new CheckersGame(waitingForGame.get(gameType).get(0),
-                waitingForGame.get(gameType).get(1), board).start();
+            new CheckersGame(waitingForGame.get(type).get(0),
+                waitingForGame.get(type).get(1), board).start();
             
-            waitingForGame.get(gameType).remove(0);
-            waitingForGame.get(gameType).remove(0);
+            waitingForGame.get(type).remove(0);
+            waitingForGame.get(type).remove(0);
 
-            System.out.println("Started new game type " + gameType);
+            System.out.println("Started new game type " + type.toString());
         }
     }
 
     public static void main(String[] args)
     {
-        waitingForGame.put("international", new ArrayList<>());
-        waitingForGame.put("brazilian", new ArrayList<>());
-        waitingForGame.put("thai", new ArrayList<>());
+        waitingForGame.put(GameType.INTERNATIONAL, new ArrayList<>());
+        waitingForGame.put(GameType.BRAZILIAN, new ArrayList<>());
+        waitingForGame.put(GameType.THAI, new ArrayList<>());
 
         try (ServerSocket serverSocket = new ServerSocket(4444))
         {
@@ -53,26 +55,14 @@ public class MainServer
                 InputStream input = socket.getInputStream();
                 ObjectInputStream in = new ObjectInputStream(input);
 
-                String line = "";
-                try { line = (String)in.readObject(); }
+                GameType type = null;
+                try { type = (GameType) in.readObject(); }
                 catch (ClassNotFoundException e) {}
 
-                if (line.equals("international")) {
-                    waitingForGame.get("International").add(socket);
-                    startGame("international");
-                }
+                waitingForGame.get(type).add(socket);
+                startGame(type);
 
-                else if (line.equals("brazilian")) {
-                    waitingForGame.get("brazilian").add(socket);
-                    startGame("brazilian");
-                }
-
-                else if (line.equals("thai")) {
-                    waitingForGame.get("thai").add(socket);
-                    startGame("thai");
-                }
-
-                System.out.println("New client connected: " + line);
+                System.out.println("New client connected: " + type.toString());
             }
 
         }

@@ -9,6 +9,9 @@ import org.checkers.boards.elements.Point;
 import org.checkers.boards.elements.Piece.Color;
 
 public class CheckersGame extends Thread {
+
+    private enum MoveStatus {SUCCESS, ERROR}
+
     private final Socket player1;
     private final Socket player2;
     private final Board board;
@@ -39,15 +42,15 @@ public class CheckersGame extends Thread {
 
             out1.writeObject(Board.SIZE);
             if (turn == FIRST) {
-                out1.writeObject(new String("white"));
+                out1.writeObject(Color.WHITE);
                 out1.writeObject(board.getPieces());
-                out2.writeObject(new String("black"));
+                out2.writeObject(Color.BLACK);
                 out2.writeObject(board.getPieces());
             }
             else {
-                out2.writeObject(new String("white"));
+                out2.writeObject(Color.WHITE);
                 out2.writeObject(board.getPieces());
-                out1.writeObject(new String("black"));
+                out1.writeObject(Color.BLACK);
                 out1.writeObject(board.getPieces());
             }
     
@@ -70,23 +73,28 @@ public class CheckersGame extends Thread {
         while (true) { //TODO: update connection finishing condition
 
             Color color = Color.WHITE;
-            if (turn == SECOND)
+            ObjectOutputStream out = out1;
+            ObjectInputStream in = in1;
+            if (turn == SECOND) {
                 color = Color.BLACK;
+                out = out2;
+                in = in2;
+            }
 
-            out1.writeObject(board.getPossibleMoves(color));
+            out.writeObject(board.getPossibleMoves(color));
 
             ArrayList<Point> movePoints = new ArrayList<>();
-            try { movePoints = (ArrayList<Point>) in1.readObject(); }
+            try { movePoints = (ArrayList<Point>) in.readObject(); }
             catch (ClassNotFoundException e) {}
 
             while (!board.move(movePoints, color)) {
-                out1.writeObject(new String("error"));
+                out.writeObject(MoveStatus.ERROR);
 
-                try { movePoints = (ArrayList<Point>) in1.readObject(); }
+                try { movePoints = (ArrayList<Point>) in.readObject(); }
                 catch (ClassNotFoundException e) {}
             }
                 
-            out1.writeObject(new String("ok"));
+            out.writeObject(MoveStatus.SUCCESS);
             
             if (turn == FIRST)
                 turn = SECOND;
