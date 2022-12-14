@@ -57,7 +57,7 @@ public class BoardView {
         Stage stage = new Stage();
         stage.setScene(new Scene(gridPane));
         stage.setTitle("Checkers");
-        stage.setResizable(true);
+        stage.setResizable(false);
 
         stage.show();
         stage.setMaxHeight(stage.getHeight());

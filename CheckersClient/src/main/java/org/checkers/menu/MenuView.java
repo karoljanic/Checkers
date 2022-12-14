@@ -1,30 +1,31 @@
 package org.checkers.menu;
 
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import org.checkers.utils.WindowProperties;
 
-public class MenuView {
-    void update(String[] gameTypes) {
-        double windowSize = WindowProperties.calculateWindowStageSize() / 2.0;
+import java.util.ArrayList;
 
-        VBox menuContainer = new VBox();
-        menuContainer.setPrefHeight(windowSize);
-        menuContainer.setPrefWidth(windowSize);
+public class MenuView extends VBox {
+    private final ArrayList<Button> buttons = new ArrayList<>();
+
+    MenuView(ArrayList<String> gameTypes, MenuController menuController) {
+        double buttonHeight = WindowProperties.calculateWindowStageSize() / 9.0;
+        double buttonWidth = WindowProperties.calculateWindowStageSize() / 3.0;
 
         for (String type: gameTypes) {
-            menuContainer.getChildren().add(new Button(type));
+            Button button = new Button(type);
+
+            button.setPrefHeight(buttonHeight);
+            button.setPrefWidth(buttonWidth);
+            button.setOnAction(menuController);
+
+            getChildren().add(button);
+            buttons.add(button);
         }
+    }
 
-        Stage stage = new Stage();
-        stage.setScene(new Scene(menuContainer));
-        stage.setTitle("Checkers Menu");
-        stage.setResizable(true);
-
-        stage.show();
-        stage.setMaxHeight(stage.getHeight());
-        stage.setMaxWidth(stage.getWidth());
+    public ArrayList<Button> getButtons() {
+        return buttons;
     }
 }

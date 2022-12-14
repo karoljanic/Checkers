@@ -6,15 +6,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.checkers.boards.*;
+import org.checkers.utils.GameType;
 
 public class MainServer
 {
-    private enum GameType {INTERNATIONAL, BRAZILIAN, THAI}
-
     private static final HashMap<GameType, ArrayList<Socket>> waitingForGame = new HashMap<>();
 
     private static void startGame(GameType type) {
+
         if (waitingForGame.get(type).size() >= 2) {
+            /*
             Board board = null;
             switch (type) {
                 case INTERNATIONAL:
@@ -33,7 +34,7 @@ public class MainServer
             
             waitingForGame.get(type).remove(0);
             waitingForGame.get(type).remove(0);
-
+            */
             System.out.println("Started new game type " + type.toString());
         }
     }
@@ -55,12 +56,15 @@ public class MainServer
                 InputStream input = socket.getInputStream();
                 ObjectInputStream in = new ObjectInputStream(input);
 
-                GameType type = null;
-                try { type = (GameType) in.readObject(); }
-                catch (ClassNotFoundException e) {}
+                OutputStream output = socket.getOutputStream();
+                ObjectOutputStream out = new ObjectOutputStream(output);
+
+                GameType type = (GameType) in.readObject();
 
                 waitingForGame.get(type).add(socket);
                 startGame(type);
+
+                System.out.println("SOCKET: " + socket.toString());
 
                 System.out.println("New client connected: " + type.toString());
             }
@@ -70,6 +74,8 @@ public class MainServer
         {
             System.out.println("Server exception: " + ex.getMessage());
             ex.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 }

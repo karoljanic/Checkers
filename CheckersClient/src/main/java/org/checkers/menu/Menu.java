@@ -1,13 +1,19 @@
 package org.checkers.menu;
 
-public class Menu {
-    private String[] checkersTypes;
+import java.util.ArrayList;
 
-    public void setCheckersTypes(String[] checkersTypes) {
+public class Menu {
+    private ArrayList<String> checkersTypes;
+
+    Menu(ArrayList<String> checkersTypes) {
         this.checkersTypes = checkersTypes;
     }
 
-    public String[] getCheckersTypes() {
+    public void setCheckersTypes(ArrayList<String> checkersTypes) {
+        this.checkersTypes = checkersTypes;
+    }
+
+    public ArrayList<String> getCheckersTypes() {
         return checkersTypes;
     }
 }
