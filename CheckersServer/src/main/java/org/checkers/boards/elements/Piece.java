@@ -1,25 +1,15 @@
 package org.checkers.boards.elements;
 
 public class Piece {
-    private final Point position;
     private final Color color;
     private Type type;
 
     public enum Color {WHITE, BLACK}
     public enum Type {MAN, KING}
 
-    public Piece(Point position, Color color) {
-        this.position = position;
+    public Piece(Color color) {
         this.color = color;
         this.type = Type.MAN;
-    }
-
-    public void move(Point newPosition) {
-        position.set(newPosition.getX(), newPosition.getY());
-    }
-
-    public Point getPosision() {
-        return position;
     }
 
     public Color getColor() {

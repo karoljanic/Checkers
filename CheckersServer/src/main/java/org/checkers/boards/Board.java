@@ -18,9 +18,9 @@ public abstract class Board {
 
     private int howManyPieces(Color color) {
         int count = 0;
-        for (Piece[] piecesRow : pieces) {
-            for (Piece piece: piecesRow) {
-                if (piece != null && piece.getColor().equals(color))
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (pieces[i][j] != null && pieces[i][j].getColor().equals(color))
                     count++;
             }
         }
@@ -63,7 +63,6 @@ public abstract class Board {
                 }
             }
             //making actual move
-            pieces[initialX][initialY].move(new Point(finalX, finalY));
             pieces[finalX][finalY] = pieces[initialX][initialY];
             pieces[initialX][initialY] = null;
             //making piece a KING if necessary

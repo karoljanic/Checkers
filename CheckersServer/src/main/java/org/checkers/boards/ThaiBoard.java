@@ -16,27 +16,25 @@ public class ThaiBoard extends Board {
         //insert white pieces
         for (int i = 0; i <= 1; i++)
             for (int j = 0; j < 8; j += 2)
-                pieces[j][i] = new Piece(new Point(j, i), Color.WHITE);
+                pieces[j][i] = new Piece(Color.WHITE);
         //insert black pieces
         for (int i = 7; i >= 6; i--)
             for (int j = 1; j < 8; j += 2)
-                pieces[j][i]  = new Piece(new Point(j, i), Color.BLACK);
+                pieces[j][i]  = new Piece(Color.BLACK);
         
     }
 
     @Override
     protected ArrayList<ArrayList<Point>>[][] generatePossibleMoves() {
 
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                currentPossibleMoves[i][j] = new ArrayList<ArrayList<Point>>();
+        for (int x = 0; x < SIZE; x++) {
+            for (int y = 0; y < SIZE; y++) {
+                currentPossibleMoves[x][y] = new ArrayList<ArrayList<Point>>();
 
-                Piece piece = pieces[i][j];
+                Piece piece = pieces[x][y];
                 if (piece == null)
                     continue;
 
-                int x = piece.getPosision().getX();
-                int y = piece.getPosision().getY();
                 Color color = piece.getColor();
 
                 if (piece.getType().equals(Type.KING)) {
@@ -49,7 +47,7 @@ public class ThaiBoard extends Board {
                         ArrayList<Point> tempArrayList = new ArrayList<>();
                         tempArrayList.add(new Point(x, y));
                         tempArrayList.add(new Point(newX, newY));
-                        currentPossibleMoves[i][j].add(tempArrayList);
+                        currentPossibleMoves[x][y].add(tempArrayList);
                         newX += 1;
                         newY += 1;
                     }
@@ -61,7 +59,7 @@ public class ThaiBoard extends Board {
                         ArrayList<Point> tempArrayList = new ArrayList<>();
                         tempArrayList.add(new Point(x, y));
                         tempArrayList.add(new Point(newX, newY));
-                        currentPossibleMoves[i][j].add(tempArrayList);
+                        currentPossibleMoves[x][y].add(tempArrayList);
                         newX -= 1;
                         newY += 1;
                     }
@@ -73,7 +71,7 @@ public class ThaiBoard extends Board {
                         ArrayList<Point> tempArrayList = new ArrayList<>();
                         tempArrayList.add(new Point(x, y));
                         tempArrayList.add(new Point(newX, newY));
-                        currentPossibleMoves[i][j].add(tempArrayList);
+                        currentPossibleMoves[x][y].add(tempArrayList);
                         newX += 1;
                         newY -= 1;
                     }
@@ -85,7 +83,7 @@ public class ThaiBoard extends Board {
                         ArrayList<Point> tempArrayList = new ArrayList<>();
                         tempArrayList.add(new Point(x, y));
                         tempArrayList.add(new Point(newX, newY));
-                        currentPossibleMoves[i][j].add(tempArrayList);
+                        currentPossibleMoves[x][y].add(tempArrayList);
                         newX -= 1;
                         newY -= 1;
                     }
@@ -102,7 +100,7 @@ public class ThaiBoard extends Board {
                     ArrayList<Point> tempArrayList = new ArrayList<>();
                     tempArrayList.add(new Point(x, y));
                     tempArrayList.add(new Point(x - 1, y + verticalStep));
-                    currentPossibleMoves[i][j].add(tempArrayList);
+                    currentPossibleMoves[x][y].add(tempArrayList);
                 }
                 
                 if (pieces[x + 1][y + verticalStep] == null 
@@ -110,7 +108,7 @@ public class ThaiBoard extends Board {
                     ArrayList<Point> tempArrayList = new ArrayList<>();
                     tempArrayList.add(new Point(x, y));
                     tempArrayList.add(new Point(x + 1, y + verticalStep));
-                    currentPossibleMoves[i][j].add(tempArrayList);
+                    currentPossibleMoves[x][y].add(tempArrayList);
                 }
 
             }
