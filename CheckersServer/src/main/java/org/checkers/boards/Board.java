@@ -8,7 +8,7 @@ import org.checkers.boards.elements.Piece.Color;
 
 public abstract class Board {
 
-    public static final int SIZE = 0;
+    public static final int SIZE = 10;
 
     protected final ArrayList<ArrayList<Point>>[][] currentPossibleMoves;
     protected final Piece[][] pieces;
@@ -35,7 +35,7 @@ public abstract class Board {
                 currentPossibleMoves[i][j] = new ArrayList<ArrayList<Point>>();
 
         pieces = new Piece[SIZE][SIZE];
-        
+
         initializePieces();
         generatePossibleMoves();
     }

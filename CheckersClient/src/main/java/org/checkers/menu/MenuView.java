@@ -1,6 +1,8 @@
 package org.checkers.menu;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import org.checkers.utils.WindowProperties;
 
@@ -12,6 +14,12 @@ public class MenuView extends VBox {
     MenuView(ArrayList<String> gameTypes, MenuController menuController) {
         double buttonHeight = WindowProperties.calculateWindowStageSize() / 9.0;
         double buttonWidth = WindowProperties.calculateWindowStageSize() / 3.0;
+
+        setAlignment(Pos.CENTER);
+
+        Label title = new Label("Choose checkers type:");
+        title.setPrefHeight(buttonHeight / 1.5);
+        getChildren().add(title);
 
         for (String type: gameTypes) {
             Button button = new Button(type);

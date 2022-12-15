@@ -10,7 +10,15 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.checkers.utils.WindowProperties;
 
-public class BoardView {
+public class BoardView extends GridPane {
+
+    private final BoardController boardController;
+
+    BoardView(BoardController boardController) {
+        this.boardController = boardController;
+    }
+
+    /*
     void update(int size, boolean[][] whitePieces, boolean[][] blackPieces) {
         double windowSize = WindowProperties.calculateWindowStageSize();
         double buttonSize = windowSize * 0.9 / size;
@@ -64,4 +72,5 @@ public class BoardView {
         stage.setMaxWidth(stage.getWidth());
 
     }
+     */
 }

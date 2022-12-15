@@ -11,6 +11,10 @@ public class InternationalBoard extends Board {
 
     public static final int SIZE = 10;
 
+    public InternationalBoard() {
+        super();
+    }
+
     @Override
     protected void initializePieces() {
         //insert white pieces
@@ -25,7 +29,7 @@ public class InternationalBoard extends Board {
 
     @Override
     protected ArrayList<ArrayList<Point>>[][] generatePossibleMoves() {
-
+        /*
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 currentPossibleMoves[i][j] = new ArrayList<ArrayList<Point>>();
@@ -114,7 +118,7 @@ public class InternationalBoard extends Board {
 
             }
         }
-
+        */
         return currentPossibleMoves;
     }
     

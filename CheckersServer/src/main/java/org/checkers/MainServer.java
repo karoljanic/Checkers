@@ -2,10 +2,10 @@ package org.checkers;
 
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 import org.checkers.boards.*;
+import org.checkers.utils.CheckerColor;
 import org.checkers.utils.GameType;
 
 public class MainServer
@@ -13,28 +13,42 @@ public class MainServer
     private static final HashMap<GameType, ArrayList<Socket>> waitingForGame = new HashMap<>();
 
     private static void startGame(GameType type) {
-
         if (waitingForGame.get(type).size() >= 2) {
-            /*
-            Board board = null;
-            switch (type) {
-                case INTERNATIONAL:
-                    board = new InternationalBoard();
-                    break;
-                case BRAZILIAN:
-                    board = new BrazilianBoard();
-                    break;
-                case THAI:
-                    board = new ThaiBoard();
-                    break;
+            Board board = switch (type) {
+                case INTERNATIONAL -> new InternationalBoard();
+                case BRAZILIAN -> new BrazilianBoard();
+                case THAI -> new ThaiBoard();
+            };
+
+            try {
+                PrintWriter out0 = new PrintWriter(waitingForGame.get(type).get(0).getOutputStream(), true);
+                BufferedReader in0 = new BufferedReader(new InputStreamReader(waitingForGame.get(type).get(0).getInputStream()));
+
+                PrintWriter out1 = new PrintWriter(waitingForGame.get(type).get(1).getOutputStream(), true);
+                BufferedReader in1 = new BufferedReader(new InputStreamReader(waitingForGame.get(type).get(1).getInputStream()));
+
+                int r = new Random().nextInt(2);
+
+                if(r == 0) {
+                    out0.println("set-id/" + CheckerColor.WHITE.ordinal());
+                    out1.println("set-id/" + CheckerColor.BLACK.ordinal());
+                }
+                else {
+                    out0.println("set-id/" + CheckerColor.BLACK.ordinal());
+                    out1.println("set-id/" + CheckerColor.WHITE.ordinal());
+                }
+
+                out0.println("init-board/10/2/2/2/1/3/4/5/7/1");
+                out1.println("init-board/10/2/3/2/3/1/5/2/1/2");
+
+            }catch (Exception exception) {
+                System.out.println("Wow! Exception: " + exception.getMessage());
             }
 
-            new CheckersGame(waitingForGame.get(type).get(0),
-                waitingForGame.get(type).get(1), board).start();
+            //new CheckersGame(waitingForGame.get(type).get(0), waitingForGame.get(type).get(1), board).start();
             
-            waitingForGame.get(type).remove(0);
-            waitingForGame.get(type).remove(0);
-            */
+           // waitingForGame.get(type).remove(0);
+            // waitingForGame.get(type).remove(0);
             System.out.println("Started new game type " + type.toString());
         }
     }
@@ -53,20 +67,27 @@ public class MainServer
             {
                 Socket socket = serverSocket.accept();
 
-                InputStream input = socket.getInputStream();
-                ObjectInputStream in = new ObjectInputStream(input);
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-                OutputStream output = socket.getOutputStream();
-                ObjectOutputStream out = new ObjectOutputStream(output);
+                String inComm = in.readLine();
+                System.out.println(inComm);
 
-                GameType type = (GameType) in.readObject();
+                String[] command = inComm.split("/");
+                System.out.println(Arrays.toString(command));
 
-                waitingForGame.get(type).add(socket);
-                startGame(type);
+                if(command.length == 2 && Objects.equals(command[0], "game-type")) {
+                    GameType type = GameType.valueOf(command[1]);
 
-                System.out.println("SOCKET: " + socket.toString());
+                    System.out.println("SOCKET: " + socket.toString());
+                    System.out.println("New client connected: " + type.toString());
 
-                System.out.println("New client connected: " + type.toString());
+                    waitingForGame.get(type).add(socket);
+
+                    out.println("PODLACZONO CIE");
+
+                    startGame(type);
+                }
             }
 
         }
@@ -74,8 +95,6 @@ public class MainServer
         {
             System.out.println("Server exception: " + ex.getMessage());
             ex.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 }

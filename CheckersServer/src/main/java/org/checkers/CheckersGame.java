@@ -26,39 +26,52 @@ public class CheckersGame extends Thread {
         this.player2 = player2;
         this.board = board;
         turn = FIRST;
+
+        System.out.println("INIT");
     }
 
     @Override
     public void run() {
+        System.out.println("RUN");
         try {
-            InputStream input1 = player1.getInputStream();
-            ObjectInputStream in1 = new ObjectInputStream(input1);
+            System.out.println("1-1");
             OutputStream output1 = player2.getOutputStream();
             ObjectOutputStream out1 = new ObjectOutputStream(output1);
+           // InputStream input1 = player1.getInputStream();
+           // ObjectInputStream in1 = new ObjectInputStream(input1);
 
-            InputStream input2 = player1.getInputStream();
-            ObjectInputStream in2 = new ObjectInputStream(input2);
+            System.out.println("1-2");
+           // InputStream input2 = player1.getInputStream();
+           // ObjectInputStream in2 = new ObjectInputStream(input2);
             OutputStream output2 = player2.getOutputStream();
             ObjectOutputStream out2 = new ObjectOutputStream(output2);
 
+            System.out.println("2-1");
+
             out1.writeObject(Board.SIZE);
+
+            System.out.println("2-2");
             if (turn == FIRST) {
                 out1.writeObject(Color.WHITE);
-                out1.writeObject(board.getPieces());
+                //out1.writeObject(board.getPieces());
                 out2.writeObject(Color.BLACK);
-                out2.writeObject(board.getPieces());
+                //out2.writeObject(board.getPieces());
             }
             else {
                 out2.writeObject(Color.WHITE);
-                out2.writeObject(board.getPieces());
+               // out2.writeObject(board.getPieces());
                 out1.writeObject(Color.BLACK);
-                out1.writeObject(board.getPieces());
+               // out1.writeObject(board.getPieces());
             }
-    
-            gameLoop(in1, out1, in2, out2);
 
-            player1.close();
-            player2.close();
+            System.out.println("PRZED GAME LOOP");
+            System.out.println(player1.toString());
+            System.out.println(player2.toString());
+
+            //gameLoop(in1, out1, in2, out2);
+
+           // player1.close();
+            //player2.close();
 
             System.out.println("Game finished");
         }
