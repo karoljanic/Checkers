@@ -17,13 +17,14 @@ public class MenuController implements EventHandler<ActionEvent> {
     private MenuView view;
     private final Stage stage;
 
-    public MenuController() {
+    public MenuController(Stage stage) {
         ArrayList<String> gameTypes = new ArrayList<>();
         for(GameType gameType: GameType.values()) {
             gameTypes.add(gameType.toString());
         }
 
-        stage = new Stage();
+        //stage = new Stage();
+        this.stage = stage;
         model = new Menu(gameTypes);
         view = new MenuView(model.getCheckersTypes(), this);
     }
@@ -43,7 +44,7 @@ public class MenuController implements EventHandler<ActionEvent> {
         Object source = event.getSource();
         for(Button button: view.getButtons()) {
             if(source.equals(button)) {
-                stage.hide();
+                //stage.hide();
                 GameType gameType = GameType.valueOf(button.getText());
                 ServerService.initializeCheckers(gameType);
             }

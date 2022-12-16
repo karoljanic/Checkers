@@ -20,7 +20,7 @@ public class Game extends Application implements Runnable {
 
     @Override
     public void start(Stage primaryStage) {
-        menuController = new MenuController();
+        menuController = new MenuController(primaryStage);
         boardController = new BoardController(primaryStage);
 
         menuController.showView();
@@ -39,7 +39,7 @@ public class Game extends Application implements Runnable {
         while(true) {
             synchronized (this) {
                 try {
-                    wait(100);
+                    wait(1000);
                 }
                 catch (InterruptedException ignore) { }
 

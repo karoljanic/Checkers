@@ -14,17 +14,11 @@ public class BoardView extends GridPane {
 
     private final BoardController boardController;
 
-    BoardView(BoardController boardController) {
+    BoardView(int size, boolean[][] whitePieces, boolean[][] blackPieces, BoardController boardController) {
         this.boardController = boardController;
-    }
-
-    /*
-    void update(int size, boolean[][] whitePieces, boolean[][] blackPieces) {
         double windowSize = WindowProperties.calculateWindowStageSize();
         double buttonSize = windowSize * 0.9 / size;
         double pieceSize = 0.8 * buttonSize / 2;
-
-        GridPane gridPane = new GridPane();
 
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
@@ -46,7 +40,7 @@ public class BoardView extends GridPane {
                     circle.setCenterX(buttonSize / 2.0);
                     circle.setCenterY(buttonSize / 2.0);
                     Group group = new Group(button, circle);
-                    gridPane.add(group, i, j);
+                    add(group, i, j);
                 }
                 else if(blackPieces[i][j]) {
                     Circle circle = new Circle(pieceSize);
@@ -54,23 +48,12 @@ public class BoardView extends GridPane {
                     circle.setCenterX(buttonSize / 2.0);
                     circle.setCenterY(buttonSize / 2.0);
                     Group group = new Group(button, circle);
-                    gridPane.add(group, i, j);
+                    add(group, i, j);
                 }
                 else {
-                    gridPane.add(button, i, j );
+                    add(button, i, j );
                 }
             }
         }
-
-        Stage stage = new Stage();
-        stage.setScene(new Scene(gridPane));
-        stage.setTitle("Checkers");
-        stage.setResizable(false);
-
-        stage.show();
-        stage.setMaxHeight(stage.getHeight());
-        stage.setMaxWidth(stage.getWidth());
-
     }
-     */
 }
