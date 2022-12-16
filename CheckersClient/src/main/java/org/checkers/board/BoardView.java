@@ -60,7 +60,7 @@ public class BoardView extends GridPane {
                     circle.setCenterX(buttonSize / 2.0);
                     circle.setCenterY(buttonSize / 2.0);
 
-                    circle.setOnMouseClicked(mouseEvent -> {button.fire();});
+                    circle.setOnMouseClicked(mouseEvent -> button.fire());
 
                     Group group = new Group(button, circle);
 

@@ -64,10 +64,16 @@ public class BoardController implements EventHandler<ActionEvent> {
         }
 
         model.removePiece(oldX, oldY);
+
+        showView();
     }
 
     public void setMoveAvailable(boolean availability) {
         moveAvailable = availability;
+    }
+
+    public void makeKing(int x, int y) {
+        model.makeKing(x, y);
     }
 
     public void showView() {
@@ -96,6 +102,7 @@ public class BoardController implements EventHandler<ActionEvent> {
 
                     if(possibleMovesInNextStep.contains(new Pair<>(i, j))) {
                         ServerService.sendPlayerMove(chosenPiece.getKey(), chosenPiece.getValue(), i, j);
+                        possibleMovesInNextStep = new ArrayList<>();
                     }
                     else {
                         if(pieces[i][j] != null) {

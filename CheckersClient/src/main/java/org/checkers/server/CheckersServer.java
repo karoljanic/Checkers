@@ -14,6 +14,8 @@ public class CheckersServer implements ICheckersServer {
     private PrintWriter outputStream;
     private BufferedReader inputStream;
 
+    private int test = 2;
+
     public CheckersServer() {
         try {
             serverSocket = new Socket(SOCKET_HOST, SOCKET_PORT);
@@ -26,21 +28,17 @@ public class CheckersServer implements ICheckersServer {
         } catch (IOException e) {
             System.out.println("No I/O for given host: " + SOCKET_HOST + " and port: " + SOCKET_PORT);
             System.exit(1);
-
         }
     }
 
     @Override
     public void initializeNewGame(GameType gameType) {
-        outputStream.println("game-type/" + gameType.name());
+        outputStream.println("init-game/" + gameType.name());
     }
 
     @Override
     public void checkerMove(int oldX, int oldY, int newX, int newY) {
-        try {
-            outputStream.println("move/" + oldX + "/" + oldY + "/" + newX + "/" + newY);
-        }
-        catch (Exception ignored) { }
+        outputStream.println(("move/" + oldX + "/" + oldY + "/" + newX + "/" + newY));
     }
 
     @Override
@@ -52,16 +50,4 @@ public class CheckersServer implements ICheckersServer {
             return null;
         }
     }
-
-    //@Override
-    //public boolean sendObject(Object object) {
-    //    try {
-    //        outputStream.writeObject(object);
-    //
-    //        return true;
-    //    }
-    //    catch (IOException exception) {
-    //        return false;
-    //    }
-    //}
 }

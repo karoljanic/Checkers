@@ -1,10 +1,8 @@
 package org.checkers;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.stage.Stage;
 import org.checkers.board.BoardController;
-import org.checkers.board.Piece;
 import org.checkers.menu.MenuController;
 import org.checkers.server.CheckersServer;
 import org.checkers.server.ServerService;
@@ -43,12 +41,12 @@ public class Game extends Application implements Runnable {
                 try {
                     wait(100);
                 }
-                catch (InterruptedException ignore) { }
+                catch (InterruptedException ignored) { }
 
                 String command = ServerService.getInput();
                 if(command != null) {
                     String[] tokens = command.split("/");
-                    System.out.println(command);
+                    //System.out.println(command);
                     System.out.println(Arrays.toString(tokens));
 
                     if(tokens.length > 0) {
@@ -107,8 +105,15 @@ public class Game extends Application implements Runnable {
 
                                 boardController.setMoveAvailable(id == playerId);
                                 break;
-                            case "update-piece-type":
+                            case "update-piece-to-king":
+                                int posX = Integer.parseInt(tokens[1]);
+                                int posY = Integer.parseInt(tokens[2]);
 
+                                boardController.makeKing(posX, posY);
+                                break;
+                            case "bad-move":
+                                System.out.println("Bad Move");
+                                break;
                         }
                     }
                 }

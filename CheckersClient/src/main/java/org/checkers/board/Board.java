@@ -34,4 +34,8 @@ public class Board {
             pieces[x][y].addPossibleMove(moveX, moveY);
         }
     }
+
+    public void makeKing(int x, int y) {
+        pieces[x][y].changeToKing();
+    }
 }
