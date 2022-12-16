@@ -38,10 +38,13 @@ public class MainServer
                     out1.println("set-id/" + CheckerColor.WHITE.ordinal());
                 }
 
-                out0.println("init-board/10/2/2/2/1/3/4/5/7/1");
-                out1.println("init-board/10/2/3/2/3/1/5/2/1/2");
+                out0.println("init-board/8/4/1/0/3/0/5/0/7/0/0/7/2/7/4/7/6/7");
+                out1.println("init-board/8/4/1/7/3/7/5/7/7/7/0/0/2/0/4/0/6/0");
 
-            }catch (Exception exception) {
+                out0.println("possible-moves/0/7/1/6");
+                out1.println("possible-moves/1/7/0/6/1/7/2/6");
+
+            } catch (Exception exception) {
                 System.out.println("Wow! Exception: " + exception.getMessage());
             }
 

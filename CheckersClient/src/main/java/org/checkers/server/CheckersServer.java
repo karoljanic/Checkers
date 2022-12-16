@@ -38,7 +38,7 @@ public class CheckersServer implements ICheckersServer {
     @Override
     public void checkerMove(int oldX, int oldY, int newX, int newY) {
         try {
-            inputStream.readLine();
+            outputStream.println("move/" + oldX + "/" + oldY + "/" + newX + "/" + newY);
         }
         catch (Exception ignored) { }
     }

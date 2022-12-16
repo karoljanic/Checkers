@@ -44,7 +44,6 @@ public class MenuController implements EventHandler<ActionEvent> {
         Object source = event.getSource();
         for(Button button: view.getButtons()) {
             if(source.equals(button)) {
-                //stage.hide();
                 GameType gameType = GameType.valueOf(button.getText());
                 ServerService.initializeCheckers(gameType);
             }

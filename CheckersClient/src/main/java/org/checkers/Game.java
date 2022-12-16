@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import org.checkers.board.BoardController;
+import org.checkers.board.Piece;
 import org.checkers.menu.MenuController;
 import org.checkers.server.CheckersServer;
 import org.checkers.server.ServerService;
@@ -15,6 +16,7 @@ public class Game extends Application implements Runnable {
     private MenuController menuController;
     private BoardController boardController;
 
+    private int playerId;
     @Override
     public void init() { }
 
@@ -39,7 +41,7 @@ public class Game extends Application implements Runnable {
         while(true) {
             synchronized (this) {
                 try {
-                    wait(1000);
+                    wait(100);
                 }
                 catch (InterruptedException ignore) { }
 
@@ -48,38 +50,65 @@ public class Game extends Application implements Runnable {
                     String[] tokens = command.split("/");
                     System.out.println(command);
                     System.out.println(Arrays.toString(tokens));
+
                     if(tokens.length > 0) {
-                        if(tokens[0].equals("set-id")) {
-                            int id = Integer.parseInt(tokens[1]);
-                            System.out.println("Ustawienie ID = " + id);
-                        }
-                        else if(tokens[0].equals("init-board")) {
-                            int size = Integer.parseInt(tokens[1]);
-                            int piecesNumber = Integer.parseInt(tokens[2]);
+                        switch (tokens[0]) {
+                            case "set-id":
+                                playerId = Integer.parseInt(tokens[1]);
+                                break;
+                            case "init-board":
+                                int size = Integer.parseInt(tokens[1]);
+                                int piecesNumber = Integer.parseInt(tokens[2]);
 
-                            System.out.println("Rozmiar planszy: " + size);
+                                boardController.setSize(size);
 
-                            boardController.setSize(size);
+                                for (int i = 0; i < piecesNumber; i++) {
+                                    int pieceX = Integer.parseInt(tokens[3 + 2 * i]);
+                                    int pieceY = Integer.parseInt(tokens[3 + 2 * i + 1]);
 
-                            for(int i = 0; i < piecesNumber; i++) {
-                                int pieceX = Integer.parseInt(tokens[3 + 2 * i]);
-                                int pieceY = Integer.parseInt(tokens[3 + 2 * i + 1]);
+                                    boardController.setWhitePiece(pieceX, pieceY);
+                                }
 
-                                boardController.setWhitePiece(pieceX, pieceY);
+                                for (int i = 0; i < piecesNumber; i++) {
+                                    int pieceX = Integer.parseInt(tokens[3 + 2 * piecesNumber + 2 * i]);
+                                    int pieceY = Integer.parseInt(tokens[3 + 2 * piecesNumber + 2 * i + 1]);
 
-                                System.out.println("Pionek na polu: (" + pieceX + ", " + pieceY + ")");
-                            }
+                                    boardController.setBlackPiece(pieceX, pieceY);
+                                }
 
-                            for(int i = 0; i < piecesNumber; i++) {
-                                int pieceX = Integer.parseInt(tokens[3 + 2 * piecesNumber + 2 * i]);
-                                int pieceY = Integer.parseInt(tokens[3 + 2 * piecesNumber + 2 * i + 1]);
+                                boardController.showView();
+                                break;
+                            case "possible-moves":
+                                for (int i = 0; i < (tokens.length - 1) / 4; i++) {
+                                    int oldX = Integer.parseInt(tokens[4 * i + 1]);
+                                    int oldY = Integer.parseInt(tokens[4 * i + 2]);
+                                    int newX = Integer.parseInt(tokens[4 * i + 3]);
+                                    int newY = Integer.parseInt(tokens[4 * i + 4]);
 
-                                boardController.setBlackPiece(pieceX, pieceY);
+                                    boardController.setPossibleMoves(oldX, oldY, newX, newY);
+                                }
+                                break;
+                            case "update-piece-position":
+                                int oldX = Integer.parseInt(tokens[1]);
+                                int oldY = Integer.parseInt(tokens[2]);
+                                int newX = Integer.parseInt(tokens[3]);
+                                int newY = Integer.parseInt(tokens[4]);
 
-                                System.out.println("Pionek na polu: (" + pieceX + ", " + pieceY +  ")");
-                            }
+                                boardController.updatePiecePosition(oldX, oldY, newX, newY);
+                                break;
+                            case "remove-piece":
+                                int x = Integer.parseInt(tokens[1]);
+                                int y = Integer.parseInt(tokens[2]);
 
-                            boardController.showView();
+                                boardController.removePiece(x, y);
+                                break;
+                            case "move-now":
+                                int id = Integer.parseInt(tokens[1]);
+
+                                boardController.setMoveAvailable(id == playerId);
+                                break;
+                            case "update-piece-type":
+
                         }
                     }
                 }
