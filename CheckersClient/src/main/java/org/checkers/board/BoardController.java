@@ -70,6 +70,7 @@ public class BoardController implements EventHandler<ActionEvent> {
 
     public void setMoveAvailable(boolean availability) {
         moveAvailable = availability;
+        showView();
     }
 
     public void makeKing(int x, int y) {
@@ -79,7 +80,7 @@ public class BoardController implements EventHandler<ActionEvent> {
     public void showView() {
         Platform.setImplicitExit(false);
         Platform.runLater(() -> {
-            view = new BoardView(model.getSize(), model.getPieces(), new boolean[model.getSize()][model.getSize()],  this);
+            view = new BoardView(model.getSize(), model.getPieces(), new boolean[model.getSize()][model.getSize()], moveAvailable, this);
 
             showStage();
         });
@@ -114,7 +115,7 @@ public class BoardController implements EventHandler<ActionEvent> {
                         }
                     }
 
-                    view = new BoardView(model.getSize(), model.getPieces(), possibleMoves, this);
+                    view = new BoardView(model.getSize(), model.getPieces(), possibleMoves, moveAvailable, this);
                     showStage();
 
                     return;

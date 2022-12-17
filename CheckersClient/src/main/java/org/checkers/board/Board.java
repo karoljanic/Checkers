@@ -35,6 +35,12 @@ public class Board {
         }
     }
 
+    public void removePossibleMoves(int x, int y) {
+        if(pieces[x][y] != null) {
+            pieces[x][y].clearPossibleMoves();
+        }
+    }
+
     public void makeKing(int x, int y) {
         pieces[x][y].changeToKing();
     }

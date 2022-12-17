@@ -35,6 +35,10 @@ public class Piece {
         return possibleMoves;
     }
 
+    public void clearPossibleMoves() {
+        possibleMoves = new ArrayList<>();
+    }
+
     public void addPossibleMove(int x, int y) {
         possibleMoves.add(new Pair<>(x, y));
     }

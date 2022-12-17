@@ -19,7 +19,7 @@ public class BoardView extends GridPane {
     private final Button[][] buttons;
     private final BoardController boardController;
 
-    BoardView(int size, Piece[][] pieces, boolean[][] possibleMoves, BoardController boardController) {
+    BoardView(int size, Piece[][] pieces, boolean[][] possibleMoves, boolean isPlayerTurn, BoardController boardController) {
         this.boardController = boardController;
         double windowSize = WindowProperties.calculateWindowStageSize();
         double buttonSize = windowSize * 0.9 / size;
@@ -52,13 +52,18 @@ public class BoardView extends GridPane {
 
                 if(pieces[i][j] != null) {
                     Circle circle = new Circle(pieceSize);
+                    circle.setCenterX(buttonSize / 2.0);
+                    circle.setCenterY(buttonSize / 2.0);
+
                     if(pieces[i][j].getColor() == CheckerColor.WHITE)
                         circle.setFill(Paint.valueOf("#FFF"));
                     else
                         circle.setFill(Paint.valueOf("#000"));
 
-                    circle.setCenterX(buttonSize / 2.0);
-                    circle.setCenterY(buttonSize / 2.0);
+                    if(pieces[i][j].getPossibleMoves().size() > 0 && isPlayerTurn) {
+                        circle.setStroke(Paint.valueOf("#89CE54"));
+                        circle.setStrokeWidth(5);
+                    }
 
                     circle.setOnMouseClicked(mouseEvent -> button.fire());
 
