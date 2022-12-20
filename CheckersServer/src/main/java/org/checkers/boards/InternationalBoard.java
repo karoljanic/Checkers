@@ -1,52 +1,56 @@
 package org.checkers.boards;
 
-import java.util.ArrayList;
-
-import org.checkers.boards.elements.Piece;
-import org.checkers.boards.elements.Point;
-import org.checkers.boards.elements.Piece.Color;
-import org.checkers.boards.elements.Piece.Type;
+import org.checkers.utils.CheckerColor;
 
 public class InternationalBoard extends Board {
 
-    public static final int SIZE = 10;
+    public static final int INTERNATIONAL_BOARD_SIZE = 10;
 
-    @Override
-    protected void initializePieces() {
-        //insert white pieces
-        for (int i = 0; i <= 3; i++)
-            for (int j = 0; j < 10; j += 2)
-                pieces[j][i] = new Piece(Color.WHITE);
-        //insert black pieces
-        for (int i = 9; i >= 6; i--)
-            for (int j = 1; j < 10; j += 2)
-                pieces[j][i] = new Piece(Color.BLACK);
+    public InternationalBoard() {
+        super(INTERNATIONAL_BOARD_SIZE);
     }
 
     @Override
-    protected ArrayList<ArrayList<Point>>[][] generatePossibleMoves() {
+    protected void initializePieces() {
+        /*
+        //insert white pieces
+        for (int i = 0; i <= 3; i++)
+            for (int j = 0; j < 10; j += 2)
+                pieces[j][i] = new Piece(new Point(j, i), CheckerColor.WHITE);
+        //insert black pieces
+        for (int i = 9; i >= 6; i--)
+            for (int j = 1; j < 10; j += 2)
+                pieces[j][i] = new Piece(new Point(j, i), CheckerColor.BLACK);
 
-        for (int x = 0; x < SIZE; x++) {
-            for (int y = 0; y < SIZE; y++) {
-                currentPossibleMoves[x][y] = new ArrayList<ArrayList<Point>>();
+         */
+    }
 
-                Piece piece = pieces[x][y];
+    @Override
+    public void generatePossibleMoves() {
+        /*
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                currentPossibleMoves[i][j] = new ArrayList<>();
+
+                Piece piece = pieces[i][j];
                 if (piece == null)
                     continue;
 
-                Color color = piece.getColor();
+                int x = piece.getPosision().getX();
+                int y = piece.getPosision().getY();
+                CheckerColor color = piece.getColor();
 
-                if (piece.getType().equals(Type.KING)) {
+                if (piece.getType().equals(CheckerType.KING)) {
                     int newX, newY;
 
                     //right-top direction
                     newX = x + 1;
                     newY = y + 1;
-                    while (newX < SIZE && newY < SIZE && pieces[newX][newY] == null) {
+                    while (newX < size && newY < size && pieces[newX][newY] == null) {
                         ArrayList<Point> tempArrayList = new ArrayList<>();
                         tempArrayList.add(new Point(x, y));
                         tempArrayList.add(new Point(newX, newY));
-                        currentPossibleMoves[x][y].add(tempArrayList);
+                        currentPossibleMoves[i][j].add(tempArrayList);
                         newX += 1;
                         newY += 1;
                     }
@@ -54,11 +58,11 @@ public class InternationalBoard extends Board {
                     //left-top direction
                     newX = x - 1;
                     newY = y + 1;
-                    while (newX >= 0 && newY < SIZE && pieces[newX][newY] == null) {
+                    while (newX >= 0 && newY < size && pieces[newX][newY] == null) {
                         ArrayList<Point> tempArrayList = new ArrayList<>();
                         tempArrayList.add(new Point(x, y));
                         tempArrayList.add(new Point(newX, newY));
-                        currentPossibleMoves[x][y].add(tempArrayList);
+                        currentPossibleMoves[i][j].add(tempArrayList);
                         newX -= 1;
                         newY += 1;
                     }
@@ -66,11 +70,11 @@ public class InternationalBoard extends Board {
                     //right-bottom direction
                     newX = x + 1;
                     newY = y - 1;
-                    while (newX < SIZE && newY >= 0 && pieces[newX][newY] == null) {
+                    while (newX < size && newY >= 0 && pieces[newX][newY] == null) {
                         ArrayList<Point> tempArrayList = new ArrayList<>();
                         tempArrayList.add(new Point(x, y));
                         tempArrayList.add(new Point(newX, newY));
-                        currentPossibleMoves[x][y].add(tempArrayList);
+                        currentPossibleMoves[i][j].add(tempArrayList);
                         newX += 1;
                         newY -= 1;
                     }
@@ -82,7 +86,7 @@ public class InternationalBoard extends Board {
                         ArrayList<Point> tempArrayList = new ArrayList<>();
                         tempArrayList.add(new Point(x, y));
                         tempArrayList.add(new Point(newX, newY));
-                        currentPossibleMoves[x][y].add(tempArrayList);
+                        currentPossibleMoves[i][j].add(tempArrayList);
                         newX -= 1;
                         newY -= 1;
                     }
@@ -91,29 +95,38 @@ public class InternationalBoard extends Board {
                 }
 
                 int verticalStep = 1;
-                if (color.equals(Color.BLACK))
+                if (color.equals(CheckerColor.BLACK))
                     verticalStep = -1;
 
                 if (pieces[x - 1][y + verticalStep] == null 
-                    && x - 1 > 0 && y + verticalStep > 0 && y + verticalStep < SIZE) {
+                    && x - 1 > 0 && y + verticalStep > 0 && y + verticalStep < size) {
                     ArrayList<Point> tempArrayList = new ArrayList<>();
                     tempArrayList.add(new Point(x, y));
                     tempArrayList.add(new Point(x - 1, y + verticalStep));
-                    currentPossibleMoves[x][y].add(tempArrayList);
+                    currentPossibleMoves[i][j].add(tempArrayList);
                 }
                 
                 if (pieces[x + 1][y + verticalStep] == null 
-                    && x + 1 < SIZE && y + verticalStep > 0 && y + verticalStep < SIZE) {
+                    && x + 1 < size && y + verticalStep > 0 && y + verticalStep < size) {
                     ArrayList<Point> tempArrayList = new ArrayList<>();
                     tempArrayList.add(new Point(x, y));
                     tempArrayList.add(new Point(x + 1, y + verticalStep));
-                    currentPossibleMoves[x][y].add(tempArrayList);
+                    currentPossibleMoves[i][j].add(tempArrayList);
                 }
 
             }
         }
-
-        return currentPossibleMoves;
+         */
     }
-    
+
+    @Override
+    public boolean moveIsCorrect(int x1, int y1, int x2, int y2) {
+        return true;
+    }
+
+    @Override
+    public void move(int x1, int y1, int x2, int y2, CheckerColor whosMove) {
+
+    }
+
 }
