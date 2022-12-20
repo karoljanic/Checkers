@@ -41,7 +41,7 @@ public class MainServer
             while (true)  {
                 Socket socket = serverSocket.accept();
 
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                //PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
                 String inComm = in.readLine();

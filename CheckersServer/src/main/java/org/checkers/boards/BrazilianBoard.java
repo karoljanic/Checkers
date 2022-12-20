@@ -13,18 +13,14 @@ public class BrazilianBoard extends Board {
 
     @Override
     public void initializePieces() {
-        /*
         //insert white pieces
         for (int i = 0; i <= 2; i++)
-            for (int j = 0; j < 8; j += 2)
-                pieces[j][i] = new Piece(new Point(j, i), CheckerColor.WHITE);
+            for (int j = (i % 2 == 0 ? 0 : 1); j < 8; j += 2)
+                pieces[j][i] = new Piece(j, i, CheckerColor.WHITE);
         //insert black pieces
         for (int i = 7; i >= 5; i--)
-            for (int j = 1; j < 8; j += 2)
-                pieces[j][i] = new Piece(new Point(j, i), CheckerColor.BLACK);
-
-         */
-        
+            for (int j = (i % 2 == 0 ? 0 : 1); j < 8; j += 2)
+                pieces[j][i] = new Piece(j, i, CheckerColor.BLACK);
     }
 
     @Override

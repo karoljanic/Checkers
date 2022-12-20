@@ -27,7 +27,7 @@ public abstract class Board {
     };
 
     protected final int size;
-    protected Piece[][] pieces;
+    protected final Piece[][] pieces;
     protected PiecesArray[][] currentPossibleMoves;
 
     protected abstract void initializePieces();
@@ -88,7 +88,6 @@ public abstract class Board {
             return CheckerColor.WHITE;
 
         return null;
-        //SPYTAĆ DRA MACYNĘ CZY TRZEBA OBSŁUGIWAĆ REMIS
     }
 
     protected void restartCurrentPossibleMovesArray() {
