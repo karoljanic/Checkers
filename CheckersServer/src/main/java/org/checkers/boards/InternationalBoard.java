@@ -95,11 +95,11 @@ public class InternationalBoard extends Board {
                 if (color.equals(CheckerColor.BLACK))
                     verticalStep = -1;
 
-                if (x - 1 >= 0 && y + verticalStep >= 0 && y + verticalStep < size && pieces[x - 1][y + verticalStep] == null) {
+                if (moveIsCorrect(x, y, x - 1, y + verticalStep)) {
                     currentPossibleMoves[i][j].add(new Piece(x - 1, y + verticalStep, color));
                 }
                 
-                if (x + 1 < size && y + verticalStep >= 0 && y + verticalStep < size && pieces[x + 1][y + verticalStep] == null) {
+                if (moveIsCorrect(x, y, x + 1, y + verticalStep)) {
                     currentPossibleMoves[i][j].add(new Piece(x + 1, y + verticalStep, color));
                 }
             }
@@ -108,7 +108,11 @@ public class InternationalBoard extends Board {
 
     @Override
     public boolean moveIsCorrect(int x1, int y1, int x2, int y2) {
-        return true;
+        if (x2 >= 0 && x2 < size && y2 >= 0 && y2 < size && pieces[x2][y2] == null) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override
