@@ -14,12 +14,12 @@ public class ThaiBoard extends Board {
 
         //insert white pieces
         for (int i = 0; i <= 1; i++)
-            for (int j = (i % 2 == 0 ? 0 : 1); j < 8; j += 2)
+            for (int j = (i % 2 == 0 ? 1 : 0); j < 8; j += 2)
                 pieces[j][i] = new WhitePiece(j, i);
 
         //insert black pieces
         for (int i = 7; i >= 6; i--)
-            for (int j = (i % 2 == 0 ? 0 : 1); j < 8; j += 2)
+            for (int j = (i % 2 == 0 ? 1 : 0); j < 8; j += 2)
                 pieces[j][i]  = new BlackPiece(j, i);
     }
 

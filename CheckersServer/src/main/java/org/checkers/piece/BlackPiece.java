@@ -19,23 +19,75 @@ public class BlackPiece extends Piece {
     public PathsArray getPossibleMoves(Board currentBoard) {
         PathsArray pathsArray = new PathsArray();
 
-        // standard moves
-        if(coordinate.getY() > 0) {
-            if(coordinate.getX() > 0) {
-                if(currentBoard.coordinateIsFree(coordinate.getX() - 1, coordinate.getY() - 1)) {
-                    pathsArray.add(new CoordinatesArray(coordinate.getX() - 1, coordinate.getY() - 1));
+        if(type == CheckerType.NORMAL) {
+            // standard moves
+            if (coordinate.getY() > 0) {
+                if (coordinate.getX() > 0) {
+                    if (currentBoard.coordinateIsFree(coordinate.getX() - 1, coordinate.getY() - 1)) {
+                        pathsArray.add(new CoordinatesArray(coordinate.getX() - 1, coordinate.getY() - 1));
+                    }
+                }
+
+                if (coordinate.getX() < currentBoard.getSize() - 1) {
+                    if (currentBoard.coordinateIsFree(coordinate.getX() + 1, coordinate.getY() - 1)) {
+                        pathsArray.add(new CoordinatesArray(coordinate.getX() + 1, coordinate.getY() - 1));
+                    }
                 }
             }
 
-            if(coordinate.getX() < currentBoard.getSize() - 1) {
-                if(currentBoard.coordinateIsFree(coordinate.getX() + 1, coordinate.getY() - 1)) {
-                    pathsArray.add(new CoordinatesArray(coordinate.getX() + 1, coordinate.getY() - 1));
-                }
-            }
+            // attacks
+            findAttacks(currentBoard.copy(), new Coordinate(coordinate), new CoordinatesArray(), pathsArray);
         }
+        else { // type == CheckerType.KING
+            // standard moves
+            int x, y;
 
-        // attacks
-        findAttacks(currentBoard.copy(), new Coordinate(coordinate), new CoordinatesArray(), pathsArray);
+            x = coordinate.getX() + 1;
+            y = coordinate.getY() + 1;
+            while(x < currentBoard.getSize() && y < currentBoard.getSize()) {
+                if(currentBoard.coordinateIsFree(x, y))
+                    pathsArray.add(new CoordinatesArray(x, y));
+                else
+                    break;
+                x++;
+                y++;
+            }
+
+            x = coordinate.getX() + 1;
+            y = coordinate.getY() - 1;
+            while(x < currentBoard.getSize() && y >= 0) {
+                if(currentBoard.coordinateIsFree(x, y))
+                    pathsArray.add(new CoordinatesArray(x, y));
+                else
+                    break;
+                x++;
+                y--;
+            }
+
+            x = coordinate.getX() - 1;
+            y = coordinate.getY() + 1;
+            while(x >= 0 && y < currentBoard.getSize()) {
+                if(currentBoard.coordinateIsFree(x, y))
+                    pathsArray.add(new CoordinatesArray(x, y));
+                else
+                    break;
+                x--;
+                y++;
+            }
+
+            x = coordinate.getX() - 1;
+            y = coordinate.getY() - 1;
+            while(x >= 0 && y >= 0) {
+                if(currentBoard.coordinateIsFree(x, y))
+                    pathsArray.add(new CoordinatesArray(x, y));
+                else
+                    break;
+                x--;
+                y--;
+            }
+
+            // attacks
+        }
 
         return pathsArray;
     }
