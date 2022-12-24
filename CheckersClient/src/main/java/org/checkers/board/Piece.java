@@ -46,4 +46,8 @@ public class Piece {
     public void changeToKing() {
         type = CheckerType.KING;
     }
+
+    public boolean isKing() {
+        return type == CheckerType.KING;
+    }
 }

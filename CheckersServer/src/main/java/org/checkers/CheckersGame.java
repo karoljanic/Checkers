@@ -61,11 +61,12 @@ public class CheckersGame implements Runnable {
             PrintWriter out, otherOut;
             BufferedReader in;
             int playerIdWithMove;
-            CheckerColor color;
+            CheckerColor color, otherColor;
 
             while(gameStatus != GameStatus.FINISHED) {
                 if (gameStatus == GameStatus.WHITE_TURN) {
                     color = CheckerColor.WHITE;
+                    otherColor = CheckerColor.BLACK;
                     out = out1;
                     otherOut = out2;
                     in = in1;
@@ -73,6 +74,7 @@ public class CheckersGame implements Runnable {
                 }
                 else { //turn == GameStatus.SECOND
                     color = CheckerColor.BLACK;
+                    otherColor = CheckerColor.WHITE;
                     out = out2;
                     otherOut = out1;
                     in = in2;
@@ -112,8 +114,27 @@ public class CheckersGame implements Runnable {
                             out.println("update-piece-position/" + last.getX() + "/" + last.getY() + "/" + now.getX() + "/" + now.getY());
                             otherOut.println("update-piece-position/" + last.getX() + "/" + last.getY() + "/" + now.getX() + "/" + now.getY());
 
+                            int dx = now.getX() > last.getX() ? 1 : -1;
+                            int dy = now.getY() > last.getY() ? 1 : -1;
+                            int steps = Math.abs(now.getX() - last.getX());
+
+                            CustomClock.waitMillis(200);
+
+                            for(int x = last.getX(), y = last.getY(), iter = 0; iter < steps; iter++, x += dx, y += dy) {
+                                if(board.coordinateIsWithPiece(x, y, otherColor)) {
+                                    board.removePiece(x, y);
+                                    out.println("remove-piece/" + x + "/" + y);
+                                    otherOut.println("remove-piece/" + x + "/" + y);
+                                }
+                            }
+
                             if(i != path.size() - 1)
-                                CustomClock.waitMillis(500);
+                                CustomClock.waitMillis(300);
+                        }
+
+                        if(board.isKing(x2, y2)) {
+                            out.println("update-piece-to-king/" + x2 + "/" + y2);
+                            otherOut.println("update-piece-to-king/" + x2 + "/" + y2);
                         }
 
                         board.generatePossibleMoves();

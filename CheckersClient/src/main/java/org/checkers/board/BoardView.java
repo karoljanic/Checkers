@@ -7,6 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
+import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.checkers.utils.CheckerColor;
@@ -66,9 +67,38 @@ public class BoardView extends GridPane {
 
                     circle.setOnMouseClicked(mouseEvent -> button.fire());
 
-                    Group group = new Group(button, circle);
+                    if(pieces[i][j].isKing()) {
+                        double crownCenterX = buttonSize * 0.5;
+                        double crownCenterY = buttonSize * 0.5;
+                        double crownWidth = buttonSize * 0.6;
+                        double crownHeight = buttonSize * 0.3;
+                        Polyline crown = new Polyline();
+                        crown.getPoints().addAll(
+                                crownCenterX - crownWidth * 0.5, crownCenterY - crownHeight * 0.5,
+                                crownCenterX + crownWidth * 0.5, crownCenterY - crownHeight * 0.5,
+                                crownCenterX + crownWidth * 0.5, crownCenterY + crownHeight * 0.5,
+                                crownCenterX + crownWidth * 0.25, crownCenterY,
+                                crownCenterX, crownCenterY + crownHeight * 0.5,
+                                crownCenterX - crownWidth * 0.25, crownCenterY,
+                                crownCenterX - crownWidth * 0.5, crownCenterY + crownHeight * 0.5,
+                                crownCenterX - crownWidth * 0.5, crownCenterY - crownHeight * 0.5);
 
-                    add(group, i, j);
+                        if(pieces[i][j].getColor() == CheckerColor.WHITE)
+                            crown.setStroke(Paint.valueOf("#000"));
+                        else
+                            crown.setStroke(Paint.valueOf("#FFF"));
+
+                        if(!isHost) {
+                            crown.setRotate(180);
+                        }
+
+                        Group group = new Group(button, circle, crown);
+                        add(group, i, j);
+                    }
+                    else {
+                        Group group = new Group(button, circle);
+                        add(group, i, j);
+                    }
                 }
                 else {
                     add(button, i, j);

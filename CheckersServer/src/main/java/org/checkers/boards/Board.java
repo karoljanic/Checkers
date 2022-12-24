@@ -5,6 +5,7 @@ import org.checkers.piece.coordinate.CoordinatesArray;
 import org.checkers.piece.Piece;
 import org.checkers.piece.coordinate.PathsArray;
 import org.checkers.utils.CheckerColor;
+import org.checkers.utils.CheckerType;
 
 import java.util.ArrayList;
 
@@ -80,6 +81,13 @@ public abstract class Board {
         return pieces[x][y].getColor() == color;
     }
 
+    public boolean isKing(int x, int y) {
+        if(pieces[x][y] != null)
+            return pieces[x][y].getType() == CheckerType.KING;
+
+        return false;
+    }
+
     public PathsArray[][] getPossibleMoves(CheckerColor checkerColor) {
         if(checkerColor == CheckerColor.WHITE)
             return currentPossibleMovesForWhite;
@@ -119,6 +127,17 @@ public abstract class Board {
     public void move(int x1, int y1, int x2, int y2, CheckerColor color) {
         pieces[x2][y2] = pieces[x1][y1].copy();
         pieces[x2][y2].moveTo(x2, y2);
+
+        if(color == CheckerColor.WHITE) {
+            if(y2 == size - 1) {
+                pieces[x2][y2].makeKing();
+            }
+        }
+        else {
+            if(y2 == 0) {
+                pieces[x2][y2].makeKing();
+            }
+        }
 
         pieces[x1][y1] = null;
     }
