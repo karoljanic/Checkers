@@ -20,7 +20,7 @@ public class BoardController implements EventHandler<ActionEvent> {
     private final Board model;
     private BoardView view;
 
-    private ArrayList<Pair<Integer, Integer>> possibleMovesInNextStep;
+    private ArrayList<ArrayList<Pair<Integer, Integer>>> possibleMovesInNextStep;
     private Pair<Integer, Integer> chosenPiece;
 
     private Stage stage;
@@ -37,6 +37,8 @@ public class BoardController implements EventHandler<ActionEvent> {
         moveAvailable = false;
     }
 
+    public void setHost(boolean isHost) { model.setHost(isHost); }
+
     public void setSize(int n) { model.setSize(n); }
 
     public void setWhitePiece(int x, int y) {
@@ -51,8 +53,16 @@ public class BoardController implements EventHandler<ActionEvent> {
         model.removePiece(x, y);
     }
 
-    public void setPossibleMoves(int fromX, int fromY, int toX, int toY) {
-        model.addPossibleMove(fromX, fromY, toX, toY);
+    public void resetAllPossibleMoves() {
+        for(int i = 0; i < model.getSize(); i++) {
+            for(int j = 0; j < model.getSize(); j++) {
+                model.removePossibleMoves(i, j);
+            }
+        }
+    }
+
+    public void setPossibleMoves(int fromX, int fromY, ArrayList<Pair<Integer, Integer>> possibleMoves) {
+        model.addPossibleMove(fromX, fromY, possibleMoves);
     }
 
     public void updatePiecePosition(int oldX, int oldY, int newX, int newY) {
@@ -80,7 +90,7 @@ public class BoardController implements EventHandler<ActionEvent> {
     public void showView() {
         Platform.setImplicitExit(false);
         Platform.runLater(() -> {
-            view = new BoardView(model.getSize(), model.getPieces(), new boolean[model.getSize()][model.getSize()], moveAvailable, this);
+            view = new BoardView(model.getSize(), model.getPieces(), new boolean[model.getSize()][model.getSize()], moveAvailable, model.isHost(), this);
 
             showStage();
         });
@@ -100,22 +110,34 @@ public class BoardController implements EventHandler<ActionEvent> {
                 if(source.equals(buttons[i][j])) {
                     Piece[][] pieces = model.getPieces();
                     boolean[][] possibleMoves = new boolean[model.getSize()][model.getSize()];
+                    boolean found = false;
 
-                    if(possibleMovesInNextStep.contains(new Pair<>(i, j))) {
-                        ServerService.sendPlayerMove(chosenPiece.getKey(), chosenPiece.getValue(), i, j);
-                        possibleMovesInNextStep = new ArrayList<>();
+                    for(ArrayList<Pair<Integer, Integer>> path: possibleMovesInNextStep) {
+                        for(Pair<Integer, Integer> step : path) {
+                            if(step.getKey() == i && step.getValue() == j) {
+                                ServerService.sendPlayerMove(chosenPiece.getKey(), chosenPiece.getValue(), i, j);
+                                possibleMovesInNextStep = new ArrayList<>();
+                                found = true;
+                                break;
+                            }
+                        }
+                        if(found)
+                            break;
                     }
-                    else {
+
+                    if(!found) {
                         if(pieces[i][j] != null) {
                             possibleMovesInNextStep = pieces[i][j].getPossibleMoves();
                             chosenPiece = new Pair<>(i, j);
-                            for(Pair<Integer, Integer> coordinate: pieces[i][j].getPossibleMoves()) {
-                                possibleMoves[coordinate.getKey()][coordinate.getValue()] = true;
+                            for(ArrayList<Pair<Integer, Integer>> path: possibleMovesInNextStep) {
+                                for(Pair<Integer, Integer> step: path) {
+                                    possibleMoves[step.getKey()][step.getValue()] = true;
+                                }
                             }
                         }
                     }
 
-                    view = new BoardView(model.getSize(), model.getPieces(), possibleMoves, moveAvailable, this);
+                    view = new BoardView(model.getSize(), model.getPieces(), possibleMoves, moveAvailable, model.isHost(), this);
                     showStage();
 
                     return;

@@ -19,7 +19,7 @@ public class BoardView extends GridPane {
     private final Button[][] buttons;
     private final BoardController boardController;
 
-    BoardView(int size, Piece[][] pieces, boolean[][] possibleMoves, boolean isPlayerTurn, BoardController boardController) {
+    BoardView(int size, Piece[][] pieces, boolean[][] possibleMoves, boolean isPlayerTurn, boolean isHost, BoardController boardController) {
         this.boardController = boardController;
         double windowSize = WindowProperties.calculateWindowStageSize();
         double buttonSize = windowSize * 0.9 / size;
@@ -29,7 +29,6 @@ public class BoardView extends GridPane {
 
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
-
                 Button button = new Button();
                 button.setPrefHeight(buttonSize);
                 button.setPrefWidth(buttonSize);
@@ -75,6 +74,10 @@ public class BoardView extends GridPane {
                     add(button, i, j);
                 }
             }
+        }
+
+        if(isHost) {
+            setRotate(180);
         }
     }
 

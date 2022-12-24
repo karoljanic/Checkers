@@ -2,12 +2,15 @@ package org.checkers;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import org.checkers.board.BoardController;
 import org.checkers.menu.MenuController;
 import org.checkers.server.CheckersServer;
 import org.checkers.server.ServerService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Game extends Application implements Runnable {
 
@@ -46,13 +49,14 @@ public class Game extends Application implements Runnable {
                 String command = ServerService.getInput();
                 if(command != null) {
                     String[] tokens = command.split("/");
-                    //System.out.println(command);
+                    System.out.println(command);
                     System.out.println(Arrays.toString(tokens));
 
                     if(tokens.length > 0) {
                         switch (tokens[0]) {
                             case "set-id":
                                 playerId = Integer.parseInt(tokens[1]);
+                                boardController.setHost(playerId == 0);
                                 break;
                             case "init-board":
                                 int size = Integer.parseInt(tokens[1]);
@@ -77,13 +81,24 @@ public class Game extends Application implements Runnable {
                                 boardController.showView();
                                 break;
                             case "possible-moves":
-                                for (int i = 0; i < (tokens.length - 1) / 4; i++) {
-                                    int oldX = Integer.parseInt(tokens[4 * i + 1]);
-                                    int oldY = Integer.parseInt(tokens[4 * i + 2]);
-                                    int newX = Integer.parseInt(tokens[4 * i + 3]);
-                                    int newY = Integer.parseInt(tokens[4 * i + 4]);
+                                boardController.resetAllPossibleMoves();
 
-                                    boardController.setPossibleMoves(oldX, oldY, newX, newY);
+                                ArrayList<Pair<Integer, Integer>> possibleMove = new ArrayList<>();
+                                int iter = 1;
+                                while(iter < tokens.length) {
+                                    int x = Integer.parseInt(tokens[iter]);
+                                    int y = Integer.parseInt(tokens[iter + 1]);
+                                    possibleMove.add(new Pair<>(x, y));
+
+                                    if(tokens[iter + 2].equals(";")) {
+                                        int startX = possibleMove.get(0).getKey();
+                                        int startY = possibleMove.get(0).getValue();
+                                        possibleMove.remove(0);
+                                        boardController.setPossibleMoves(startX, startY, possibleMove);
+                                        possibleMove = new ArrayList<>();
+                                        iter++;
+                                    }
+                                    iter += 2;
                                 }
                                 break;
                             case "update-piece-position":

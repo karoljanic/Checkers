@@ -1,5 +1,5 @@
 package org.checkers.utils;
 
 public enum GameStatus {
-    FIRST, SECOND, FINISHED
+    WHITE_TURN, BLACK_TURN, FINISHED
 }

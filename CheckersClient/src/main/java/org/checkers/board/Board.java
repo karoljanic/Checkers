@@ -10,10 +10,16 @@ public class Board {
     private int size;
     private Piece[][] pieces;
 
+    private boolean isHost;
+
     public void setSize(int size) {
         this.size = size;
         pieces = new Piece[size][size];
     }
+
+    public boolean isHost() { return isHost; }
+
+    public void setHost(boolean isHost) { this.isHost = isHost; }
 
     public int getSize() { return size; }
 
@@ -29,9 +35,9 @@ public class Board {
 
     public Piece[][] getPieces() { return pieces; }
 
-    public void addPossibleMove(int x, int y, int moveX, int moveY) {
+    public void addPossibleMove(int x, int y, ArrayList<Pair<Integer, Integer>> possibleMove) {
         if(pieces[x][y] != null) {
-            pieces[x][y].addPossibleMove(moveX, moveY);
+            pieces[x][y].addPossibleMove(possibleMove);
         }
     }
 
