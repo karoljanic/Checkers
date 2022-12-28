@@ -4,10 +4,8 @@ import org.checkers.piece.coordinate.Coordinate;
 import org.checkers.piece.coordinate.CoordinatesArray;
 import org.checkers.piece.Piece;
 import org.checkers.piece.coordinate.PathsArray;
-import org.checkers.utils.CheckerColor;
-import org.checkers.utils.CheckerType;
-
-import java.util.ArrayList;
+import org.checkers.enums.CheckerColor;
+import org.checkers.enums.CheckerType;
 
 public abstract class Board {
     protected final int size;
@@ -34,7 +32,7 @@ public abstract class Board {
                 if(board.pieces[i][j] == null)
                     this.pieces[i][j] = null;
                 else
-                    this.pieces[i][j] = board.pieces[i][j].copy();
+                    this.pieces[i][j] = new Piece(board.pieces[i][j]);
 
                 if(board.currentPossibleMovesForWhite[i][j] == null)
                     this.currentPossibleMovesForWhite[i][j] = null;
@@ -71,6 +69,9 @@ public abstract class Board {
     }
 
     public boolean coordinateIsFree(int x, int y) {
+        if(x < 0 || x >= size || y < 0 || y >= size)
+            return false;
+
         return pieces[x][y] == null;
     }
 
@@ -116,16 +117,8 @@ public abstract class Board {
         return null;
     }
 
-    public boolean moveIsComplex(int x1, int y1, int x2, int y2, CheckerColor checkerColor) {
-        CoordinatesArray path = getPossibleMove(x1, y1, x2, y2, checkerColor);
-        if(path == null)
-            return false;
-
-        return path.size() > 1;
-    }
-
     public void move(int x1, int y1, int x2, int y2, CheckerColor color) {
-        pieces[x2][y2] = pieces[x1][y1].copy();
+        pieces[x2][y2] = new Piece(pieces[x1][y1]);
         pieces[x2][y2].moveTo(x2, y2);
 
         if(color == CheckerColor.WHITE) {

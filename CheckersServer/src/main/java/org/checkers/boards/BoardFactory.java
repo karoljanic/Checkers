@@ -1,6 +1,6 @@
 package org.checkers.boards;
 
-import org.checkers.utils.GameType;
+import org.checkers.enums.GameType;
 
 public class BoardFactory {
     private static BoardFactory boardFactoryInstance;

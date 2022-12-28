@@ -1,4 +1,4 @@
-package org.checkers.utils;
+package org.checkers.enums;
 
 public enum GameType {
     INTERNATIONAL, BRAZILIAN, THAI

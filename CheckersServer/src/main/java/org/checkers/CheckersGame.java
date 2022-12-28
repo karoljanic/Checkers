@@ -6,15 +6,14 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import org.checkers.boards.Board;
 import org.checkers.piece.coordinate.Coordinate;
 import org.checkers.piece.coordinate.CoordinatesArray;
 import org.checkers.piece.coordinate.PathsArray;
-import org.checkers.utils.CheckerColor;
+import org.checkers.enums.CheckerColor;
 import org.checkers.utils.CustomClock;
-import org.checkers.utils.GameStatus;
+import org.checkers.enums.GameStatus;
 
 
 public class CheckersGame implements Runnable {

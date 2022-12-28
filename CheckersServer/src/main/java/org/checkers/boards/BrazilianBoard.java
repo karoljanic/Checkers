@@ -3,7 +3,7 @@ package org.checkers.boards;
 import org.checkers.piece.BlackPiece;
 import org.checkers.piece.WhitePiece;
 import org.checkers.piece.coordinate.PathsArray;
-import org.checkers.utils.CheckerColor;
+import org.checkers.enums.CheckerColor;
 
 public class BrazilianBoard extends Board {
 

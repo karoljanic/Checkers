@@ -2,9 +2,8 @@ package org.checkers.boards;
 
 import org.checkers.piece.BlackPiece;
 import org.checkers.piece.WhitePiece;
-import org.checkers.piece.coordinate.CoordinatesArray;
 import org.checkers.piece.coordinate.PathsArray;
-import org.checkers.utils.CheckerColor;
+import org.checkers.enums.CheckerColor;
 
 public class InternationalBoard extends Board {
     public static final int INTERNATIONAL_BOARD_SIZE = 10;

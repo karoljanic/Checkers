@@ -1,4 +1,4 @@
-package org.checkers.utils;
+package org.checkers.enums;
 
 public enum CheckerColor {
     WHITE, BLACK

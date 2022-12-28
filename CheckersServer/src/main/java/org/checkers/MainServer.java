@@ -5,7 +5,7 @@ import java.net.*;
 import java.util.*;
 
 import org.checkers.boards.*;
-import org.checkers.utils.GameType;
+import org.checkers.enums.GameType;
 
 public class MainServer {
     private static final int SOCKET_PORT = 4444;
