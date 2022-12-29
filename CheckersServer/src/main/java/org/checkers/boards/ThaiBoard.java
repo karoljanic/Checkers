@@ -35,9 +35,9 @@ public class ThaiBoard extends Board {
                 currentPossibleMovesForBlack[i][j] = new PathsArray();
                 if(pieces[i][j] != null) {
                     if(pieces[i][j].getColor() == CheckerColor.WHITE)
-                        currentPossibleMovesForWhite[i][j].add(pieces[i][j].getPossibleMoves(this));
+                        currentPossibleMovesForWhite[i][j].add(pieces[i][j].getPossibleMoves(this, false));
                     else
-                        currentPossibleMovesForBlack[i][j].add(pieces[i][j].getPossibleMoves(this));
+                        currentPossibleMovesForBlack[i][j].add(pieces[i][j].getPossibleMoves(this, false));
                 }
             }
         }

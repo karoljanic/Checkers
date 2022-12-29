@@ -52,7 +52,7 @@ public class Piece {
         type = CheckerType.KING;
     }
 
-    public PathsArray getPossibleMoves(Board currentBoard) {
+    public PathsArray getPossibleMoves(Board currentBoard, boolean attackBack) {
         PathsArray pathsArray = new PathsArray();
 
         if(type == CheckerType.NORMAL) {
@@ -72,7 +72,7 @@ public class Piece {
             }
 
             // attacks
-            findNormalPieceAttacks(currentBoard.copy(), new Coordinate(coordinate), new CoordinatesArray(), pathsArray);
+            findNormalPieceAttacks(currentBoard.copy(), new Coordinate(coordinate), new CoordinatesArray(), pathsArray, attackBack);
         }
         else { // type == CheckerType.KING
             findKingPieceMoves(currentBoard.copy(), new Coordinate(coordinate), false, new CoordinatesArray(), pathsArray);
@@ -81,14 +81,18 @@ public class Piece {
         return pathsArray;
     }
 
-    private void findNormalPieceAttacks(Board currentBoard, Coordinate currentCoordinate, CoordinatesArray path, PathsArray pathsArray) {
-        findNormalPieceAttacks(currentBoard, currentCoordinate, 2, 2, path, pathsArray);
-        findNormalPieceAttacks(currentBoard, currentCoordinate, -2, 2, path, pathsArray);
-        findNormalPieceAttacks(currentBoard, currentCoordinate, 2, -2, path, pathsArray);
-        findNormalPieceAttacks(currentBoard, currentCoordinate, -2, -2, path, pathsArray);
+    private void findNormalPieceAttacks(Board currentBoard, Coordinate currentCoordinate, CoordinatesArray path, PathsArray pathsArray, boolean attackBack) {
+        if (color == CheckerColor.WHITE || (color == CheckerColor.BLACK && attackBack)) {
+            findNormalPieceAttacks(currentBoard, currentCoordinate, 2, 2, path, pathsArray, attackBack);
+            findNormalPieceAttacks(currentBoard, currentCoordinate, -2, 2, path, pathsArray, attackBack);
+        }
+        if (color == CheckerColor.BLACK || (color == CheckerColor.WHITE && attackBack)) {
+            findNormalPieceAttacks(currentBoard, currentCoordinate, 2, -2, path, pathsArray, attackBack);
+            findNormalPieceAttacks(currentBoard, currentCoordinate, -2, -2, path, pathsArray, attackBack);
+        }
     }
 
-    private void findNormalPieceAttacks(Board currentBoard, Coordinate currentCoordinate, int dx, int dy, CoordinatesArray path, PathsArray pathsArray) {
+    private void findNormalPieceAttacks(Board currentBoard, Coordinate currentCoordinate, int dx, int dy, CoordinatesArray path, PathsArray pathsArray, boolean attackBack) {
         if(currentCoordinate.getX() + dx >= currentBoard.getSize() || currentCoordinate.getY() + dy >= currentBoard.getSize())
             return;
 
@@ -110,7 +114,7 @@ public class Piece {
                 CoordinatesArray pathCopyCopy = new CoordinatesArray(pathCopy);
                 Board boardCopy = currentBoard.copy();
                 boardCopy.removePiece(currentCoordinate.getX() + dx / 2, currentCoordinate.getY() + dy / 2);
-                findNormalPieceAttacks(boardCopy, new Coordinate(currentCoordinate.getX() + dx, currentCoordinate.getY() + dy), pathCopyCopy, pathsArray);
+                findNormalPieceAttacks(boardCopy, new Coordinate(currentCoordinate.getX() + dx, currentCoordinate.getY() + dy), pathCopyCopy, pathsArray, attackBack);
             }
         }
     }

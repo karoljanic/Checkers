@@ -1,7 +1,5 @@
 package org.checkers.piece.coordinate;
 
-import org.checkers.piece.coordinate.Coordinate;
-
 import java.util.ArrayList;
 
 public class CoordinatesArray {
