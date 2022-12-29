@@ -107,6 +107,8 @@ public class Piece {
 
         if(currentBoard.coordinateIsWithPiece(currentCoordinate.getX() + dx / 2, currentCoordinate.getY() + dy / 2, color == CheckerColor.WHITE ? CheckerColor.BLACK : CheckerColor.WHITE)) {
             if(currentBoard.coordinateIsFree(currentCoordinate.getX() + dx , currentCoordinate.getY() + dy)) {
+                path.addAttack();
+                
                 CoordinatesArray pathCopy = new CoordinatesArray(path);
                 pathCopy.add(new CoordinatesArray(currentCoordinate.getX() + dx, currentCoordinate.getY() + dy));
                 pathsArray.add(pathCopy);

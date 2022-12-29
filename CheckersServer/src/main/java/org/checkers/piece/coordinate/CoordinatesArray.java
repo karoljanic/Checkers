@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class CoordinatesArray {
     private final ArrayList<Coordinate> coordinates;
+    private int numOfAttacks = 0;
 
     public CoordinatesArray() {
         coordinates = new ArrayList<>();
@@ -15,9 +16,18 @@ public class CoordinatesArray {
     }
 
     public CoordinatesArray(CoordinatesArray coordinatesArray) {
-        this.coordinates =new ArrayList<>();
+        this.coordinates = new ArrayList<>();
         for(Coordinate coordinate: coordinatesArray.getList())
             this.coordinates.add(new Coordinate(coordinate));
+        this.numOfAttacks = coordinatesArray.getNumOfAttacks();
+    }
+
+    public void addAttack() {
+        numOfAttacks++;
+    }
+
+    public int getNumOfAttacks() {
+        return numOfAttacks;
     }
 
     public int size() {
