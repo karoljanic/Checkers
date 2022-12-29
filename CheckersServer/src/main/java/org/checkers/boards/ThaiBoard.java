@@ -2,7 +2,11 @@ package org.checkers.boards;
 
 import org.checkers.piece.BlackPiece;
 import org.checkers.piece.WhitePiece;
+import org.checkers.piece.coordinate.CoordinatesArray;
 import org.checkers.piece.coordinate.PathsArray;
+
+import java.util.ArrayList;
+
 import org.checkers.enums.CheckerColor;
 
 public class ThaiBoard extends Board {
@@ -29,15 +33,52 @@ public class ThaiBoard extends Board {
 
     @Override
     public void generatePossibleMoves() {
+        boolean canWhiteAttack = false;
+        boolean canBlackAttack = false;
+
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
                 currentPossibleMovesForWhite[i][j] = new PathsArray();
                 currentPossibleMovesForBlack[i][j] = new PathsArray();
                 if(pieces[i][j] != null) {
+                    PathsArray pathsArray = pieces[i][j].getPossibleMoves(this, false);
+
                     if(pieces[i][j].getColor() == CheckerColor.WHITE)
-                        currentPossibleMovesForWhite[i][j].add(pieces[i][j].getPossibleMoves(this, false));
+                        currentPossibleMovesForWhite[i][j].add(pathsArray);
                     else
-                        currentPossibleMovesForBlack[i][j].add(pieces[i][j].getPossibleMoves(this, false));
+                        currentPossibleMovesForBlack[i][j].add(pathsArray);
+
+                    for (CoordinatesArray coorArray : pathsArray.getList()) {
+                        if (pieces[i][j].getColor() == CheckerColor.WHITE && coorArray.getNumOfAttacks() > 0)
+                            canWhiteAttack = true;
+                        if (pieces[i][j].getColor() == CheckerColor.BLACK && coorArray.getNumOfAttacks() > 0)
+                            canBlackAttack = true;
+                    }
+                }
+            }
+        }
+
+        if (canWhiteAttack || canBlackAttack) {
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    if (pieces[i][j] == null)
+                        continue;
+
+                    PathsArray pathsArray = switch (pieces[i][j].getColor()) {
+                        case WHITE -> currentPossibleMovesForWhite[i][j];
+                        case BLACK -> currentPossibleMovesForBlack[i][j];
+                    };
+
+                    ArrayList<CoordinatesArray> coorToRemove = new ArrayList<>();
+                    for (CoordinatesArray coorArray : pathsArray.getList()) {
+                        if (pieces[i][j].getColor() == CheckerColor.WHITE && canWhiteAttack && coorArray.getNumOfAttacks() == 0)
+                            coorToRemove.add(coorArray);
+                        if (pieces[i][j].getColor() == CheckerColor.BLACK && canBlackAttack &&coorArray.getNumOfAttacks() == 0)
+                            coorToRemove.add(coorArray);
+                    }
+                    for (CoordinatesArray coorArray : coorToRemove) {
+                        pathsArray.getList().remove(coorArray);
+                    }
                 }
             }
         }

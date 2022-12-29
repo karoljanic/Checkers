@@ -32,8 +32,8 @@ public class InternationalBoard extends Board {
 
     @Override
     public void generatePossibleMoves() {
-        int[][] numOfAttacks = new int[size][size];
-        int maxNumOfAttacks = 0;
+        int maxNumOfAttacksWhite = 0;
+        int maxNumOfAttacksBlack = 0;
 
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
@@ -49,30 +49,31 @@ public class InternationalBoard extends Board {
                         currentPossibleMovesForBlack[i][j].add(pathsArray);
 
                     for (CoordinatesArray coorArray : pathsArray.getList()) {
-                        if (coorArray.getNumOfAttacks() > numOfAttacks[i][j])
-                            numOfAttacks[i][j] = coorArray.getNumOfAttacks();
-                        if (numOfAttacks[i][j] > maxNumOfAttacks)
-                            maxNumOfAttacks = numOfAttacks[i][j];
+                        if (pieces[i][j].getColor() == CheckerColor.WHITE && coorArray.getNumOfAttacks() > maxNumOfAttacksWhite)
+                            maxNumOfAttacksWhite = coorArray.getNumOfAttacks();
+                        if (pieces[i][j].getColor() == CheckerColor.BLACK && coorArray.getNumOfAttacks() > maxNumOfAttacksBlack)
+                            maxNumOfAttacksBlack = coorArray.getNumOfAttacks();
                     }
                 }
             }
         }
 
-        if (maxNumOfAttacks > 0) {
+        if (maxNumOfAttacksWhite > 0 || maxNumOfAttacksBlack > 0) {
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
                     if (pieces[i][j] == null)
                         continue;
 
-                    PathsArray pathsArray;
-                    if (pieces[i][j].getColor() == CheckerColor.WHITE)
-                        pathsArray = currentPossibleMovesForWhite[i][j];
-                    else
-                        pathsArray = currentPossibleMovesForBlack[i][j];
+                    PathsArray pathsArray = switch (pieces[i][j].getColor()) {
+                        case WHITE -> currentPossibleMovesForWhite[i][j];
+                        case BLACK -> currentPossibleMovesForBlack[i][j];
+                    };
 
                     ArrayList<CoordinatesArray> coorToRemove = new ArrayList<>();
                     for (CoordinatesArray coorArray : pathsArray.getList()) {
-                        if (coorArray.getNumOfAttacks() < maxNumOfAttacks)
+                        if (pieces[i][j].getColor() == CheckerColor.WHITE && coorArray.getNumOfAttacks() < maxNumOfAttacksWhite)
+                            coorToRemove.add(coorArray);
+                        if (pieces[i][j].getColor() == CheckerColor.BLACK && coorArray.getNumOfAttacks() < maxNumOfAttacksBlack)
                             coorToRemove.add(coorArray);
                     }
                     for (CoordinatesArray coorArray : coorToRemove) {
