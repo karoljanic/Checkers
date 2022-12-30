@@ -75,7 +75,7 @@ public class Piece {
             findNormalPieceAttacks(currentBoard.copy(), new Coordinate(coordinate), new CoordinatesArray(), pathsArray, attackBack);
         }
         else { // type == CheckerType.KING
-            findKingPieceMoves(currentBoard.copy(), new Coordinate(coordinate), false, new CoordinatesArray(), pathsArray);
+            findKingPieceMoves(currentBoard.copy(), new Coordinate(coordinate), new CoordinatesArray(), pathsArray);
         }
 
         return pathsArray;
@@ -120,29 +120,36 @@ public class Piece {
         }
     }
 
-    private void findKingPieceMoves(Board currentBoard, Coordinate currentCoordinate, boolean onlyBeat, CoordinatesArray path, PathsArray pathsArray) {
-        findKingPieceMoves(currentBoard, currentCoordinate, onlyBeat, 1, 1, path, pathsArray);
-        findKingPieceMoves(currentBoard, currentCoordinate, onlyBeat, -1, 1, path, pathsArray);
-        findKingPieceMoves(currentBoard, currentCoordinate, onlyBeat, 1, -1, path, pathsArray);
-        findKingPieceMoves(currentBoard, currentCoordinate, onlyBeat, -1, -1, path, pathsArray);
+    private void findKingPieceMoves(Board currentBoard, Coordinate currentCoordinate, CoordinatesArray path, PathsArray pathsArray) {
+        findKingPieceMoves(currentBoard, currentCoordinate, false, false, 1, 1, path, pathsArray);
+        findKingPieceMoves(currentBoard, currentCoordinate, false, false, -1, 1, path, pathsArray);
+        findKingPieceMoves(currentBoard, currentCoordinate, false, false, 1, -1, path, pathsArray);
+        findKingPieceMoves(currentBoard, currentCoordinate, false, false, -1, -1, path, pathsArray);
     }
 
-    private void findKingPieceMoves(Board currentBoard, Coordinate currentCoordinate, boolean onlyBeat, int dx, int dy, CoordinatesArray path, PathsArray pathsArray) {
+    private void findKingPieceMoves(Board currentBoard, Coordinate currentCoordinate, boolean onlyBeat, boolean beatSide, int dx, int dy, CoordinatesArray path, PathsArray pathsArray) {
         int x = currentCoordinate.getX() + dx;
         int y = currentCoordinate.getY() + dy;
 
+        if (beatSide) {
+            findKingPieceMoves(currentBoard.copy(), new Coordinate(x , y), true, false, -dx, dy, new CoordinatesArray(path), pathsArray);
+            findKingPieceMoves(currentBoard.copy(), new Coordinate(x , y), true, false, dx, -dy, new CoordinatesArray(path), pathsArray);
+        }
+
         while(x < currentBoard.getSize() && y < currentBoard.getSize() && x >= 0 && y >= 0) {
             if(currentBoard.coordinateIsFree(x, y)) { // simple move
-                if(!onlyBeat) {
+                if (!onlyBeat) {
                     CoordinatesArray pathCopy = new CoordinatesArray(path);
                     pathCopy.add(x, y);
                     pathsArray.add(pathCopy);
                 }
             }
             else if(currentBoard.coordinateIsWithPiece(x, y, color) || !currentBoard.coordinateIsFree(x + dx, y + dy)) { // unable to move
-                CoordinatesArray pathCopy = new CoordinatesArray(path);
-                if(pathCopy.size() > 0)
-                    pathsArray.add(pathCopy);
+                if (!onlyBeat) {
+                    CoordinatesArray pathCopy = new CoordinatesArray(path);
+                    if(pathCopy.size() > 0)
+                        pathsArray.add(pathCopy);
+                }
                 break;
             }
             else { // beat opponent's piece
@@ -156,8 +163,11 @@ public class Piece {
                 pathCopy.addAttack();
                 pathCopy.add(x, y);
                 pathsArray.add(pathCopy);
-
-                findKingPieceMoves(boardCopy, new Coordinate(x , y), true, dx, dy, pathCopy, pathsArray);
+                
+                findKingPieceMoves(boardCopy.copy(), new Coordinate(x , y), false, true, dx, dy, new CoordinatesArray(pathCopy), pathsArray);
+                findKingPieceMoves(boardCopy.copy(), new Coordinate(x , y), true, false, -dx, dy, new CoordinatesArray(pathCopy), pathsArray);
+                findKingPieceMoves(boardCopy.copy(), new Coordinate(x , y), true, false, dx, -dy, new CoordinatesArray(pathCopy), pathsArray);
+                break;
             }
 
             x += dx;
