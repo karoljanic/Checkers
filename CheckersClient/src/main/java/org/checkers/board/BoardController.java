@@ -7,13 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import org.checkers.menu.Menu;
-import org.checkers.menu.MenuView;
 import org.checkers.server.ServerService;
 import org.checkers.utils.CheckerColor;
-import org.checkers.utils.GameType;
-import org.checkers.utils.WindowProperties;
-
 import java.util.ArrayList;
 
 public class BoardController implements EventHandler<ActionEvent> {

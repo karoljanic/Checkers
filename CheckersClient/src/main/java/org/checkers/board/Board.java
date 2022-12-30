@@ -1,6 +1,5 @@
 package org.checkers.board;
 
-import javafx.scene.paint.Paint;
 import javafx.util.Pair;
 import org.checkers.utils.CheckerColor;
 

@@ -1,19 +1,14 @@
 package org.checkers.board;
 
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 import javafx.scene.shape.Polyline;
-import javafx.stage.Stage;
-import javafx.util.Pair;
 import org.checkers.utils.CheckerColor;
 import org.checkers.utils.WindowProperties;
-
-import java.util.ArrayList;
 
 public class BoardView extends GridPane {
 

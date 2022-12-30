@@ -107,9 +107,8 @@ public class Piece {
 
         if(currentBoard.coordinateIsWithPiece(currentCoordinate.getX() + dx / 2, currentCoordinate.getY() + dy / 2, color == CheckerColor.WHITE ? CheckerColor.BLACK : CheckerColor.WHITE)) {
             if(currentBoard.coordinateIsFree(currentCoordinate.getX() + dx , currentCoordinate.getY() + dy)) {
-                path.addAttack();
-                
                 CoordinatesArray pathCopy = new CoordinatesArray(path);
+                pathCopy.addAttack();
                 pathCopy.add(new CoordinatesArray(currentCoordinate.getX() + dx, currentCoordinate.getY() + dy));
                 pathsArray.add(pathCopy);
 
@@ -154,10 +153,11 @@ public class Piece {
                 y += dy;
 
                 CoordinatesArray pathCopy = new CoordinatesArray(path);
+                pathCopy.addAttack();
                 pathCopy.add(x, y);
                 pathsArray.add(pathCopy);
 
-                findKingPieceMoves(boardCopy, new Coordinate(x , y), true, pathCopy, pathsArray);
+                findKingPieceMoves(boardCopy, new Coordinate(x , y), true, dx, dy, pathCopy, pathsArray);
             }
 
             x += dx;
