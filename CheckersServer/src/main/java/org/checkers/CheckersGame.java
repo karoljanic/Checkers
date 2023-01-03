@@ -136,6 +136,9 @@ public class CheckersGame implements Runnable {
                             otherOut.println("update-piece-to-king/" + x2 + "/" + y2);
                         }
 
+                        if (board.whoWins() != null)
+                            System.out.println(board.whoWins());
+
                         board.generatePossibleMoves();
                         out1.println("possible-moves" + preparePossibleMoves(CheckerColor.WHITE));
                         out2.println("possible-moves" + preparePossibleMoves(CheckerColor.BLACK));

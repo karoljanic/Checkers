@@ -92,10 +92,10 @@ public abstract class Board {
     public PathsArray[][] getPossibleMoves(CheckerColor checkerColor) {
         if(checkerColor == CheckerColor.WHITE)
             return currentPossibleMovesForWhite;
-        else
-            return currentPossibleMovesForBlack;
+        return currentPossibleMovesForBlack;
     }
 
+    //TODO: tą metodę chyba można wywalić
     public boolean moveIsCorrect(int x1, int y1, int x2, int y2, CheckerColor checkerColor) {
         return true;
     }
@@ -133,6 +133,33 @@ public abstract class Board {
         }
 
         pieces[x1][y1] = null;
+    }
+
+    public String whoWins() {
+        //TODO: wygrana poprzez blokadę + remis
+        //TODO: dodać obsługę tej metody w CheckersGame i na kliencie
+
+        int num_of_white_pieces = 0, num_of_black_pieces = 0;
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (pieces[i][j] != null) {
+                    if (pieces[i][j].getColor() == CheckerColor.WHITE) {
+                        num_of_white_pieces++;
+                    }
+                    else {
+                        num_of_black_pieces++;
+                    }
+                }
+            }
+        }
+
+        if (num_of_white_pieces == 0)
+            return "black";
+        if (num_of_black_pieces == 0)
+            return "white";
+
+        return null;
     }
 
     public abstract void generatePossibleMoves();

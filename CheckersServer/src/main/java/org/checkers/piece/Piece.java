@@ -128,13 +128,13 @@ public class Piece {
     }
 
     private void findKingPieceMoves(Board currentBoard, Coordinate currentCoordinate, boolean onlyBeat, boolean beatSide, int dx, int dy, CoordinatesArray path, PathsArray pathsArray) {
+        if (beatSide) {
+            findKingPieceMoves(currentBoard.copy(), currentCoordinate, true, false, -dx, dy, new CoordinatesArray(path), pathsArray);
+            findKingPieceMoves(currentBoard.copy(), currentCoordinate, true, false, dx, -dy, new CoordinatesArray(path), pathsArray);
+        }
+        
         int x = currentCoordinate.getX() + dx;
         int y = currentCoordinate.getY() + dy;
-
-        if (beatSide) {
-            findKingPieceMoves(currentBoard.copy(), new Coordinate(x , y), true, false, -dx, dy, new CoordinatesArray(path), pathsArray);
-            findKingPieceMoves(currentBoard.copy(), new Coordinate(x , y), true, false, dx, -dy, new CoordinatesArray(path), pathsArray);
-        }
 
         while(x < currentBoard.getSize() && y < currentBoard.getSize() && x >= 0 && y >= 0) {
             if(currentBoard.coordinateIsFree(x, y)) { // simple move
