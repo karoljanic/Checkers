@@ -33,18 +33,15 @@ public class BoardView extends GridPane {
                 button.setOnAction(boardController);
                 buttons[i][j] = button;
 
-                String backgroundColor;
+                String backgroundColor = "#BD7A44";
                 if(possibleMoves[i][j] == 2) {
                     backgroundColor = "#B19C2B";
                 }
-                else if (possibleMoves[i][j] == 1 && (buttons[i][j] == null || !buttons[i][j].getStyle().contains("-fx-background-color: #B19C2B;"))) {
+                else if (possibleMoves[i][j] == 1) {
                     backgroundColor = "#DB2727";
                 }
                 else if((i+j) % 2 == 0) {
                     backgroundColor = "#E3C193";
-                }
-                else {
-                    backgroundColor = "#BD7A44";
                 }
 
                 button.setStyle(String.format("-fx-background-color: %s; -fx-background-radius: 0; -fx-background-insets: 0 0 -1 0, 0, 1, 2;", backgroundColor));

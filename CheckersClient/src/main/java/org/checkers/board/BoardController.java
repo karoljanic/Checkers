@@ -127,7 +127,7 @@ public class BoardController implements EventHandler<ActionEvent> {
                                 for(Pair<Integer, Integer> step: path) {
                                     if (path.indexOf(step) == path.size() - 1)
                                         possibleMoves[step.getKey()][step.getValue()] = 2;
-                                    else
+                                    else if (possibleMoves[step.getKey()][step.getValue()] != 2)
                                         possibleMoves[step.getKey()][step.getValue()] = 1;
                                 }
                             }
