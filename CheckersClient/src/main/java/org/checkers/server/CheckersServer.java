@@ -14,8 +14,6 @@ public class CheckersServer implements ICheckersServer {
     private PrintWriter outputStream;
     private BufferedReader inputStream;
 
-    private int test = 2;
-
     public CheckersServer() {
         try {
             serverSocket = new Socket(SOCKET_HOST, SOCKET_PORT);
@@ -39,6 +37,17 @@ public class CheckersServer implements ICheckersServer {
     @Override
     public void checkerMove(int oldX, int oldY, int newX, int newY) {
         outputStream.println(("move/" + oldX + "/" + oldY + "/" + newX + "/" + newY));
+    }
+
+    @Override
+    public void closeConnection() {
+        try {
+            outputStream.close();
+            inputStream.close();
+            serverSocket.close();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @Override

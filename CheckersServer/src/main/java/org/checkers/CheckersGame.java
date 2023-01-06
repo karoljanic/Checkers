@@ -94,60 +94,59 @@ public class CheckersGame implements Runnable {
                     int x2 = Integer.parseInt(tokens[3]);
                     int y2 = Integer.parseInt(tokens[4]);
 
-                    if (!board.moveIsCorrect(x1, y1, x2, y2, color)) {
-                        out.println("bad-move");
-                    }
-                    else {
-                        board.move(x1, y1, x2, y2, color);
+                    board.move(x1, y1, x2, y2, color);
 
-                        CoordinatesArray tmp = board.getPossibleMove(x1, y1, x2, y2, color);
-                        CoordinatesArray path = new CoordinatesArray();
-                        path.add(x1, y1);
-                        for(Coordinate coordinate: tmp.getList())
-                            path.add(coordinate.getX(), coordinate.getY());
+                    CoordinatesArray tmp = board.getPossibleMove(x1, y1, x2, y2, color);
+                    CoordinatesArray path = new CoordinatesArray();
+                    path.add(x1, y1);
+                    for(Coordinate coordinate: tmp.getList())
+                        path.add(coordinate.getX(), coordinate.getY());
 
-                        for(int i = 1; i < path.size(); i++) {
-                            Coordinate last = path.getList().get(i - 1);
-                            Coordinate now = path.getList().get(i);
+                    for(int i = 1; i < path.size(); i++) {
+                        Coordinate last = path.getList().get(i - 1);
+                        Coordinate now = path.getList().get(i);
 
-                            out.println("update-piece-position/" + last.getX() + "/" + last.getY() + "/" + now.getX() + "/" + now.getY());
-                            otherOut.println("update-piece-position/" + last.getX() + "/" + last.getY() + "/" + now.getX() + "/" + now.getY());
+                        out.println("update-piece-position/" + last.getX() + "/" + last.getY() + "/" + now.getX() + "/" + now.getY());
+                        otherOut.println("update-piece-position/" + last.getX() + "/" + last.getY() + "/" + now.getX() + "/" + now.getY());
 
-                            int dx = now.getX() > last.getX() ? 1 : -1;
-                            int dy = now.getY() > last.getY() ? 1 : -1;
-                            int steps = Math.abs(now.getX() - last.getX());
+                        int dx = now.getX() > last.getX() ? 1 : -1;
+                        int dy = now.getY() > last.getY() ? 1 : -1;
+                        int steps = Math.abs(now.getX() - last.getX());
 
-                            CustomClock.waitMillis(200);
+                        CustomClock.waitMillis(200);
 
-                            for(int x = last.getX(), y = last.getY(), iter = 0; iter < steps; iter++, x += dx, y += dy) {
-                                if(board.coordinateIsWithPiece(x, y, otherColor)) {
-                                    board.removePiece(x, y);
-                                    out.println("remove-piece/" + x + "/" + y);
-                                    otherOut.println("remove-piece/" + x + "/" + y);
-                                }
+                        for(int x = last.getX(), y = last.getY(), iter = 0; iter < steps; iter++, x += dx, y += dy) {
+                            if(board.coordinateIsWithPiece(x, y, otherColor)) {
+                                board.removePiece(x, y);
+                                out.println("remove-piece/" + x + "/" + y);
+                                otherOut.println("remove-piece/" + x + "/" + y);
                             }
-
-                            if(i != path.size() - 1)
-                                CustomClock.waitMillis(300);
                         }
 
-                        if(board.isKing(x2, y2)) {
-                            out.println("update-piece-to-king/" + x2 + "/" + y2);
-                            otherOut.println("update-piece-to-king/" + x2 + "/" + y2);
-                        }
-
-                        if (board.whoWins() != null)
-                            System.out.println(board.whoWins());
-
-                        board.generatePossibleMoves();
-                        out1.println("possible-moves" + preparePossibleMoves(CheckerColor.WHITE));
-                        out2.println("possible-moves" + preparePossibleMoves(CheckerColor.BLACK));
-
-                        if (gameStatus == GameStatus.WHITE_TURN)
-                            gameStatus = GameStatus.BLACK_TURN;
-                        else
-                            gameStatus = GameStatus.WHITE_TURN;
+                        if(i != path.size() - 1)
+                            CustomClock.waitMillis(300);
                     }
+
+                    if(board.isKing(x2, y2)) {
+                        out.println("update-piece-to-king/" + x2 + "/" + y2);
+                        otherOut.println("update-piece-to-king/" + x2 + "/" + y2);
+                    }
+
+                    board.generatePossibleMoves();
+                    out1.println("possible-moves" + preparePossibleMoves(CheckerColor.WHITE));
+                    out2.println("possible-moves" + preparePossibleMoves(CheckerColor.BLACK));
+
+                    String gameResult = board.whoWins();
+                    if (gameResult != null) {
+                        out1.println(gameResult);
+                        out2.println(gameResult);
+                        break;
+                    }
+
+                    if (gameStatus == GameStatus.WHITE_TURN)
+                        gameStatus = GameStatus.BLACK_TURN;
+                    else
+                        gameStatus = GameStatus.WHITE_TURN;
                 }
             }
 

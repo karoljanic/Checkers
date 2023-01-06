@@ -1,6 +1,7 @@
 package org.checkers;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.checkers.board.BoardController;
@@ -18,6 +19,8 @@ public class Game extends Application implements Runnable {
     private BoardController boardController;
 
     private int playerId;
+    private boolean keepWorking;
+
     @Override
     public void init() { }
 
@@ -25,6 +28,7 @@ public class Game extends Application implements Runnable {
     public void start(Stage primaryStage) {
         menuController = new MenuController(primaryStage);
         boardController = new BoardController(primaryStage);
+        keepWorking = true;
 
         menuController.showView();
 
@@ -35,11 +39,15 @@ public class Game extends Application implements Runnable {
     }
 
     @Override
-    public void stop() { }
+    public void stop() {
+        keepWorking = false;
+        ServerService.closeConnection();
+        System.exit(0);
+    }
 
     @Override
     public void run() {
-        while(true) {
+        while(keepWorking) {
             synchronized (this) {
                 try {
                     wait(100);
@@ -129,6 +137,18 @@ public class Game extends Application implements Runnable {
                             case "bad-move":
                                 System.out.println("Bad Move");
                                 break;
+                            default:
+                                String message = "";
+                                if (tokens[0].equals("draw"))
+                                    message = "Draw!";
+                                else if ((tokens[0].equals("white") && playerId == 0) || (tokens[0].equals("black") && playerId == 1)) {
+                                    message = "You win!";
+                                }
+                                else
+                                    message = "You loose!";
+                                Platform.runLater(() -> {boardController.closeStage();});
+                                System.out.println(message);
+                                stop();
                         }
                     }
                 }

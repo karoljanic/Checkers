@@ -20,4 +20,8 @@ public class ServerService {
     public static String getInput() {
         return _checkersServer.getInput();
     }
+
+    public static void closeConnection() {
+        _checkersServer.closeConnection();
+    }
 }

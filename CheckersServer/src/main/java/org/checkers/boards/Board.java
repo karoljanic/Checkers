@@ -136,27 +136,30 @@ public abstract class Board {
     }
 
     public String whoWins() {
-        //TODO: wygrana poprzez blokadę + remis
-        //TODO: dodać obsługę tej metody w CheckersGame i na kliencie
-
         int num_of_white_pieces = 0, num_of_black_pieces = 0;
+        int num_of_white_poss = 0, num_of_black_poss = 0;
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (pieces[i][j] != null) {
                     if (pieces[i][j].getColor() == CheckerColor.WHITE) {
                         num_of_white_pieces++;
+                        num_of_white_poss += currentPossibleMovesForWhite[i][j].getList().size();
                     }
                     else {
                         num_of_black_pieces++;
+                        num_of_black_poss += currentPossibleMovesForBlack[i][j].getList().size();
                     }
                 }
             }
         }
 
-        if (num_of_white_pieces == 0)
+        if (num_of_white_poss == 0 && num_of_black_poss == 0)
+            return "draw";
+
+        if (num_of_white_pieces == 0 || num_of_white_poss == 0)
             return "black";
-        if (num_of_black_pieces == 0)
+        if (num_of_black_pieces == 0 || num_of_black_poss == 0)
             return "white";
 
         return null;

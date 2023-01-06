@@ -147,4 +147,12 @@ public class BoardController implements EventHandler<ActionEvent> {
 
         stage.setResizable(false);
     }
+
+    public void closeStage() {
+        stage.close();
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
 }

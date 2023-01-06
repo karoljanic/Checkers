@@ -128,11 +128,6 @@ public class Piece {
     }
 
     private void findKingPieceMoves(Board currentBoard, Coordinate currentCoordinate, boolean onlyBeat, boolean beatSide, int dx, int dy, CoordinatesArray path, PathsArray pathsArray) {
-        if (beatSide) {
-            findKingPieceMoves(currentBoard.copy(), currentCoordinate, true, false, -dx, dy, new CoordinatesArray(path), pathsArray);
-            findKingPieceMoves(currentBoard.copy(), currentCoordinate, true, false, dx, -dy, new CoordinatesArray(path), pathsArray);
-        }
-        
         int x = currentCoordinate.getX() + dx;
         int y = currentCoordinate.getY() + dy;
 
@@ -142,6 +137,10 @@ public class Piece {
                     CoordinatesArray pathCopy = new CoordinatesArray(path);
                     pathCopy.add(x, y);
                     pathsArray.add(pathCopy);
+                    if (beatSide) {
+                        findKingPieceMoves(currentBoard.copy(), currentCoordinate, true, false, -dx, dy, new CoordinatesArray(path), pathsArray);
+                        findKingPieceMoves(currentBoard.copy(), currentCoordinate, true, false, dx, -dy, new CoordinatesArray(path), pathsArray);
+                    }
                 }
             }
             else if(currentBoard.coordinateIsWithPiece(x, y, color) || !currentBoard.coordinateIsFree(x + dx, y + dy)) { // unable to move
