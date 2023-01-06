@@ -3,6 +3,7 @@ package org.checkers.board;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
@@ -15,7 +16,7 @@ public class BoardView extends GridPane {
     private final Button[][] buttons;
     private final BoardController boardController;
 
-    BoardView(int size, Piece[][] pieces, boolean[][] possibleMoves, boolean isPlayerTurn, boolean isHost, BoardController boardController) {
+    BoardView(int size, Piece[][] pieces, short[][] possibleMoves, boolean isPlayerTurn, boolean isHost, BoardController boardController) {
         this.boardController = boardController;
         double windowSize = WindowProperties.calculateWindowStageSize();
         double buttonSize = windowSize * 0.9 / size;
@@ -33,8 +34,11 @@ public class BoardView extends GridPane {
                 buttons[i][j] = button;
 
                 String backgroundColor;
-                if(possibleMoves[i][j]) {
+                if(possibleMoves[i][j] == 2) {
                     backgroundColor = "#B19C2B";
+                }
+                else if (possibleMoves[i][j] == 1 && (buttons[i][j] == null || !buttons[i][j].getStyle().contains("-fx-background-color: #B19C2B;"))) {
+                    backgroundColor = "#DB2727";
                 }
                 else if((i+j) % 2 == 0) {
                     backgroundColor = "#E3C193";

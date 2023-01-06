@@ -85,7 +85,7 @@ public class BoardController implements EventHandler<ActionEvent> {
     public void showView() {
         Platform.setImplicitExit(false);
         Platform.runLater(() -> {
-            view = new BoardView(model.getSize(), model.getPieces(), new boolean[model.getSize()][model.getSize()], moveAvailable, model.isHost(), this);
+            view = new BoardView(model.getSize(), model.getPieces(), new short[model.getSize()][model.getSize()], moveAvailable, model.isHost(), this);
 
             showStage();
         });
@@ -104,18 +104,17 @@ public class BoardController implements EventHandler<ActionEvent> {
             for(int j = 0; j < model.getSize(); j++) {
                 if(source.equals(buttons[i][j])) {
                     Piece[][] pieces = model.getPieces();
-                    boolean[][] possibleMoves = new boolean[model.getSize()][model.getSize()];
+                    short[][] possibleMoves = new short[model.getSize()][model.getSize()];
                     boolean found = false;
 
                     for(ArrayList<Pair<Integer, Integer>> path: possibleMovesInNextStep) {
-                        for(Pair<Integer, Integer> step : path) {
+                        Pair<Integer, Integer> step = path.get(path.size() - 1);
                             if(step.getKey() == i && step.getValue() == j) {
                                 ServerService.sendPlayerMove(chosenPiece.getKey(), chosenPiece.getValue(), i, j);
                                 possibleMovesInNextStep = new ArrayList<>();
                                 found = true;
                                 break;
                             }
-                        }
                         if(found)
                             break;
                     }
@@ -126,7 +125,10 @@ public class BoardController implements EventHandler<ActionEvent> {
                             chosenPiece = new Pair<>(i, j);
                             for(ArrayList<Pair<Integer, Integer>> path: possibleMovesInNextStep) {
                                 for(Pair<Integer, Integer> step: path) {
-                                    possibleMoves[step.getKey()][step.getValue()] = true;
+                                    if (path.indexOf(step) == path.size() - 1)
+                                        possibleMoves[step.getKey()][step.getValue()] = 2;
+                                    else
+                                        possibleMoves[step.getKey()][step.getValue()] = 1;
                                 }
                             }
                         }

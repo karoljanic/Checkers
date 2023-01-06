@@ -95,11 +95,6 @@ public abstract class Board {
         return currentPossibleMovesForBlack;
     }
 
-    //TODO: tą metodę chyba można wywalić
-    public boolean moveIsCorrect(int x1, int y1, int x2, int y2, CheckerColor checkerColor) {
-        return true;
-    }
-
     public CoordinatesArray getPossibleMove(int x1, int y1, int x2, int y2, CheckerColor checkerColor) {
         PathsArray paths;
         if(checkerColor == CheckerColor.WHITE)

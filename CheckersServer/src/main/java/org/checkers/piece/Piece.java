@@ -138,8 +138,8 @@ public class Piece {
                     pathCopy.add(x, y);
                     pathsArray.add(pathCopy);
                     if (beatSide) {
-                        findKingPieceMoves(currentBoard.copy(), currentCoordinate, true, false, -dx, dy, new CoordinatesArray(path), pathsArray);
-                        findKingPieceMoves(currentBoard.copy(), currentCoordinate, true, false, dx, -dy, new CoordinatesArray(path), pathsArray);
+                        findKingPieceMoves(currentBoard.copy(), new Coordinate(x, y), true, false, -dx, dy, new CoordinatesArray(pathCopy), pathsArray);
+                        findKingPieceMoves(currentBoard.copy(), new Coordinate(x, y), true, false, dx, -dy, new CoordinatesArray(pathCopy), pathsArray);
                     }
                 }
             }
