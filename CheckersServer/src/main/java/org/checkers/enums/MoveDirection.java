@@ -1,5 +1,8 @@
 package org.checkers.enums;
 
+/**
+ * enum reprezentuje kierunek poruszania się pionka
+ */
 public enum MoveDirection {
     UP(1),
     DOWN(-1);

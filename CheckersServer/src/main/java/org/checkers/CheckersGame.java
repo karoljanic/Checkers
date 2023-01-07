@@ -15,13 +15,33 @@ import org.checkers.enums.CheckerColor;
 import org.checkers.utils.CustomClock;
 import org.checkers.enums.GameStatus;
 
-
+/**
+ * klasa obsługuje grę między dwoma klientami
+ */
 public class CheckersGame implements Runnable {
+    /**
+     * połączenie z pierwszym klientem
+     */
     private final Socket player1;
+    /**
+     * połączenie z drugim klientem
+     */
     private final Socket player2;
+    /**
+     * plansza gry
+     */
     private final Board board;
+    /**
+     * aktualny status gry
+     */
     private GameStatus gameStatus;
 
+    /**
+     * @param player1 połączenie z pierwszym klientem
+     * @param player2 połączenie z drugim klientem
+     * @param board plansza do gry
+     * konstruktor ustawia niezbędne paramatery dla nowego obiektu
+     */
     public CheckersGame(Socket player1, Socket player2, Board board) {
         boolean changeOrder = new Random(System.currentTimeMillis()).nextBoolean();
         if(changeOrder) {
@@ -37,6 +57,9 @@ public class CheckersGame implements Runnable {
         gameStatus = GameStatus.WHITE_TURN;
     }
 
+    /**
+     * funkcja komunikuje się z klientami nadzorując przebieg gry
+     */
     @Override
     public void run() {
         try {
@@ -161,6 +184,9 @@ public class CheckersGame implements Runnable {
         }
     }
 
+    /**
+     * @return opis parametrów planszy dla klienów
+     */
     private String prepareBoardDescription() {
         CoordinatesArray whitePieces = board.getPieces(CheckerColor.WHITE);
         CoordinatesArray blackPieces = board.getPieces(CheckerColor.BLACK);
@@ -177,6 +203,10 @@ public class CheckersGame implements Runnable {
         return result.toString();
     }
 
+    /**
+     * @param checkerColor kolor pionków klienta
+     * @return możliwe ruchy dla klienta o określonym kolorze pinków
+     */
     private String preparePossibleMoves(CheckerColor checkerColor) {
         PathsArray[][] possibleMoves = board.getPossibleMoves(checkerColor);
 

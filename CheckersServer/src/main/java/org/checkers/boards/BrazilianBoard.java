@@ -9,10 +9,19 @@ import java.util.ArrayList;
 
 import org.checkers.enums.CheckerColor;
 
+/**
+ * klasa reprezentuje planszę do gry w warcaby w odmianie brazylijskiej
+ */
 public class BrazilianBoard extends Board {
 
+    /**
+     * rozmiar planszy
+     */
     public static final int BRAZILIAN_BOARD_SIZE = 8;
 
+    /**
+     * konstruktor poza odpowiednimi parametrami ustawia także pionki na początkowych pozycjach
+     */
     public BrazilianBoard() {
         super(BRAZILIAN_BOARD_SIZE);
 
@@ -27,10 +36,17 @@ public class BrazilianBoard extends Board {
                 pieces[j][i] = new BlackPiece(j, i);
     }
 
+    /**
+     * @param brazilianBoard instacja do skopiowania
+     * konstruktor tworzy nowy obiekt identyczny z podanym jako parametr
+     */
     public BrazilianBoard(BrazilianBoard brazilianBoard) {
         super(brazilianBoard);
     }
 
+    /* (non-Javadoc)
+     * @see org.checkers.boards.Board#generatePossibleMoves()
+     */
     @Override
     public void generatePossibleMoves() {
         int maxNumOfAttacksWhite = 0;
@@ -85,6 +101,9 @@ public class BrazilianBoard extends Board {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.checkers.boards.Board#copy()
+     */
     @Override
     public Board copy() {
         return new BrazilianBoard(this);

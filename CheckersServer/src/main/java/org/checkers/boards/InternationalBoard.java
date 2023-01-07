@@ -9,9 +9,18 @@ import java.util.ArrayList;
 
 import org.checkers.enums.CheckerColor;
 
+/**
+ * klasa reprezentuje planszę do gry w warcaby w odmianie międzynarodowej
+ */
 public class InternationalBoard extends Board {
+    /**
+     * rozmiar planszy
+     */
     public static final int INTERNATIONAL_BOARD_SIZE = 10;
 
+    /**
+     * konstruktor poza odpowiednimi parametrami ustawia także pionki na początkowych pozycjach
+     */
     public InternationalBoard() {
         super(INTERNATIONAL_BOARD_SIZE);
 
@@ -26,10 +35,17 @@ public class InternationalBoard extends Board {
                 pieces[j][i] = new BlackPiece(j, i);
     }
 
+    /**
+     * @param internationalBoard instacja do skopiowania
+     * konstruktor tworzy nowy obiekt identyczny z podanym jako parametr
+     */
     public InternationalBoard(InternationalBoard internationalBoard) {
         super(internationalBoard);
     }
 
+    /* (non-Javadoc)
+     * @see org.checkers.boards.Board#generatePossibleMoves()
+     */
     @Override
     public void generatePossibleMoves() {
         int maxNumOfAttacksWhite = 0;
@@ -84,6 +100,9 @@ public class InternationalBoard extends Board {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.checkers.boards.Board#copy()
+     */
     @Override
     public Board copy() {
         return new InternationalBoard(this);

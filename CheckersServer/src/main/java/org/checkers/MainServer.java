@@ -7,10 +7,22 @@ import java.util.*;
 import org.checkers.boards.*;
 import org.checkers.enums.GameType;
 
+/**
+ * główna klasa obsługująca serwer do gry w warcaby
+ */
 public class MainServer {
+    /**
+     * port, na którym serwer czeka na połączenie
+     */
     private static final int SOCKET_PORT = 4444;
+    /**
+     * kolejka klientów czekających na połączenie
+     */
     private static final HashMap<GameType, ArrayList<Socket>> waitingForGame = new HashMap<>();
 
+    /**
+     * główna metoda obsługująca łączących się klientów
+     */
     public static void main(String[] args)  {
         waitingForGame.put(GameType.INTERNATIONAL, new ArrayList<>());
         waitingForGame.put(GameType.BRAZILIAN, new ArrayList<>());
@@ -46,6 +58,10 @@ public class MainServer {
         }
     }
 
+    /**
+     * @param type typ gry, która ma się zacząć
+     * funkcja tworzy nowy wątek, który obsługuje nową grę
+     */
     private static void startGame(GameType type) {
         System.out.println("Starting new game with type " + type);
 

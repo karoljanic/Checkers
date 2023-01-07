@@ -9,10 +9,18 @@ import java.util.ArrayList;
 
 import org.checkers.enums.CheckerColor;
 
+/**
+ * klasa reprezentuje planszę do gry w warcaby w odmianie tajskiej
+ */
 public class ThaiBoard extends Board {
-
+    /**
+     * rozmiar planszy
+     */
     public static final int THAI_BOARD_SIZE = 8;
 
+    /**
+     * konstruktor poza odpowiednimi parametrami ustawia także pionki na początkowych pozycjach
+     */
     public ThaiBoard() {
         super(THAI_BOARD_SIZE);
 
@@ -27,10 +35,17 @@ public class ThaiBoard extends Board {
                 pieces[j][i]  = new BlackPiece(j, i);
     }
 
+    /**
+     * @param thaiBoard instacja do skopiowania
+     * konstruktor tworzy nowy obiekt identyczny z podanym jako parametr
+     */
     public ThaiBoard(ThaiBoard thaiBoard) {
         super(thaiBoard);
     }
 
+    /* (non-Javadoc)
+     * @see org.checkers.boards.Board#generatePossibleMoves()
+     */
     @Override
     public void generatePossibleMoves() {
         boolean canWhiteAttack = false;
@@ -84,6 +99,9 @@ public class ThaiBoard extends Board {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.checkers.boards.Board#copy()
+     */
     @Override
     public Board copy() {
         return new ThaiBoard(this);

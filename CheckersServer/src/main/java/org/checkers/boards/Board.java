@@ -7,12 +7,31 @@ import org.checkers.piece.coordinate.PathsArray;
 import org.checkers.enums.CheckerColor;
 import org.checkers.enums.CheckerType;
 
+/**
+ * klasa reprezentuje planszę do gry w warcaby
+ */
 public abstract class Board {
+    /**
+     *przechowuje rozmiar planszy, np. size=10 oznacza planszę 10x10
+     */
     protected final int size;
+    /**
+     *tablica pionków rozmiaru [size][size], null jeśli na danym polu nic nie ma
+     */
     protected final Piece[][] pieces;
+    /**
+     *tablica możliwych ruchów dla białych pionków
+     */
     protected PathsArray[][] currentPossibleMovesForWhite;
+    /**
+     *tablica możliwych ruchów dla czarnych pionków
+     */
     protected PathsArray[][] currentPossibleMovesForBlack;
 
+    /**
+     * @param size rozmiar planszy
+     * konstruktor ustawia atrybuty klasy Board
+     */
     public Board(int size) {
         this.size = size;
 
@@ -21,6 +40,10 @@ public abstract class Board {
         currentPossibleMovesForBlack = new PathsArray[size][size];
     }
 
+    /**
+     * @param board instancja klasy Board
+     * konstruktor kopiuje obiekt podany jako parametr do nowego
+     */
     public Board(Board board) {
         this.size = board.size;
         this.pieces = new Piece[board.size][board.size];
@@ -47,10 +70,17 @@ public abstract class Board {
         }
     }
 
+    /**
+     * @return rozmiar planszy
+     */
     public int getSize() {
         return size;
     }
 
+    /**
+     * @param color kolor, dla którego mają być zwrócone pionki
+     * @return tablica pionków podanego koloru
+     */
     public CoordinatesArray getPieces(CheckerColor color) {
         CoordinatesArray result = new CoordinatesArray();
         for(int i = 0; i < size; i++) {
@@ -64,10 +94,20 @@ public abstract class Board {
         return result;
     }
 
+    /**
+     * @param x współrzędna x-owa pionka
+     * @param y współrzędna y-owa pionka
+     * funkcja usuwa pionek o podanych współrzędnych
+     */
     public void removePiece(int x, int y) {
         pieces[x][y] = null;
     }
 
+    /**
+     * @param x współrzędna x-owa pola
+     * @param y współrzędna y-owa pola
+     * @return true, jeśli na podanym polu jest pionek, w przeciwnym wypadku false
+     */
     public boolean coordinateIsFree(int x, int y) {
         if(x < 0 || x >= size || y < 0 || y >= size)
             return false;
@@ -75,6 +115,12 @@ public abstract class Board {
         return pieces[x][y] == null;
     }
 
+    /**
+     * @param x współrzędna x-owa pola
+     * @param y współrzędna y-owa pola
+     * @param color kolor, dla którego sprawdzamy pole
+     * @return true, jeśli na podanym polu jest pionek danego koloru, w przeciwnym wypadku false
+     */
     public boolean coordinateIsWithPiece(int x, int y, CheckerColor color) {
         if(coordinateIsFree(x, y))
             return false;
@@ -82,6 +128,11 @@ public abstract class Board {
         return pieces[x][y].getColor() == color;
     }
 
+    /**
+     * @param x współrzędna x-owa pionka
+     * @param y współrzędna y-owa pionka
+     * @return true, jeśli na podanym polu jest pionek, który jest damką, w przeciwnym wypadku false
+     */
     public boolean isKing(int x, int y) {
         if(pieces[x][y] != null)
             return pieces[x][y].getType() == CheckerType.KING;
@@ -89,12 +140,24 @@ public abstract class Board {
         return false;
     }
 
+    /**
+     * @param checkerColor kolor pionków
+     * @return tablica możliwych ruchów dla pionków podanego koloru
+     */
     public PathsArray[][] getPossibleMoves(CheckerColor checkerColor) {
         if(checkerColor == CheckerColor.WHITE)
             return currentPossibleMovesForWhite;
         return currentPossibleMovesForBlack;
     }
 
+    /**
+     * @param x1 początkowa x-owa współrzędna pionka
+     * @param y1 początkowa y-owa współrzędna pionka
+     * @param x2 końcowa x-owa współrzędna pionka
+     * @param y2 końcowa y-owa współrzędna pionka
+     * @param checkerColor kolor pionka na polu (x1, y1)
+     * @return możliwy ruch z pola (x1, y1) na pole (x2, y2) dla pionka podanego koloru
+     */
     public CoordinatesArray getPossibleMove(int x1, int y1, int x2, int y2, CheckerColor checkerColor) {
         PathsArray paths;
         if(checkerColor == CheckerColor.WHITE)
@@ -112,6 +175,14 @@ public abstract class Board {
         return null;
     }
 
+    /**
+     * @param x1 początkowa x-owa współrzędna pionka
+     * @param y1 początkowa y-owa współrzędna pionka
+     * @param x2 końcowa x-owa współrzędna pionka
+     * @param y2 końcowa y-owa współrzędna pionka
+     * @param color kolor pionka wykonującego ruch
+     * funkcja obsługuje ruch pionka na planszy, tj. zmienia jego pozycję i ewentualnie robi go damką
+     */
     public void move(int x1, int y1, int x2, int y2, CheckerColor color) {
         pieces[x2][y2] = new Piece(pieces[x1][y1]);
         pieces[x2][y2].moveTo(x2, y2);
@@ -130,6 +201,10 @@ public abstract class Board {
         pieces[x1][y1] = null;
     }
 
+    /**
+     * @return "white", jeśli wygrał biały; "black", jeśli czarny; "draw", jeśli jest remis; null w przypadku niezakończonej gry
+     * funkcja sprawdza, czy gra się skończyła i jeśli tak, to zwraca końcowy status gry
+     */
     public String whoWins() {
         int num_of_white_pieces = 0, num_of_black_pieces = 0;
         int num_of_white_poss = 0, num_of_black_poss = 0;
@@ -160,7 +235,14 @@ public abstract class Board {
         return null;
     }
 
+    /**
+     * funkcja generuje możliwe ruchy dla danej odmiany gry
+     */
     public abstract void generatePossibleMoves();
 
+    /**
+     * @return kopia obecnej planszy
+     * funkcja kopiuje obecną planszę
+     */
     public abstract Board copy();
 }

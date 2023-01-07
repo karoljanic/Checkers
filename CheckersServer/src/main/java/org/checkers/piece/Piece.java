@@ -8,12 +8,34 @@ import org.checkers.piece.coordinate.PathsArray;
 import org.checkers.enums.CheckerColor;
 import org.checkers.enums.CheckerType;
 
+/**
+ * klasa reprezentuje pionek na planszy
+ */
 public class Piece {
+    /**
+     * współrzędne pionka
+     */
     protected Coordinate coordinate;
+    /**
+     * kolor pionka
+     */
     protected CheckerColor color;
+    /**
+     * typ pionka (normalny / damka)
+     */
     protected CheckerType type;
+    /**
+     * kierunek ruchu pionowego pionka
+     */
     protected final MoveDirection moveDirection;
 
+    /**
+     * @param x x-owa współrzędna
+     * @param y y-owa współrzędna
+     * @param color kolor pionka
+     * @param type typ pionka
+     * @param moveDirection kierunek ruchu pionowego pionka
+     */
     public Piece(int x, int y, CheckerColor color, CheckerType type, MoveDirection moveDirection) {
         this.coordinate = new Coordinate(x, y);
         this.color = color;
@@ -21,6 +43,10 @@ public class Piece {
         this.moveDirection = moveDirection;
     }
 
+    /**
+     * @param piece obiekt do skopiowania
+     * funkcja kopiuje obiekt podany jako arguemnt
+     */
     public Piece(Piece piece) {
         this.coordinate = new Coordinate(piece.coordinate);
         this.color = piece.color;
@@ -28,30 +54,58 @@ public class Piece {
         this.moveDirection = piece.moveDirection;
     }
 
+    /**
+     * @param x x-owa współrzędna
+     * @param y y-owa współrzędna
+     * funkcja wykonuje ruch pionkiem
+     */
     public void moveTo(int x, int y) {
         this.coordinate = new Coordinate(x, y);
     }
 
+    /**
+     * @return x-owa współrzędna
+     */
     public int getX() { return coordinate.getX(); }
 
+    /**
+     * @return y-owa współrzędna
+     */
     public int getY() { return coordinate.getY(); }
 
+    /**
+     * @return kolor pionka
+     */
     public CheckerColor getColor() {
         return color;
     }
 
+    /**
+     * @return typ pionka
+     */
     public CheckerType getType() {
         return type;
     }
 
+    /**
+     * @return kierunek ruchu pionowego pionka
+     */
     public MoveDirection getMoveDirection() {
         return moveDirection;
     }
 
+    /**
+     * funkcja zmienia typ pionka na damkę
+     */
     public void makeKing() {
         type = CheckerType.KING;
     }
 
+    /**
+     * @param currentBoard aktualny wygląd planszy
+     * @param attackBack czy można bić do tyłu
+     * @return możliwe ruchy dla danego pionka
+     */
     public PathsArray getPossibleMoves(Board currentBoard, boolean attackBack) {
         PathsArray pathsArray = new PathsArray();
 
@@ -81,6 +135,14 @@ public class Piece {
         return pathsArray;
     }
 
+    /**
+     * @param currentBoard aktualna plansza
+     * @param currentCoordinate aktualna współrzędna
+     * @param path aktualny wygląd ruchu
+     * @param pathsArray obiekt przechowujący wszystkie ruchy dla pionka
+     * @param attackBack czy można bić do tyłu
+     * funkcja znajduje możliwe ruchy dla pionka
+     */
     private void findNormalPieceAttacks(Board currentBoard, Coordinate currentCoordinate, CoordinatesArray path, PathsArray pathsArray, boolean attackBack) {
         if (color == CheckerColor.WHITE || (color == CheckerColor.BLACK && attackBack)) {
             findNormalPieceAttacks(currentBoard, currentCoordinate, 2, 2, path, pathsArray, attackBack);
@@ -92,6 +154,16 @@ public class Piece {
         }
     }
 
+    /**
+     * @param currentBoard aktualna plansza
+     * @param currentCoordinate aktualna współrzędna
+     * @param dx przesunięcie w ruchu w poziomie
+     * @param dy przesunięcie w ruchu w pionie
+     * @param path aktualny wygląd ruchu
+     * @param pathsArray obiekt przechowujący wszystkie ruchy dla pionka
+     * @param attackBack czy można bić do tyłu
+     * funkcja znajduje rekurencyjnie możliwe bicia dla pionka
+     */
     private void findNormalPieceAttacks(Board currentBoard, Coordinate currentCoordinate, int dx, int dy, CoordinatesArray path, PathsArray pathsArray, boolean attackBack) {
         if(currentCoordinate.getX() + dx >= currentBoard.getSize() || currentCoordinate.getY() + dy >= currentBoard.getSize())
             return;
@@ -120,6 +192,13 @@ public class Piece {
         }
     }
 
+    /**
+     * @param currentBoard aktualny wygląd planszy
+     * @param currentCoordinate aktualne pole
+     * @param path aktualny ruch
+     * @param pathsArray obiekt przechowujący wszystkie możliwe ruchy
+     * funkcja znajduje możliwe ruchy dla damki
+     */
     private void findKingPieceMoves(Board currentBoard, Coordinate currentCoordinate, CoordinatesArray path, PathsArray pathsArray) {
         findKingPieceMoves(currentBoard, currentCoordinate, false, false, 1, 1, path, pathsArray);
         findKingPieceMoves(currentBoard, currentCoordinate, false, false, -1, 1, path, pathsArray);
@@ -127,6 +206,17 @@ public class Piece {
         findKingPieceMoves(currentBoard, currentCoordinate, false, false, -1, -1, path, pathsArray);
     }
 
+    /**
+     * @param currentBoard aktualny wygląd planszy
+     * @param currentCoordinate aktualne pole
+     * @param onlyBeat czy w danym ruchu można tylko bić
+     * @param beatSide czy szukać możliwych bić prostopadle
+     * @param dx przesunięcie poziome w ruchu
+     * @param dy przesunięcie pionowe w ruchu
+     * @param path aktualny ruch
+     * @param pathsArray obiekt przechowujący wszystkie możliwe ruchy
+     * funkcja znajduje możliwe ruchy dla damki rekurencyjnie
+     */
     private void findKingPieceMoves(Board currentBoard, Coordinate currentCoordinate, boolean onlyBeat, boolean beatSide, int dx, int dy, CoordinatesArray path, PathsArray pathsArray) {
         int x = currentCoordinate.getX() + dx;
         int y = currentCoordinate.getY() + dy;
