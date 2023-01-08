@@ -6,14 +6,35 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+/**
+ * klasa obsługuje połączenie z serwerem
+ */
 public class CheckersServer implements ICheckersServer {
+    /**
+     * adres serwera
+     */
     private static final String SOCKET_HOST = "localhost";
+    /**
+     * port do połączenia z serwerem
+     */
     private static final int SOCKET_PORT = 4444;
 
+    /**
+     * gniazdo do komunikacja z serwerem
+     */
     private Socket serverSocket;
+    /**
+     * obiekt do wysyłania danych na serwer
+     */
     private PrintWriter outputStream;
+    /**
+     * obiekt do odbierania danych z serwera
+     */
     private BufferedReader inputStream;
 
+    /**
+     * konstruktor łączy się z serwerem i ustawia obiekty do komunikacji
+     */
     public CheckersServer() {
         try {
             serverSocket = new Socket(SOCKET_HOST, SOCKET_PORT);
@@ -29,16 +50,25 @@ public class CheckersServer implements ICheckersServer {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.checkers.server.ICheckersServer#initializeNewGame(org.checkers.utils.GameType)
+     */
     @Override
     public void initializeNewGame(GameType gameType) {
         outputStream.println("init-game/" + gameType.name());
     }
 
+    /* (non-Javadoc)
+     * @see org.checkers.server.ICheckersServer#checkerMove(int, int, int, int)
+     */
     @Override
     public void checkerMove(int oldX, int oldY, int newX, int newY) {
         outputStream.println(("move/" + oldX + "/" + oldY + "/" + newX + "/" + newY));
     }
 
+    /* (non-Javadoc)
+     * @see org.checkers.server.ICheckersServer#closeConnection()
+     */
     @Override
     public void closeConnection() {
         try {
@@ -50,6 +80,9 @@ public class CheckersServer implements ICheckersServer {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.checkers.server.ICheckersServer#getInput()
+     */
     @Override
     public String getInput() {
         try {

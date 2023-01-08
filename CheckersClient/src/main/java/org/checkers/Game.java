@@ -11,19 +11,38 @@ import org.checkers.server.ServerService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
+/**
+ * klasa nadzoruje przebieg gry w warcaby
+ */
 public class Game extends Application implements Runnable {
-
+    /**
+     * instancja klasy do obługi Menu
+     */
     private MenuController menuController;
+    /**
+     * instancja klasy do obsługi planszy do gry
+     */
     private BoardController boardController;
 
+    /**
+     * 0, jeśli gracz ma białe pionki i 1, jeśli czarne
+     */
     private int playerId;
+    /**
+     * true, jeśli gra powinna dalej trwać lub false, jeśli się zakończy
+     */
     private boolean keepWorking;
 
+    /* (non-Javadoc)
+     * @see javafx.application.Application#init()
+     */
     @Override
     public void init() { }
 
+    /* (non-Javadoc)
+     * @see javafx.application.Application#start(javafx.stage.Stage)
+     */
     @Override
     public void start(Stage primaryStage) {
         menuController = new MenuController(primaryStage);
@@ -38,6 +57,9 @@ public class Game extends Application implements Runnable {
         gameThread.start();
     }
 
+    /* (non-Javadoc)
+     * @see javafx.application.Application#stop()
+     */
     @Override
     public void stop() {
         keepWorking = false;
@@ -45,6 +67,9 @@ public class Game extends Application implements Runnable {
         System.exit(0);
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Runnable#run()
+     */
     @Override
     public void run() {
         while(keepWorking) {
@@ -157,5 +182,8 @@ public class Game extends Application implements Runnable {
             }
         }
     }
+    /**
+     * funkcja główna w programie uruchamia aplikację okienkową
+     */
     public static void main(String[] args) { launch(args); }
 }

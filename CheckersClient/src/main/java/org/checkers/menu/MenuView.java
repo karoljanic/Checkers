@@ -8,9 +8,20 @@ import org.checkers.utils.WindowProperties;
 
 import java.util.ArrayList;
 
+/**
+ * klasa odpowiada za wyświetlanie początkowego menu użytkownikowi
+ */
 public class MenuView extends VBox {
+    /**
+     * przyciski do wyboru rodzaju gry
+     */
     private final ArrayList<Button> buttons = new ArrayList<>();
 
+    /**
+     * @param gameTypes możliwe rodzaje gry
+     * @param menuController obiekt do obsługi działania menu
+     * konstruktor ustawia niezbędne parametry nowego obiektu i ustawia jego wygląd
+     */
     MenuView(ArrayList<String> gameTypes, MenuController menuController) {
         double buttonHeight = WindowProperties.calculateWindowStageSize() / 9.0;
         double buttonWidth = WindowProperties.calculateWindowStageSize() / 3.0;
@@ -33,6 +44,9 @@ public class MenuView extends VBox {
         }
     }
 
+    /**
+     * @return przyciski do wyboru rodzaju gry
+     */
     public ArrayList<Button> getButtons() {
         return buttons;
     }

@@ -3,7 +3,6 @@ package org.checkers.board;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
@@ -11,11 +10,28 @@ import javafx.scene.shape.Polyline;
 import org.checkers.utils.CheckerColor;
 import org.checkers.utils.WindowProperties;
 
+/**
+ * klasa obsługuje wyświetlanie planszy do gry
+ */
 public class BoardView extends GridPane {
-
+    /**
+     * pola do gry
+     */
     private final Button[][] buttons;
+    /**
+     * obiekt do obługi kliknięcia na pole
+     */
     private final BoardController boardController;
 
+    /**
+     * @param size rozmiar planszy
+     * @param pieces pionki na planszy
+     * @param possibleMoves możliwe ruchy dla pionków
+     * @param isPlayerTurn true, jeśli gracz się teraz powinien ruszyć
+     * @param isHost true, jeśli gracz ma białe pionki
+     * @param boardController obiekt do obsługi kliknięcia na pole
+     * konstruktor ustawia niezbędne parametry nowego obiektu i ustawia widok planszy
+     */
     BoardView(int size, Piece[][] pieces, short[][] possibleMoves, boolean isPlayerTurn, boolean isHost, BoardController boardController) {
         this.boardController = boardController;
         double windowSize = WindowProperties.calculateWindowStageSize();
@@ -107,6 +123,9 @@ public class BoardView extends GridPane {
         }
     }
 
+    /**
+     * @return pola na planszy
+     */
     Button[][] getButtons() {
         return buttons;
     }

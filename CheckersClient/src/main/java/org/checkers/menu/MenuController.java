@@ -12,11 +12,27 @@ import org.checkers.utils.GameType;
 
 import java.util.ArrayList;
 
+/**
+ * klasa obsługuje klasę Menu i MenuView
+ */
 public class MenuController implements EventHandler<ActionEvent> {
+    /**
+     * instancja klasy Menu
+     */
     private final Menu model;
+    /**
+     * instancja klasy MenuView
+     */
     private MenuView view;
+    /**
+     * instancja klasy Stage do wyświetlania menu
+     */
     private final Stage stage;
 
+    /**
+     * @param stage instancja klasy Stage do wyświetlania menu
+     * konstruktor ustawia niezbędne parametry nowego obiektu
+     */
     public MenuController(Stage stage) {
         ArrayList<String> gameTypes = new ArrayList<>();
         for(GameType gameType: GameType.values()) {
@@ -29,6 +45,9 @@ public class MenuController implements EventHandler<ActionEvent> {
         view = new MenuView(model.getCheckersTypes(), this);
     }
 
+    /**
+     * funkcja wyświetla menu dla użytkownika
+     */
     public void showView() {
         view = new MenuView(model.getCheckersTypes(), this);
 
@@ -39,6 +58,9 @@ public class MenuController implements EventHandler<ActionEvent> {
     }
 
 
+    /* (non-Javadoc)
+     * @see javafx.event.EventHandler#handle(javafx.event.Event)
+     */
     @Override
     public void handle(ActionEvent event) {
         Object source = event.getSource();
