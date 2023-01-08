@@ -1,12 +1,10 @@
 package org.checkers.menu;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import org.checkers.board.BoardController;
 import org.checkers.server.ServerService;
 import org.checkers.utils.GameType;
 
@@ -39,7 +37,6 @@ public class MenuController implements EventHandler<ActionEvent> {
             gameTypes.add(gameType.toString());
         }
 
-        //stage = new Stage();
         this.stage = stage;
         model = new Menu(gameTypes);
         view = new MenuView(model.getCheckersTypes(), this);
@@ -57,6 +54,12 @@ public class MenuController implements EventHandler<ActionEvent> {
         stage.setResizable(false);
     }
 
+    /**
+     * funkcja zamyka okno gry
+     */
+    public void closeStage() {
+        stage.close();
+    }
 
     /* (non-Javadoc)
      * @see javafx.event.EventHandler#handle(javafx.event.Event)

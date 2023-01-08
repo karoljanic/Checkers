@@ -111,6 +111,8 @@ public class Board {
      * funkcja zmienia podany pionek na damkę
      */
     public void makeKing(int x, int y) {
-        pieces[x][y].changeToKing();
+        if(pieces[x][y] != null) {
+            pieces[x][y].changeToKing();
+        }
     }
 }

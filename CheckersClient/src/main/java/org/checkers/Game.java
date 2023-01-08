@@ -2,6 +2,7 @@ package org.checkers;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.checkers.board.BoardController;
@@ -9,8 +10,7 @@ import org.checkers.menu.MenuController;
 import org.checkers.server.CheckersServer;
 import org.checkers.server.ServerService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.ArrayList;;
 
 /**
  * klasa nadzoruje przebieg gry w warcaby
@@ -33,6 +33,12 @@ public class Game extends Application implements Runnable {
      * true, jeśli gra powinna dalej trwać lub false, jeśli się zakończy
      */
     private boolean keepWorking;
+
+    /**
+     * komunikat konca gry
+     */
+    private String endGameMessage;
+
 
     /* (non-Javadoc)
      * @see javafx.application.Application#init()
@@ -64,7 +70,6 @@ public class Game extends Application implements Runnable {
     public void stop() {
         keepWorking = false;
         ServerService.closeConnection();
-        System.exit(0);
     }
 
     /* (non-Javadoc)
@@ -82,8 +87,6 @@ public class Game extends Application implements Runnable {
                 String command = ServerService.getInput();
                 if(command != null) {
                     String[] tokens = command.split("/");
-                    System.out.println(command);
-                    System.out.println(Arrays.toString(tokens));
 
                     if(tokens.length > 0) {
                         switch (tokens[0]) {
@@ -160,19 +163,29 @@ public class Game extends Application implements Runnable {
                                 boardController.makeKing(posX, posY);
                                 break;
                             case "bad-move":
-                                System.out.println("Bad Move");
+                                Platform.runLater(() -> {
+                                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Bad move!");
+                                    alert.showAndWait();
+                                });
                                 break;
                             default:
-                                String message = "";
                                 if (tokens[0].equals("draw"))
-                                    message = "Draw!";
-                                else if ((tokens[0].equals("white") && playerId == 0) || (tokens[0].equals("black") && playerId == 1)) {
-                                    message = "You win!";
+                                    endGameMessage = "Draw!";
+                                else if ((tokens[0].equals("black") && playerId == 1) || (tokens[0].equals("white") && playerId == 0)) {
+                                    endGameMessage = "You win - " + tokens[0] + " win!";
                                 }
                                 else
-                                    message = "You loose!";
-                                Platform.runLater(() -> {boardController.closeStage();});
-                                System.out.println(message);
+                                    endGameMessage = "You loose - " + tokens[0] + " win!";
+
+                                Platform.runLater(() -> {
+                                    Alert alert = new Alert(Alert.AlertType.INFORMATION, endGameMessage);
+                                    alert.setOnCloseRequest(event -> System.exit(0));
+                                    alert.showAndWait();
+                                });
+
+                                Platform.runLater(() -> boardController.closeStage());
+                                Platform.runLater(() -> menuController.closeStage());
+
                                 stop();
                         }
                     }

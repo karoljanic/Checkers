@@ -38,7 +38,6 @@ public class MainServer {
                 String inComm = in.readLine();
 
                 String[] command = inComm.split("/");
-                System.out.println(Arrays.toString(command));
 
                 if(command.length == 2 && Objects.equals(command[0], "init-game")) {
                     GameType type = GameType.valueOf(command[1]);

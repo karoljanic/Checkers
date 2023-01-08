@@ -42,79 +42,78 @@ public class BoardView extends GridPane {
 
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
-                Button button = new Button();
-                button.setPrefHeight(buttonSize);
-                button.setPrefWidth(buttonSize);
+                try {
+                    Button button = new Button();
+                    button.setPrefHeight(buttonSize);
+                    button.setPrefWidth(buttonSize);
 
-                button.setOnAction(boardController);
-                buttons[i][j] = button;
+                    button.setOnAction(boardController);
+                    buttons[i][j] = button;
 
-                String backgroundColor = "#BD7A44";
-                if(possibleMoves[i][j] == 2) {
-                    backgroundColor = "#B19C2B";
-                }
-                else if (possibleMoves[i][j] == 1) {
-                    backgroundColor = "#DB2727";
-                }
-                else if((i+j) % 2 == 0) {
-                    backgroundColor = "#E3C193";
-                }
-
-                button.setStyle(String.format("-fx-background-color: %s; -fx-background-radius: 0; -fx-background-insets: 0 0 -1 0, 0, 1, 2;", backgroundColor));
-
-                if(pieces[i][j] != null) {
-                    Circle circle = new Circle(pieceSize);
-                    circle.setCenterX(buttonSize / 2.0);
-                    circle.setCenterY(buttonSize / 2.0);
-
-                    if(pieces[i][j].getColor() == CheckerColor.WHITE)
-                        circle.setFill(Paint.valueOf("#FFF"));
-                    else
-                        circle.setFill(Paint.valueOf("#000"));
-
-                    if(pieces[i][j].getPossibleMoves().size() > 0 && isPlayerTurn) {
-                        circle.setStroke(Paint.valueOf("#89CE54"));
-                        circle.setStrokeWidth(5);
+                    String backgroundColor = "#BD7A44";
+                    if (possibleMoves[i][j] == 2) {
+                        backgroundColor = "#B19C2B";
+                    } else if (possibleMoves[i][j] == 1) {
+                        backgroundColor = "#DB2727";
+                    } else if ((i + j) % 2 == 0) {
+                        backgroundColor = "#E3C193";
                     }
 
-                    circle.setOnMouseClicked(mouseEvent -> button.fire());
+                    button.setStyle(String.format("-fx-background-color: %s; -fx-background-radius: 0; -fx-background-insets: 0 0 -1 0, 0, 1, 2;", backgroundColor));
 
-                    if(pieces[i][j].isKing()) {
-                        double crownCenterX = buttonSize * 0.5;
-                        double crownCenterY = buttonSize * 0.5;
-                        double crownWidth = buttonSize * 0.6;
-                        double crownHeight = buttonSize * 0.3;
-                        Polyline crown = new Polyline();
-                        crown.getPoints().addAll(
-                                crownCenterX - crownWidth * 0.5, crownCenterY - crownHeight * 0.5,
-                                crownCenterX + crownWidth * 0.5, crownCenterY - crownHeight * 0.5,
-                                crownCenterX + crownWidth * 0.5, crownCenterY + crownHeight * 0.5,
-                                crownCenterX + crownWidth * 0.25, crownCenterY,
-                                crownCenterX, crownCenterY + crownHeight * 0.5,
-                                crownCenterX - crownWidth * 0.25, crownCenterY,
-                                crownCenterX - crownWidth * 0.5, crownCenterY + crownHeight * 0.5,
-                                crownCenterX - crownWidth * 0.5, crownCenterY - crownHeight * 0.5);
+                    if (pieces[i][j] != null) {
+                        Circle circle = new Circle(pieceSize);
+                        circle.setCenterX(buttonSize / 2.0);
+                        circle.setCenterY(buttonSize / 2.0);
 
-                        if(pieces[i][j].getColor() == CheckerColor.WHITE)
-                            crown.setStroke(Paint.valueOf("#000"));
+                        if (pieces[i][j].getColor() == CheckerColor.WHITE)
+                            circle.setFill(Paint.valueOf("#FFF"));
                         else
-                            crown.setStroke(Paint.valueOf("#FFF"));
+                            circle.setFill(Paint.valueOf("#000"));
 
-                        if(!isHost) {
-                            crown.setRotate(180);
+                        if (pieces[i][j].getPossibleMoves().size() > 0 && isPlayerTurn) {
+                            circle.setStroke(Paint.valueOf("#89CE54"));
+                            circle.setStrokeWidth(5);
                         }
 
-                        Group group = new Group(button, circle, crown);
-                        add(group, i, j);
-                    }
-                    else {
-                        Group group = new Group(button, circle);
-                        add(group, i, j);
+                        circle.setOnMouseClicked(mouseEvent -> button.fire());
+
+                        if (pieces[i][j].isKing()) {
+                            double crownCenterX = buttonSize * 0.5;
+                            double crownCenterY = buttonSize * 0.5;
+                            double crownWidth = buttonSize * 0.6;
+                            double crownHeight = buttonSize * 0.3;
+                            Polyline crown = new Polyline();
+                            crown.getPoints().addAll(
+                                    crownCenterX - crownWidth * 0.5, crownCenterY - crownHeight * 0.5,
+                                    crownCenterX + crownWidth * 0.5, crownCenterY - crownHeight * 0.5,
+                                    crownCenterX + crownWidth * 0.5, crownCenterY + crownHeight * 0.5,
+                                    crownCenterX + crownWidth * 0.25, crownCenterY,
+                                    crownCenterX, crownCenterY + crownHeight * 0.5,
+                                    crownCenterX - crownWidth * 0.25, crownCenterY,
+                                    crownCenterX - crownWidth * 0.5, crownCenterY + crownHeight * 0.5,
+                                    crownCenterX - crownWidth * 0.5, crownCenterY - crownHeight * 0.5);
+
+                            if (pieces[i][j].getColor() == CheckerColor.WHITE)
+                                crown.setStroke(Paint.valueOf("#000"));
+                            else
+                                crown.setStroke(Paint.valueOf("#FFF"));
+
+                            if (!isHost) {
+                                crown.setRotate(180);
+                            }
+
+                            Group group = new Group(button, circle, crown);
+                            add(group, i, j);
+                        } else {
+                            Group group = new Group(button, circle);
+                            add(group, i, j);
+                        }
+                    } else {
+                        add(button, i, j);
                     }
                 }
-                else {
-                    add(button, i, j);
-                }
+                catch (Exception ignored) { }
             }
         }
 
