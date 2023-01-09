@@ -18,7 +18,7 @@ public class WhitePiece extends Piece {
     }
 
     /**
-     * @param blackPiece obiekt do skopiowania
+     * @param whitePiece obiekt do skopiowania
      * funkcja kopiuje obiekt podany jako argument
      */
     public WhitePiece(WhitePiece whitePiece) { super(whitePiece); }
