@@ -115,4 +115,16 @@ public class Board {
             pieces[x][y].changeToKing();
         }
     }
+    /**
+     * @param x x-owa współrzędna pionka
+     * @param y y-owa współrzędna pionka
+     * funkcja sprawdza czy pionek na dane pozycji jest damka
+     */
+    public boolean isKing(int x, int y) {
+        if(pieces[x][y] != null) {
+            return pieces[x][y].isKing();
+        }
+
+        return false;
+    }
 }
