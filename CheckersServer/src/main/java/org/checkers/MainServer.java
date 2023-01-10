@@ -55,6 +55,7 @@ public class MainServer {
             System.out.println("Server exception: " + ex.getMessage());
             ex.printStackTrace();
         }
+        catch (final Exception ignored) { }
     }
 
     /**

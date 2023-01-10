@@ -165,14 +165,15 @@ public abstract class Board {
         else
             paths = currentPossibleMovesForBlack[x1][y1];
 
+        CoordinatesArray resultPath = null;
         for(CoordinatesArray path: paths.getList()) {
             Coordinate lastCoordinate = path.getList().get(path.size() - 1);
             if(lastCoordinate.getX() == x2 && lastCoordinate.getY() == y2) {
-                return path;
+                resultPath = path;
             }
         }
 
-        return null;
+        return resultPath;
     }
 
     /**
@@ -206,6 +207,7 @@ public abstract class Board {
      * funkcja sprawdza, czy gra się skończyła i jeśli tak, to zwraca końcowy status gry
      */
     public String whoWins() {
+        generatePossibleMoves();
         int num_of_white_pieces = 0, num_of_black_pieces = 0;
         int num_of_white_poss = 0, num_of_black_poss = 0;
 
