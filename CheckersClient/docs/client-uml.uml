@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/home/karoljanic/Documents/projects/Checkers/CheckersClient/src/main/java</OriginalElement>
+  <nodes>
+    <node x="-114.56686046511618" y="1486.0">org.checkers.server.CheckersServer</node>
+    <node x="1724.5" y="1528.0">org.checkers.menu.MenuController</node>
+    <node x="-114.56686046511618" y="920.0">org.checkers.server.ICheckersServer</node>
+    <node x="1308.625" y="1528.0">org.checkers.utils.GameType</node>
+    <node x="519.7500000000001" y="1318.0">org.checkers.board.BoardController</node>
+    <node x="1839.3081395348838" y="931.0">org.checkers.menu.MenuView</node>
+    <node x="1139.0581395348838" y="-19.0">org.checkers.utils.CheckerColor</node>
+    <node x="823.0581395348838" y="-19.0">org.checkers.utils.CheckerType</node>
+    <node x="-126.0" y="2097.0">org.checkers.server.ServerService</node>
+    <node x="1127.6831395348838" y="2041.0">org.checkers.Game</node>
+    <node x="834.3081395348838" y="735.0">org.checkers.board.Board</node>
+    <node x="1446.3081395348838" y="931.0">org.checkers.menu.Menu</node>
+    <node x="831.3081395348838" y="218.0">org.checkers.board.Piece</node>
+    <node x="275.3081395348838" y="917.0">org.checkers.board.BoardView</node>
+    <node x="1679.5" y="2296.0">org.checkers.utils.WindowProperties</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.checkers.board.Board" target="org.checkers.board.Piece" relationship="CREATE">
+      <point x="148.0" y="-261.5" />
+      <point x="1278.3081395348838" y="710.0" />
+      <point x="1279.8081395348838" y="710.0" />
+      <point x="149.5" y="233.5" />
+    </edge>
+    <edge source="org.checkers.board.Piece" target="org.checkers.utils.CheckerColor" relationship="TO_ONE">
+      <point x="0.0" y="-233.5" />
+      <point x="1130.3081395348838" y="193.0" />
+      <point x="1289.5581395348838" y="193.0" />
+      <point x="0.0" y="93.5" />
+    </edge>
+    <edge source="org.checkers.Game" target="org.checkers.board.BoardController" relationship="TO_ONE">
+      <point x="81.75" y="-177.5" />
+      <point x="1372.9331395348838" y="2021.0" />
+      <point x="1861.5" y="2021.0" />
+      <point x="1861.5" y="2001.0" />
+      <point x="1007.25" y="2001.0" />
+      <point x="162.5" y="331.5" />
+    </edge>
+    <edge source="org.checkers.Game" target="org.checkers.menu.MenuController" relationship="TO_ONE">
+      <point x="81.75" y="-177.5" />
+      <point x="1372.9331395348838" y="2021.0" />
+      <point x="1861.5" y="2021.0" />
+      <point x="1861.5" y="2001.0" />
+      <point x="1922.5" y="2001.0" />
+      <point x="66.0" y="121.5" />
+    </edge>
+    <edge source="org.checkers.board.BoardController" target="org.checkers.board.BoardView" relationship="TO_ONE">
+      <point x="-162.5" y="-331.5" />
+      <point x="682.2500000000001" y="1298.0" />
+      <point x="540.3750000000001" y="1298.0" />
+      <point x="540.3750000000001" y="1288.0" />
+      <point x="410.0581395348838" y="1288.0" />
+      <point x="-134.75" y="79.5" />
+    </edge>
+    <edge source="org.checkers.board.BoardView" target="org.checkers.board.BoardController" relationship="TO_ONE">
+      <point x="-134.75" y="79.5" />
+      <point x="410.0581395348838" y="1288.0" />
+      <point x="540.3750000000001" y="1288.0" />
+      <point x="540.3750000000001" y="1298.0" />
+      <point x="682.2500000000001" y="1298.0" />
+      <point x="-162.5" y="-331.5" />
+    </edge>
+    <edge source="org.checkers.board.Piece" target="org.checkers.utils.CheckerType" relationship="TO_ONE">
+      <point x="0.0" y="-233.5" />
+      <point x="1130.3081395348838" y="193.0" />
+      <point x="971.0581395348838" y="193.0" />
+      <point x="0.0" y="93.5" />
+    </edge>
+    <edge source="org.checkers.board.Board" target="org.checkers.board.Piece" relationship="TO_MANY">
+      <point x="-148.0" y="-261.5" />
+      <point x="982.3081395348838" y="710.0" />
+      <point x="980.8081395348838" y="710.0" />
+      <point x="-149.5" y="233.5" />
+    </edge>
+    <edge source="org.checkers.menu.MenuController" target="org.checkers.menu.MenuView" relationship="CREATE">
+      <point x="66.0" y="-121.5" />
+      <point x="1922.5" y="1298.0" />
+      <point x="2066.875" y="1298.0" />
+      <point x="2066.875" y="1278.0" />
+      <point x="2172.3081395348836" y="1278.0" />
+      <point x="111.0" y="65.5" />
+    </edge>
+    <edge source="org.checkers.Game" target="org.checkers.menu.MenuController" relationship="CREATE">
+      <point x="-81.75" y="-177.5" />
+      <point x="1209.4331395348838" y="2021.0" />
+      <point x="839.1831395348838" y="2021.0" />
+      <point x="839.1831395348838" y="2011.0" />
+      <point x="1790.5" y="2011.0" />
+      <point x="-66.0" y="121.5" />
+    </edge>
+    <edge source="org.checkers.Game" target="org.checkers.board.BoardController" relationship="CREATE">
+      <point x="-81.75" y="-177.5" />
+      <point x="1209.4331395348838" y="2021.0" />
+      <point x="839.1831395348838" y="2021.0" />
+      <point x="839.1831395348838" y="2011.0" />
+      <point x="682.2500000000001" y="2011.0" />
+      <point x="-162.5" y="331.5" />
+    </edge>
+    <edge source="org.checkers.board.BoardController" target="org.checkers.board.Board" relationship="TO_ONE">
+      <point x="-162.5" y="-331.5" />
+      <point x="682.2500000000001" y="1298.0" />
+      <point x="540.3750000000001" y="1298.0" />
+      <point x="540.3750000000001" y="1288.0" />
+      <point x="982.3081395348838" y="1288.0" />
+      <point x="-148.0" y="261.5" />
+    </edge>
+    <edge source="org.checkers.server.ServerService" target="org.checkers.server.CheckersServer" relationship="TO_ONE">
+      <point x="0.0" y="-121.5" />
+      <point x="59.0" y="2021.0" />
+      <point x="-25.56686046511618" y="2021.0" />
+      <point x="-89.0" y="163.5" />
+    </edge>
+    <edge source="org.checkers.board.BoardController" target="org.checkers.board.Board" relationship="CREATE">
+      <point x="162.5" y="-331.5" />
+      <point x="1007.25" y="1298.0" />
+      <point x="1135.875" y="1298.0" />
+      <point x="1135.875" y="1278.0" />
+      <point x="1278.3081395348838" y="1278.0" />
+      <point x="148.0" y="261.5" />
+    </edge>
+    <edge source="org.checkers.menu.MenuController" target="org.checkers.menu.Menu" relationship="TO_ONE">
+      <point x="-66.0" y="-121.5" />
+      <point x="1790.5" y="1298.0" />
+      <point x="1628.375" y="1298.0" />
+      <point x="1628.375" y="1288.0" />
+      <point x="1539.5581395348838" y="1288.0" />
+      <point x="-93.25" y="65.5" />
+    </edge>
+    <edge source="org.checkers.menu.MenuController" target="org.checkers.menu.MenuView" relationship="TO_ONE">
+      <point x="-66.0" y="-121.5" />
+      <point x="1790.5" y="1298.0" />
+      <point x="1628.375" y="1298.0" />
+      <point x="1628.375" y="1288.0" />
+      <point x="1950.3081395348836" y="1288.0" />
+      <point x="-111.0" y="65.5" />
+    </edge>
+    <edge source="org.checkers.Game" target="org.checkers.server.CheckersServer" relationship="CREATE">
+      <point x="-81.75" y="-177.5" />
+      <point x="1209.4331395348838" y="2021.0" />
+      <point x="839.1831395348838" y="2021.0" />
+      <point x="839.1831395348838" y="2011.0" />
+      <point x="152.43313953488382" y="2011.0" />
+      <point x="89.0" y="163.5" />
+    </edge>
+    <edge source="org.checkers.server.CheckersServer" target="org.checkers.server.ICheckersServer" relationship="REALIZATION">
+      <point x="0.0" y="-163.5" />
+      <point x="0.0" y="76.5" />
+    </edge>
+    <edge source="org.checkers.board.BoardController" target="org.checkers.board.BoardView" relationship="CREATE">
+      <point x="162.5" y="-331.5" />
+      <point x="1007.25" y="1298.0" />
+      <point x="1135.875" y="1298.0" />
+      <point x="1135.875" y="1278.0" />
+      <point x="679.5581395348838" y="1278.0" />
+      <point x="134.75" y="79.5" />
+    </edge>
+    <edge source="org.checkers.menu.MenuController" target="org.checkers.menu.Menu" relationship="CREATE">
+      <point x="66.0" y="-121.5" />
+      <point x="1922.5" y="1298.0" />
+      <point x="2066.875" y="1298.0" />
+      <point x="2066.875" y="1278.0" />
+      <point x="1726.0581395348838" y="1278.0" />
+      <point x="93.25" y="65.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.31589147286821706" showDependencies="true" x="1250.0" y="1271.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
