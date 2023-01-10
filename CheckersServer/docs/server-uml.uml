@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/home/karoljanic/Documents/projects/Checkers/CheckersServer/src/main/java</OriginalElement>
+  <nodes>
+    <node x="1081.3489130434782" y="934.0">org.checkers.piece.Piece</node>
+    <node x="963.2152173913041" y="1521.0">org.checkers.boards.Board</node>
+    <node x="2210.554347826087" y="1706.0">org.checkers.piece.WhitePiece</node>
+    <node x="1643.25" y="637.0">org.checkers.piece.coordinate.PathsArray</node>
+    <node x="876.4999999999999" y="-19.0">org.checkers.piece.coordinate.Coordinate</node>
+    <node x="1790.5989130434782" y="1706.0">org.checkers.piece.BlackPiece</node>
+    <node x="1631.1793478260868" y="2130.0">org.checkers.boards.InternationalBoard</node>
+    <node x="320.67934782608677" y="2130.0">org.checkers.CheckersGame</node>
+    <node x="764.6793478260868" y="2144.0">org.checkers.enums.GameType</node>
+    <node x="-127.0" y="2509.0">org.checkers.utils.CustomClock</node>
+    <node x="1302.1793478260868" y="2130.0">org.checkers.boards.ThaiBoard</node>
+    <node x="574.4293478260868" y="2336.0">org.checkers.MainServer</node>
+    <node x="637.2239130434781" y="650.0">org.checkers.enums.MoveDirection</node>
+    <node x="0.2239130434782055" y="680.0">org.checkers.enums.CheckerType</node>
+    <node x="316.2239130434781" y="680.0">org.checkers.enums.CheckerColor</node>
+    <node x="2032.179347826087" y="2130.0">org.checkers.boards.BrazilianBoard</node>
+    <node x="338.55434782608677" y="1691.0">org.checkers.enums.GameStatus</node>
+    <node x="1677.1793478260868" y="2335.0">org.checkers.boards.BoardFactory</node>
+    <node x="1359.875" y="256.0">org.checkers.piece.coordinate.CoordinatesArray</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.checkers.boards.BrazilianBoard" target="org.checkers.boards.Board" relationship="GENERALIZATION">
+      <point x="-78.0" y="-77.5" />
+      <point x="2110.179347826087" y="2039.0" />
+      <point x="1308.4293478260868" y="2039.0" />
+      <point x="1308.4293478260868" y="2029.0" />
+      <point x="1410.2152173913041" y="2029.0" />
+      <point x="149.0" y="233.5" />
+    </edge>
+    <edge source="org.checkers.boards.Board" target="org.checkers.piece.coordinate.PathsArray" relationship="TO_MANY">
+      <point x="149.0" y="-233.5" />
+      <point x="1410.2152173913041" y="1499.0" />
+      <point x="1443.3489130434782" y="1499.0" />
+      <point x="1443.3489130434782" y="1489.0" />
+      <point x="1694.8489130434782" y="1489.0" />
+      <point x="1694.8489130434782" y="872.0" />
+      <point x="1725.25" y="872.0" />
+      <point x="-82.0" y="106.5" />
+    </edge>
+    <edge source="org.checkers.CheckersGame" target="org.checkers.boards.Board" relationship="TO_ONE">
+      <point x="106.0" y="-77.5" />
+      <point x="638.6793478260868" y="2109.0" />
+      <point x="610.4293478260868" y="2109.0" />
+      <point x="610.4293478260868" y="2099.0" />
+      <point x="1112.2152173913041" y="2099.0" />
+      <point x="-149.0" y="233.5" />
+    </edge>
+    <edge source="org.checkers.piece.Piece" target="org.checkers.enums.CheckerType" relationship="TO_ONE">
+      <point x="-150.75" y="-261.5" />
+      <point x="1232.0989130434782" y="912.0" />
+      <point x="312.0891304347824" y="912.0" />
+      <point x="312.0891304347824" y="902.0" />
+      <point x="148.2239130434782" y="902.0" />
+      <point x="0.0" y="63.5" />
+    </edge>
+    <edge source="org.checkers.piece.WhitePiece" target="org.checkers.piece.Piece" relationship="GENERALIZATION">
+      <point x="0.0" y="-48.5" />
+      <point x="2343.554347826087" y="1499.0" />
+      <point x="2089.5" y="1499.0" />
+      <point x="2089.5" y="1479.0" />
+      <point x="1583.8489130434782" y="1479.0" />
+      <point x="201.0" y="261.5" />
+    </edge>
+    <edge source="org.checkers.piece.Piece" target="org.checkers.enums.CheckerColor" relationship="TO_ONE">
+      <point x="-150.75" y="-261.5" />
+      <point x="1232.0989130434782" y="912.0" />
+      <point x="312.0891304347824" y="912.0" />
+      <point x="312.0891304347824" y="902.0" />
+      <point x="466.7239130434781" y="902.0" />
+      <point x="0.0" y="63.5" />
+    </edge>
+    <edge source="org.checkers.piece.BlackPiece" target="org.checkers.piece.Piece" relationship="GENERALIZATION">
+      <point x="0.0" y="-48.5" />
+      <point x="1917.0989130434782" y="1499.0" />
+      <point x="2089.5" y="1499.0" />
+      <point x="2089.5" y="1479.0" />
+      <point x="1583.8489130434782" y="1479.0" />
+      <point x="201.0" y="261.5" />
+    </edge>
+    <edge source="org.checkers.boards.InternationalBoard" target="org.checkers.boards.Board" relationship="GENERALIZATION">
+      <point x="-95.25" y="-77.5" />
+      <point x="1726.4293478260868" y="2039.0" />
+      <point x="1308.4293478260868" y="2039.0" />
+      <point x="1308.4293478260868" y="2029.0" />
+      <point x="1410.2152173913041" y="2029.0" />
+      <point x="149.0" y="233.5" />
+    </edge>
+    <edge source="org.checkers.piece.Piece" target="org.checkers.piece.coordinate.Coordinate" relationship="TO_ONE">
+      <point x="-150.75" y="-261.5" />
+      <point x="1232.0989130434782" y="912.0" />
+      <point x="312.0891304347824" y="912.0" />
+      <point x="312.0891304347824" y="902.0" />
+      <point x="-10.276086956521794" y="902.0" />
+      <point x="-10.276086956521794" y="235.0" />
+      <point x="1000.5" y="235.0" />
+      <point x="1000.5" y="215.0" />
+      <point x="941.0" y="215.0" />
+      <point x="-64.5" y="106.5" />
+    </edge>
+    <edge source="org.checkers.CheckersGame" target="org.checkers.piece.coordinate.CoordinatesArray" relationship="CREATE">
+      <point x="-106.0" y="-77.5" />
+      <point x="426.67934782608677" y="2109.0" />
+      <point x="-127.0" y="2109.0" />
+      <point x="-127.0" y="615.0" />
+      <point x="1302.5891304347824" y="615.0" />
+      <point x="1302.5891304347824" y="605.0" />
+      <point x="1450.125" y="605.0" />
+      <point x="-90.25" y="163.5" />
+    </edge>
+    <edge source="org.checkers.boards.Board" target="org.checkers.piece.Piece" relationship="TO_MANY">
+      <point x="149.0" y="-233.5" />
+      <point x="1410.2152173913041" y="1499.0" />
+      <point x="1443.3489130434782" y="1499.0" />
+      <point x="1443.3489130434782" y="1489.0" />
+      <point x="1382.8489130434782" y="1489.0" />
+      <point x="0.0" y="261.5" />
+    </edge>
+    <edge source="org.checkers.MainServer" target="org.checkers.CheckersGame" relationship="CREATE">
+      <point x="-71.75" y="-63.5" />
+      <point x="646.1793478260868" y="2310.0" />
+      <point x="532.6793478260868" y="2310.0" />
+      <point x="0.0" y="77.5" />
+    </edge>
+    <edge source="org.checkers.piece.coordinate.PathsArray" target="org.checkers.piece.coordinate.CoordinatesArray" relationship="CREATE">
+      <point x="-82.0" y="-106.5" />
+      <point x="1725.25" y="615.0" />
+      <point x="1302.5891304347824" y="615.0" />
+      <point x="1302.5891304347824" y="605.0" />
+      <point x="1450.125" y="605.0" />
+      <point x="-90.25" y="163.5" />
+    </edge>
+    <edge source="org.checkers.piece.coordinate.CoordinatesArray" target="org.checkers.piece.coordinate.Coordinate" relationship="TO_MANY">
+      <point x="-90.25" y="-163.5" />
+      <point x="1450.125" y="235.0" />
+      <point x="1000.5" y="235.0" />
+      <point x="1000.5" y="215.0" />
+      <point x="941.0" y="215.0" />
+      <point x="-64.5" y="106.5" />
+    </edge>
+    <edge source="org.checkers.MainServer" target="org.checkers.enums.GameType" relationship="TO_MANY">
+      <point x="71.75" y="-63.5" />
+      <point x="789.6793478260868" y="2310.0" />
+      <point x="903.1793478260868" y="2310.0" />
+      <point x="0.0" y="63.5" />
+    </edge>
+    <edge source="org.checkers.CheckersGame" target="org.checkers.enums.GameStatus" relationship="TO_ONE">
+      <point x="106.0" y="-77.5" />
+      <point x="638.6793478260868" y="2109.0" />
+      <point x="610.4293478260868" y="2109.0" />
+      <point x="610.4293478260868" y="2099.0" />
+      <point x="483.55434782608677" y="2099.0" />
+      <point x="0.0" y="63.5" />
+    </edge>
+    <edge source="org.checkers.boards.InternationalBoard" target="org.checkers.piece.WhitePiece" relationship="CREATE">
+      <point x="95.25" y="-77.5" />
+      <point x="1916.9293478260868" y="2109.0" />
+      <point x="2161.25" y="2109.0" />
+      <point x="2161.25" y="2079.0" />
+      <point x="2343.554347826087" y="2079.0" />
+      <point x="0.0" y="48.5" />
+    </edge>
+    <edge source="org.checkers.boards.BrazilianBoard" target="org.checkers.piece.WhitePiece" relationship="CREATE">
+      <point x="78.0" y="-77.5" />
+      <point x="2266.179347826087" y="2109.0" />
+      <point x="2447.955434782609" y="2109.0" />
+      <point x="2447.955434782609" y="2009.0" />
+      <point x="2343.554347826087" y="2009.0" />
+      <point x="0.0" y="48.5" />
+    </edge>
+    <edge source="org.checkers.boards.ThaiBoard" target="org.checkers.piece.WhitePiece" relationship="CREATE">
+      <point x="77.25" y="-77.5" />
+      <point x="1533.9293478260868" y="2109.0" />
+      <point x="1812.75" y="2109.0" />
+      <point x="1812.75" y="2069.0" />
+      <point x="2343.554347826087" y="2069.0" />
+      <point x="0.0" y="48.5" />
+    </edge>
+    <edge source="org.checkers.piece.Piece" target="org.checkers.piece.coordinate.PathsArray" relationship="CREATE">
+      <point x="150.75" y="-261.5" />
+      <point x="1533.5989130434782" y="902.0" />
+      <point x="1014.3489130434782" y="902.0" />
+      <point x="1014.3489130434782" y="882.0" />
+      <point x="1812.75" y="882.0" />
+      <point x="1812.75" y="872.0" />
+      <point x="1889.25" y="872.0" />
+      <point x="82.0" y="106.5" />
+    </edge>
+    <edge source="org.checkers.boards.BrazilianBoard" target="org.checkers.piece.coordinate.PathsArray" relationship="CREATE">
+      <point x="78.0" y="-77.5" />
+      <point x="2266.179347826087" y="2109.0" />
+      <point x="2447.955434782609" y="2109.0" />
+      <point x="2447.955434782609" y="2099.0" />
+      <point x="2519.705434782609" y="2099.0" />
+      <point x="2519.705434782609" y="892.0" />
+      <point x="1812.75" y="892.0" />
+      <point x="1812.75" y="872.0" />
+      <point x="1889.25" y="872.0" />
+      <point x="82.0" y="106.5" />
+    </edge>
+    <edge source="org.checkers.boards.BoardFactory" target="org.checkers.boards.BrazilianBoard" relationship="CREATE">
+      <point x="0.0" y="-64.5" />
+      <point x="1821.6793478260868" y="2310.0" />
+      <point x="2188.179347826087" y="2310.0" />
+      <point x="0.0" y="77.5" />
+    </edge>
+    <edge source="org.checkers.boards.InternationalBoard" target="org.checkers.piece.coordinate.PathsArray" relationship="CREATE">
+      <point x="95.25" y="-77.5" />
+      <point x="1916.9293478260868" y="2109.0" />
+      <point x="2161.25" y="2109.0" />
+      <point x="2161.25" y="2089.0" />
+      <point x="2487.054347826087" y="2089.0" />
+      <point x="2487.054347826087" y="892.0" />
+      <point x="1812.75" y="892.0" />
+      <point x="1812.75" y="872.0" />
+      <point x="1889.25" y="872.0" />
+      <point x="82.0" y="106.5" />
+    </edge>
+    <edge source="org.checkers.boards.Board" target="org.checkers.piece.coordinate.CoordinatesArray" relationship="CREATE">
+      <point x="-149.0" y="-233.5" />
+      <point x="1112.2152173913041" y="1499.0" />
+      <point x="937.2152173913041" y="1499.0" />
+      <point x="937.2152173913041" y="1489.0" />
+      <point x="-21.276086956521794" y="1489.0" />
+      <point x="-21.276086956521794" y="615.0" />
+      <point x="1302.5891304347824" y="615.0" />
+      <point x="1302.5891304347824" y="605.0" />
+      <point x="1450.125" y="605.0" />
+      <point x="-90.25" y="163.5" />
+    </edge>
+    <edge source="org.checkers.boards.Board" target="org.checkers.piece.coordinate.PathsArray" relationship="CREATE">
+      <point x="-149.0" y="-233.5" />
+      <point x="1112.2152173913041" y="1499.0" />
+      <point x="937.2152173913041" y="1499.0" />
+      <point x="937.2152173913041" y="1489.0" />
+      <point x="1070.8489130434782" y="1489.0" />
+      <point x="1070.8489130434782" y="892.0" />
+      <point x="1812.75" y="892.0" />
+      <point x="1812.75" y="872.0" />
+      <point x="1889.25" y="872.0" />
+      <point x="82.0" y="106.5" />
+    </edge>
+    <edge source="org.checkers.piece.Piece" target="org.checkers.enums.MoveDirection" relationship="TO_ONE">
+      <point x="-150.75" y="-261.5" />
+      <point x="1232.0989130434782" y="912.0" />
+      <point x="312.0891304347824" y="912.0" />
+      <point x="312.0891304347824" y="902.0" />
+      <point x="792.7239130434781" y="902.0" />
+      <point x="0.0" y="93.5" />
+    </edge>
+    <edge source="org.checkers.boards.ThaiBoard" target="org.checkers.boards.Board" relationship="GENERALIZATION">
+      <point x="-77.25" y="-77.5" />
+      <point x="1379.4293478260868" y="2039.0" />
+      <point x="1308.4293478260868" y="2039.0" />
+      <point x="1308.4293478260868" y="2029.0" />
+      <point x="1410.2152173913041" y="2029.0" />
+      <point x="149.0" y="233.5" />
+    </edge>
+    <edge source="org.checkers.boards.InternationalBoard" target="org.checkers.piece.BlackPiece" relationship="CREATE">
+      <point x="95.25" y="-77.5" />
+      <point x="1916.9293478260868" y="2109.0" />
+      <point x="2161.25" y="2109.0" />
+      <point x="2161.25" y="2029.0" />
+      <point x="1917.0989130434782" y="2029.0" />
+      <point x="0.0" y="48.5" />
+    </edge>
+    <edge source="org.checkers.boards.ThaiBoard" target="org.checkers.piece.coordinate.PathsArray" relationship="CREATE">
+      <point x="77.25" y="-77.5" />
+      <point x="1533.9293478260868" y="2109.0" />
+      <point x="1812.75" y="2109.0" />
+      <point x="1812.75" y="2049.0" />
+      <point x="1780.0989130434782" y="2049.0" />
+      <point x="1780.0989130434782" y="892.0" />
+      <point x="1812.75" y="892.0" />
+      <point x="1812.75" y="872.0" />
+      <point x="1889.25" y="872.0" />
+      <point x="82.0" y="106.5" />
+    </edge>
+    <edge source="org.checkers.boards.Board" target="org.checkers.piece.Piece" relationship="CREATE">
+      <point x="-149.0" y="-233.5" />
+      <point x="1112.2152173913041" y="1499.0" />
+      <point x="937.2152173913041" y="1499.0" />
+      <point x="937.2152173913041" y="1489.0" />
+      <point x="1181.8489130434782" y="1489.0" />
+      <point x="-201.0" y="261.5" />
+    </edge>
+    <edge source="org.checkers.boards.BoardFactory" target="org.checkers.boards.ThaiBoard" relationship="CREATE">
+      <point x="0.0" y="-64.5" />
+      <point x="1821.6793478260868" y="2310.0" />
+      <point x="1456.6793478260868" y="2310.0" />
+      <point x="0.0" y="77.5" />
+    </edge>
+    <edge source="org.checkers.piece.Piece" target="org.checkers.piece.coordinate.Coordinate" relationship="CREATE">
+      <point x="150.75" y="-261.5" />
+      <point x="1533.5989130434782" y="902.0" />
+      <point x="1014.3489130434782" y="902.0" />
+      <point x="1014.3489130434782" y="872.0" />
+      <point x="958.7239130434782" y="872.0" />
+      <point x="958.7239130434782" y="225.0" />
+      <point x="1490.0" y="225.0" />
+      <point x="1490.0" y="215.0" />
+      <point x="1070.0" y="215.0" />
+      <point x="64.5" y="106.5" />
+    </edge>
+    <edge source="org.checkers.boards.BoardFactory" target="org.checkers.boards.InternationalBoard" relationship="CREATE">
+      <point x="0.0" y="-64.5" />
+      <point x="0.0" y="77.5" />
+    </edge>
+    <edge source="org.checkers.piece.coordinate.CoordinatesArray" target="org.checkers.piece.coordinate.Coordinate" relationship="CREATE">
+      <point x="90.25" y="-163.5" />
+      <point x="1630.625" y="225.0" />
+      <point x="1490.0" y="225.0" />
+      <point x="1490.0" y="215.0" />
+      <point x="1070.0" y="215.0" />
+      <point x="64.5" y="106.5" />
+    </edge>
+    <edge source="org.checkers.piece.coordinate.PathsArray" target="org.checkers.piece.coordinate.CoordinatesArray" relationship="TO_MANY">
+      <point x="82.0" y="-106.5" />
+      <point x="1889.25" y="605.0" />
+      <point x="1630.625" y="605.0" />
+      <point x="90.25" y="163.5" />
+    </edge>
+    <edge source="org.checkers.piece.Piece" target="org.checkers.piece.coordinate.CoordinatesArray" relationship="CREATE">
+      <point x="150.75" y="-261.5" />
+      <point x="1533.5989130434782" y="902.0" />
+      <point x="1014.3489130434782" y="902.0" />
+      <point x="1014.3489130434782" y="615.0" />
+      <point x="1302.5891304347824" y="615.0" />
+      <point x="1302.5891304347824" y="605.0" />
+      <point x="1450.125" y="605.0" />
+      <point x="-90.25" y="163.5" />
+    </edge>
+    <edge source="org.checkers.boards.ThaiBoard" target="org.checkers.piece.BlackPiece" relationship="CREATE">
+      <point x="77.25" y="-77.5" />
+      <point x="1533.9293478260868" y="2109.0" />
+      <point x="1812.75" y="2109.0" />
+      <point x="1812.75" y="2059.0" />
+      <point x="1917.0989130434782" y="2059.0" />
+      <point x="0.0" y="48.5" />
+    </edge>
+    <edge source="org.checkers.boards.BrazilianBoard" target="org.checkers.piece.BlackPiece" relationship="CREATE">
+      <point x="78.0" y="-77.5" />
+      <point x="2266.179347826087" y="2109.0" />
+      <point x="2447.955434782609" y="2109.0" />
+      <point x="2447.955434782609" y="2019.0" />
+      <point x="1917.0989130434782" y="2019.0" />
+      <point x="0.0" y="48.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.1832262939176426" showDependencies="true" x="1206.5" y="1304.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
