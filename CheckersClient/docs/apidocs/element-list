@@ -1,0 +1,5 @@
+org.checkers
+org.checkers.board
+org.checkers.menu
+org.checkers.server
+org.checkers.utils

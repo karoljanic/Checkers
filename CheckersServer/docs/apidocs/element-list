@@ -1,0 +1,7 @@
+module:org.checkers
+org.checkers
+org.checkers.boards
+org.checkers.enums
+org.checkers.piece
+org.checkers.piece.coordinate
+org.checkers.utils

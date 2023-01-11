@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"org.checkers","l":"org.checkers"},{"m":"org.checkers","l":"org.checkers.boards"},{"m":"org.checkers","l":"org.checkers.enums"},{"m":"org.checkers","l":"org.checkers.piece"},{"m":"org.checkers","l":"org.checkers.piece.coordinate"},{"m":"org.checkers","l":"org.checkers.utils"}];updateSearchResults();
