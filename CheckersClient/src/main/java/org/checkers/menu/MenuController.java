@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import org.checkers.board.BoardController;
 import org.checkers.server.ServerService;
 import org.checkers.utils.GameType;
 

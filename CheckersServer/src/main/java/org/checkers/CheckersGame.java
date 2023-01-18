@@ -127,14 +127,14 @@ public class CheckersGame implements Runnable {
                             Coordinate last = path.getList().get(i - 1);
                             Coordinate now = path.getList().get(i);
 
+                            CustomClock.waitMillis(200);
+
                             out.println("update-piece-position/" + last.getX() + "/" + last.getY() + "/" + now.getX() + "/" + now.getY());
                             otherOut.println("update-piece-position/" + last.getX() + "/" + last.getY() + "/" + now.getX() + "/" + now.getY());
 
                             int dx = now.getX() > last.getX() ? 1 : -1;
                             int dy = now.getY() > last.getY() ? 1 : -1;
                             int steps = Math.abs(now.getX() - last.getX());
-
-                            CustomClock.waitMillis(200);
 
                             for (int x = last.getX(), y = last.getY(), iter = 0; iter < steps; iter++, x += dx, y += dy) {
                                 if (board.coordinateIsWithPiece(x, y, otherColor)) {

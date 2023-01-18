@@ -14,7 +14,7 @@ public class MainServer {
     /**
      * port, na którym serwer czeka na połączenie
      */
-    private static final int SOCKET_PORT = 4444;
+    private static final int SOCKET_PORT = 5555;
     /**
      * kolejka klientów czekających na połączenie
      */

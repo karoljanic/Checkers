@@ -13,7 +13,7 @@ public class CheckersServer implements ICheckersServer {
     /**
      * adres serwera
      */
-    private static final String SOCKET_HOST = "localhost";
+    private static final String SOCKET_HOST = "192.168.112.129";
     /**
      * port do połączenia z serwerem
      */
