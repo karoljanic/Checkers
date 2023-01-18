@@ -43,10 +43,18 @@ public class MainServer {
                     GameType type = GameType.valueOf(command[1]);
                     System.out.println("New client connected: " + type);
 
-                    waitingForGame.get(type).add(socket);
+                    //==========TEST FOR BOT
+                    Board board = BoardFactory.getFactory().getBoard(type);
+                    Thread checkersGameThread = new Thread(new BotCheckersGame(socket, board));
+                    checkersGameThread.start();
+                    continue;
+                    //==========
+
+                    //UNCOMMENT BEFORE COMMITING
+                    /*waitingForGame.get(type).add(socket);
                     if (waitingForGame.get(type).size() >= 2) {
                         startGame(type);
-                    }
+                    }*/
                 }
 
             }
