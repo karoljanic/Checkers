@@ -2,8 +2,6 @@ package org.checkers.boards;
 
 import org.checkers.enums.CheckerColor;
 import org.checkers.piece.coordinate.CoordinatesArray;
-import org.checkers.piece.coordinate.PathsArray;
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
