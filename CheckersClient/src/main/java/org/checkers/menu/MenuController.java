@@ -71,7 +71,7 @@ public class MenuController implements EventHandler<ActionEvent> {
         for(Button button: view.getButtons()) {
             if(source.equals(button)) {
                 GameType gameType = GameType.valueOf(button.getText());
-                ServerService.initializeCheckers(gameType);
+                ServerService.initializeCheckers(gameType, view.playAgainstBot());
             }
         }
     }

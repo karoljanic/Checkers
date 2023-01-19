@@ -2,6 +2,7 @@ package org.checkers.menu;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import org.checkers.utils.WindowProperties;
@@ -16,6 +17,10 @@ public class MenuView extends VBox {
      * przyciski do wyboru rodzaju gry
      */
     private final ArrayList<Button> buttons = new ArrayList<>();
+    /**
+     * checkbox daje wybór użytkownikowi, czy chce grać z botem
+     */
+    private final CheckBox againstBotCheckBox;
 
     /**
      * @param gameTypes możliwe rodzaje gry
@@ -42,6 +47,10 @@ public class MenuView extends VBox {
             getChildren().add(button);
             buttons.add(button);
         }
+
+        againstBotCheckBox = new CheckBox("I want to play against bot");
+        againstBotCheckBox.setPrefHeight(buttonWidth / 6.0);
+        getChildren().add(againstBotCheckBox);
     }
 
     /**
@@ -49,5 +58,9 @@ public class MenuView extends VBox {
      */
     public ArrayList<Button> getButtons() {
         return buttons;
+    }
+
+    public boolean playAgainstBot() {
+        return againstBotCheckBox.isSelected();
     }
 }
