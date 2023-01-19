@@ -19,15 +19,23 @@ CREATE TABLE Game(
   game_type INT NOT NULL,
   save_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY (id),
+  PRIMARY KEY(id),
   FOREIGN KEY(game_type) REFERENCES GameType(id)
+);
+
+CREATE TABLE Turn(
+    id INT NOT NULL AUTO_INCREMENT,
+    game_id INT NOT NULL,
+    checker_color ENUM('white', 'black'),
+
+    PRIMARY KEY(id),
+    FOREIGN KEY(game_id) REFERENCES Game(id)
 );
 
 CREATE TABLE Move(
     id INT NOT NULL AUTO_INCREMENT,
-    game_id INT NOT NULL,
-    turn_number INT NOT NULL,
-    checker_color ENUM('white', 'black'),
+    turn_id INT NOT NULL,
+    move_number_in_turn INT NOT NULL,
     move_type ENUM('normal', 'beat'),
     start_x INT NOT NULL,
     start_y INT NOT NULL,
@@ -35,5 +43,5 @@ CREATE TABLE Move(
     end_y INT NOT NULL,
 
     PRIMARY KEY (id),
-    FOREIGN KEY(game_id) REFERENCES Game(id)
+    FOREIGN KEY(turn_id) REFERENCES Turn(id)
 );
