@@ -44,7 +44,7 @@ public class Bot {
 
         for (int i = 0; i < board.getSize(); i++) {
             for (int j = 0; j < board.getSize(); j++) {
-                if (board.coordinateIsFree(i, j))
+                if (!board.coordinateIsWithPiece(i, j, color))
                     continue;
 
                 for (CoordinatesArray path : possibleMoves[i][j].getList()) {
@@ -53,7 +53,7 @@ public class Bot {
                         tempCoorArray.add(path);
                         movesToChoose.add(tempCoorArray);
 
-                        int nowGained = howManyGainedIn2Moves(path);
+                        int nowGained = howManyGainedIn2Moves(tempCoorArray);
                         balances.add(nowGained);
                         if (nowGained > bestBalance)
                             bestBalance = nowGained;
@@ -84,7 +84,7 @@ public class Bot {
 
         //applying given move to the board copy
         int x1 = path.getList().get(0).getX();
-        int y1 = path.getList().get(0).getX();
+        int y1 = path.getList().get(0).getY();
         int x2 = path.getList().get(path.getList().size() - 1).getX();
         int y2 = path.getList().get(path.getList().size() - 1).getY();
 
