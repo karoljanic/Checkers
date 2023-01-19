@@ -39,22 +39,22 @@ public class MainServer {
 
                 String[] command = inComm.split("/");
 
-                if(command.length == 2 && Objects.equals(command[0], "init-game")) {
+                if(command.length == 2 && command[0].equals("init-game")) {
                     GameType type = GameType.valueOf(command[1]);
                     System.out.println("New client connected: " + type);
 
-                    //==========TEST FOR BOT
+                    waitingForGame.get(type).add(socket);
+                    if (waitingForGame.get(type).size() >= 2) {
+                        startGame(type);
+                    }
+                }
+                else if (command.length == 2 && command[0].equals("init-game-bot")) {
+                    GameType type = GameType.valueOf(command[1]);
+                    System.out.println("New client connected: " + type);
+
                     Board board = BoardFactory.getFactory().getBoard(type);
                     Thread checkersGameThread = new Thread(new BotCheckersGame(socket, board));
                     checkersGameThread.start();
-                    continue;
-                    //==========
-
-                    //UNCOMMENT BEFORE COMMITING
-                    /*waitingForGame.get(type).add(socket);
-                    if (waitingForGame.get(type).size() >= 2) {
-                        startGame(type);
-                    }*/
                 }
 
             }
