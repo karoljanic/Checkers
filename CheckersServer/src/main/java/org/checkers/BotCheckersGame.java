@@ -49,9 +49,9 @@ public class BotCheckersGame implements Runnable {
         this.player = player;
         this.board = board;
         if (isBotWhite)
-            this.bot = new Bot(board.copy(), CheckerColor.WHITE);
+            this.bot = new Bot(board, CheckerColor.WHITE);
         else
-            this.bot = new Bot(board.copy(), CheckerColor.BLACK);
+            this.bot = new Bot(board, CheckerColor.BLACK);
         gameStatus = GameStatus.WHITE_TURN;
     }
 
@@ -90,7 +90,6 @@ public class BotCheckersGame implements Runnable {
                             int y2 = Integer.parseInt(tokens[4]);
 
                             board.move(x1, y1, x2, y2, playerColor);
-                            bot.addMove(x1, y1, x2, y2, playerColor);
 
                             CoordinatesArray tmp = board.getPossibleMove(x1, y1, x2, y2, playerColor);
                             CoordinatesArray path = new CoordinatesArray();
@@ -113,7 +112,6 @@ public class BotCheckersGame implements Runnable {
                                 for (int x = last.getX(), y = last.getY(), iter = 0; iter < steps; iter++, x += dx, y += dy) {
                                     if (board.coordinateIsWithPiece(x, y, botColor)) {
                                         board.removePiece(x, y);
-                                        bot.removePiece(x, y);
                                         out.println("remove-piece/" + x + "/" + y);
                                     }
                                 }
@@ -128,88 +126,71 @@ public class BotCheckersGame implements Runnable {
 
                             board.generatePossibleMoves();
                             out.println("possible-moves" + preparePossibleMoves(botColor));
-
-                            String gameResult = board.whoWins();
-                            if (gameResult != null) {
-                                out.println(gameResult);
-                                break;
-                            }
-
-                            if (gameStatus == GameStatus.WHITE_TURN)
-                                gameStatus = GameStatus.BLACK_TURN;
-                            else
-                                gameStatus = GameStatus.WHITE_TURN;
                         }
                     }
-                        else { //now bot moves
-                            CoordinatesArray botsMove = bot.makeMove();
-                            CustomClock.waitMillis(500);
+                    else { //now bot moves
+                        CoordinatesArray botsMove = bot.makeMove();
+                        CustomClock.waitMillis(500);
 
-                            int x1 = botsMove.getList().get(0).getX();
-                            int y1 = botsMove.getList().get(0).getY();
-                            int x2 = botsMove.getList().get(botsMove.getList().size() - 1).getX();
-                            int y2 = botsMove.getList().get(botsMove.getList().size() - 1).getY();
-                            botsMove.getList().remove(0);
+                        int x1 = botsMove.getList().get(0).getX();
+                        int y1 = botsMove.getList().get(0).getY();
+                        int x2 = botsMove.getList().get(botsMove.getList().size() - 1).getX();
+                        int y2 = botsMove.getList().get(botsMove.getList().size() - 1).getY();
+                        botsMove.getList().remove(0);
 
-                            board.move(x1, y1, x2, y2, botColor);
-                            bot.addMove(x1, y1, x2, y2, botColor);
+                        board.move(x1, y1, x2, y2, botColor);
 
-                            CoordinatesArray tmp = board.getPossibleMove(x1, y1, x2, y2, botColor);
-                            CoordinatesArray path = new CoordinatesArray();
-                            path.add(x1, y1);
-                            for (Coordinate coordinate : tmp.getList())
-                                path.add(coordinate.getX(), coordinate.getY());
+                        CoordinatesArray tmp = board.getPossibleMove(x1, y1, x2, y2, botColor);
+                        CoordinatesArray path = new CoordinatesArray();
+                        path.add(x1, y1);
+                        for (Coordinate coordinate : tmp.getList())
+                            path.add(coordinate.getX(), coordinate.getY());
 
-                            for (int i = 1; i < path.size(); i++) {
-                                Coordinate last = path.getList().get(i - 1);
-                                Coordinate now = path.getList().get(i);
+                        for (int i = 1; i < path.size(); i++) {
+                            Coordinate last = path.getList().get(i - 1);
+                            Coordinate now = path.getList().get(i);
 
-                                out.println("update-piece-position/" + last.getX() + "/" + last.getY() + "/" + now.getX() + "/" + now.getY());
+                            out.println("update-piece-position/" + last.getX() + "/" + last.getY() + "/" + now.getX() + "/" + now.getY());
 
-                                int dx = now.getX() > last.getX() ? 1 : -1;
-                                int dy = now.getY() > last.getY() ? 1 : -1;
-                                int steps = Math.abs(now.getX() - last.getX());
+                            int dx = now.getX() > last.getX() ? 1 : -1;
+                            int dy = now.getY() > last.getY() ? 1 : -1;
+                            int steps = Math.abs(now.getX() - last.getX());
 
-                                CustomClock.waitMillis(200);
+                            CustomClock.waitMillis(200);
 
-                                for (int x = last.getX(), y = last.getY(), iter = 0; iter < steps; iter++, x += dx, y += dy) {
-                                    if (board.coordinateIsWithPiece(x, y, playerColor)) {
-                                        board.removePiece(x, y);
-                                        out.println("remove-piece/" + x + "/" + y);
-                                        bot.removePiece(x, y);
-                                    }
+                            for (int x = last.getX(), y = last.getY(), iter = 0; iter < steps; iter++, x += dx, y += dy) {
+                                if (board.coordinateIsWithPiece(x, y, playerColor)) {
+                                    board.removePiece(x, y);
+                                    out.println("remove-piece/" + x + "/" + y);
                                 }
-
-                                if (i != path.size() - 1)
-                                    CustomClock.waitMillis(300);
                             }
 
-                            if (board.isKing(x2, y2)) {
-                                out.println("update-piece-to-king/" + x2 + "/" + y2);
-                            }
-
-                            board.generatePossibleMoves();
-                            out.println("possible-moves" + preparePossibleMoves(playerColor));
-
-                            String gameResult = board.whoWins();
-                            if (gameResult != null) {
-                                out.println(gameResult);
-                                break;
-                            }
-
-                            if (gameStatus == GameStatus.WHITE_TURN)
-                                gameStatus = GameStatus.BLACK_TURN;
-                            else
-                                gameStatus = GameStatus.WHITE_TURN;
+                            if (i != path.size() - 1)
+                                CustomClock.waitMillis(300);
                         }
-                }
-                catch (NullPointerException nullPointerException) {
-                    if(playerColor == CheckerColor.WHITE)
-                        out.println("black");
-                    else
-                        out.println("white");
 
-                    break;
+                        if (board.isKing(x2, y2)) {
+                            out.println("update-piece-to-king/" + x2 + "/" + y2);
+                        }
+
+                        board.generatePossibleMoves();
+                        out.println("possible-moves" + preparePossibleMoves(playerColor));
+
+                    }
+                        
+                    String gameResult = board.whoWins();
+                    if (gameResult != null) {
+                        out.println(gameResult);
+                        break;
+                    }
+
+                    if (gameStatus == GameStatus.WHITE_TURN)
+                        gameStatus = GameStatus.BLACK_TURN;
+                    else
+                        gameStatus = GameStatus.WHITE_TURN;
+                }
+                catch (NullPointerException ex) {
+                    System.out.println(ex.getMessage());
                 }
             }
 
