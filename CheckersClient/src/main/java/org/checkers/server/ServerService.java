@@ -21,10 +21,11 @@ public class ServerService {
 
     /**
      * @param gameType typ gry
+     * @param againstBot true, jeśli klient chce grać z botem
      * funkcja ustawia typ gry
      */
-    public static void initializeCheckers(GameType gameType) {
-        _checkersServer.initializeNewGame(gameType);
+    public static void initializeCheckers(GameType gameType, boolean againstBot) {
+        _checkersServer.initializeNewGame(gameType, againstBot);
     }
 
     /**

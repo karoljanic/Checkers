@@ -8,9 +8,10 @@ import org.checkers.utils.GameType;
 public interface ICheckersServer {
     /**
      * @param gameType typ gry
+     * @param againstBot true, jeśli klient chce grać z botem
      * funkcja rozpoczyna nową grę
      */
-    void initializeNewGame(GameType gameType);
+    void initializeNewGame(GameType gameType, boolean againstBot);
     /**
      * @param oldX x-owa współrzędna pionka
      * @param oldY y-owa współrzędna pionka

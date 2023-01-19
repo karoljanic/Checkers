@@ -54,10 +54,11 @@ public class CheckersServer implements ICheckersServer {
      * @see org.checkers.server.ICheckersServer#initializeNewGame(org.checkers.utils.GameType)
      */
     @Override
-    public void initializeNewGame(GameType gameType) {
-        //==========TEST ONLY========= (should be just 'init-game/')
-        outputStream.println("init-game-bot/" + gameType.name());
-        //==========TEST ONLY=========
+    public void initializeNewGame(GameType gameType, boolean againstBot) {
+        if (againstBot)
+            outputStream.println("init-game-bot/" + gameType.name());
+        else
+            outputStream.println("init-game/" + gameType.name());
     }
 
     /* (non-Javadoc)
