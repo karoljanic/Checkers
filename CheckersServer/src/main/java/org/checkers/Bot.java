@@ -56,7 +56,6 @@ public class Bot {
         int idxOfChosenMove = 0;
         if (movesToChoose.getList().size() > 1)
             idxOfChosenMove = ThreadLocalRandom.current().nextInt(0, movesToChoose.getList().size() - 1);
-        System.out.println(idxOfChosenMove);
 
         return movesToChoose.getList().get(idxOfChosenMove);
     }
