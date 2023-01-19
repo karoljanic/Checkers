@@ -5,10 +5,10 @@
              version="2.2">
     <persistence-unit name="default">
 
-        <class>org.checkers.database.models.GameTypeEntity</class>
-        <class>org.checkers.database.models.MoveEntity</class>
-        <class>org.checkers.database.models.TurnEntity</class>
-        <class>org.checkers.database.models.GameEntity</class>
+        <class>org.checkers.database.entities.GameTypeEntity</class>
+        <class>org.checkers.database.entities.MoveEntity</class>
+        <class>org.checkers.database.entities.TurnEntity</class>
+        <class>org.checkers.database.entities.GameEntity</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>

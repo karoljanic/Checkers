@@ -1,4 +1,4 @@
-package org.checkers.database.models;
+package org.checkers.database.entities;
 
 import javax.persistence.*;
 import java.util.Objects;

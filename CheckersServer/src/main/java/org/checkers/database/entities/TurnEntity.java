@@ -1,4 +1,4 @@
-package org.checkers.database.models;
+package org.checkers.database.entities;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -16,6 +16,10 @@ public class TurnEntity {
     @Basic
     @Column(name = "checker_color")
     private String checkerColor;
+
+    @Basic
+    @Column(name = "turn_number")
+    private int turnNumber;
 
     public int getId() {
         return id;
@@ -39,6 +43,14 @@ public class TurnEntity {
 
     public void setCheckerColor(String checkerColor) {
         this.checkerColor = checkerColor;
+    }
+
+    public int getTurnNumber() {
+        return turnNumber;
+    }
+
+    public void setTurnNumber(int turnNumber) {
+        this.turnNumber = turnNumber;
     }
 
     @Override

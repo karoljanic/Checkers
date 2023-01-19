@@ -27,6 +27,7 @@ CREATE TABLE Turn(
     id INT NOT NULL AUTO_INCREMENT,
     game_id INT NOT NULL,
     checker_color ENUM('white', 'black'),
+    turn_number INT,
 
     PRIMARY KEY(id),
     FOREIGN KEY(game_id) REFERENCES Game(id)

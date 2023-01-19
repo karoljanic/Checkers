@@ -1,43 +1,40 @@
 package org.checkers;
 
-import javax.persistence.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import org.checkers.database.DatabaseManager;
+import org.checkers.database.MariaDB;
+import org.checkers.database.entities.GameEntity;
+import org.checkers.database.entities.MoveEntity;
+import org.checkers.database.entities.TurnEntity;
+
+import java.util.ArrayList;
+
 
 public class DatabaseMain {
     public static void main(String[] args) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
+        MariaDB mariaDB = new MariaDB();
+        DatabaseManager databaseManager = new DatabaseManager(mariaDB);
 
-        try {
-            transaction.begin();
+        databaseManager.connect();
 
-//            Employee dalia = new Employee();
-//            dalia.setId(6);
-//            dalia.setFirstName("Dalia");
-//            dalia.setLastName("Abo Sheasha");
-//            entityManager.persist(dalia);
+        ArrayList<GameEntity> games = databaseManager.getAllGames();
+        ArrayList<TurnEntity> turns = databaseManager.getAllTurns(14);
+        ArrayList<MoveEntity> moves = databaseManager.getAllMoves(11);
 
-         //   TypedQuery<GameTypeEntity> empByDeptQuery = entityManager.createNamedQuery("Employee.byDept", Employee.class);
-         //   empByDeptQuery.setParameter(1, "Java Advocacy");
-         //   for (GameTypeEntity employee : empByDeptQuery.getResultList()) {
-         //       System.out.println(employee);
-           // }
-
-            Query countEmpByDept = entityManager.createNativeQuery("SELECT COUNT(*) FROM GameType");
-            //countEmpByDept.setParameter("deptName", "Java Advocacy");
-            System.out.println("There are " + countEmpByDept.getSingleResult() + " Java Advocates.");
-
-            transaction.commit();
-        } finally {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-            entityManager.close();
-            entityManagerFactory.close();
+        for(GameEntity gameEntity: games) {
+            System.out.println(gameEntity.getId() + " - " + gameEntity.getGameType() + " - " + gameEntity.getSaveTime());
         }
+        System.out.println();
+
+        for(TurnEntity turnEntity: turns) {
+            System.out.println(turnEntity.getId() + " - " + turnEntity.getGameId() + " - " + turnEntity.getTurnNumber() + " - " + turnEntity.getCheckerColor());
+        }
+        System.out.println();
+
+        for(MoveEntity moveEntity: moves) {
+            System.out.println(moveEntity.getId() + " - " + moveEntity.getTurnId() + " - " + moveEntity.getMoveNumberInTurn() + " - " + moveEntity.getStartX() + " - " + moveEntity.getStartY() + " - " + moveEntity.getEndX() + " - " + moveEntity.getEndY());
+        }
+
+        databaseManager.disconnect();
     }
 }

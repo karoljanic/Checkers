@@ -6,7 +6,7 @@ module org.checkers {
 
     exports org.checkers;
 
-    opens org.checkers.database.models to org.hibernate.orm.core;
+    opens org.checkers.database.entities to org.hibernate.orm.core;
 
     opens org.checkers;
 }
