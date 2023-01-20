@@ -56,7 +56,7 @@ public class MoveEntity {
         this.moveNumberInTurn = moveNumberInTurn;
     }
 
-    public Object getMoveType() {
+    public String getMoveType() {
         return moveType;
     }
 

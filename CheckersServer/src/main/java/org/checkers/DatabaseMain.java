@@ -6,6 +6,7 @@ import org.checkers.database.MariaDB;
 import org.checkers.database.entities.GameEntity;
 import org.checkers.database.entities.MoveEntity;
 import org.checkers.database.entities.TurnEntity;
+import org.checkers.enums.GameType;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,16 @@ public class DatabaseMain {
         DatabaseManager databaseManager = new DatabaseManager(mariaDB);
 
         databaseManager.connect();
+
+        ArrayList<MoveEntity> moves = databaseManager.getAllMovesInGame(16);
+        for(MoveEntity moveEntity: moves) {
+            System.out.println(moveEntity.getId() + " - " + moveEntity.getTurnId() + " - " + moveEntity.getMoveNumberInTurn() + " - " + moveEntity.getStartX() + " - " + moveEntity.getStartY() + " - " + moveEntity.getEndX() + " - " + moveEntity.getEndY());
+        }
+
+        /*
+        GameType type = databaseManager.getGameType(18);
+        System.out.println(type);
+
 
         ArrayList<GameEntity> games = databaseManager.getAllGames();
         ArrayList<TurnEntity> turns = databaseManager.getAllTurns(14);
@@ -34,6 +45,7 @@ public class DatabaseMain {
         for(MoveEntity moveEntity: moves) {
             System.out.println(moveEntity.getId() + " - " + moveEntity.getTurnId() + " - " + moveEntity.getMoveNumberInTurn() + " - " + moveEntity.getStartX() + " - " + moveEntity.getStartY() + " - " + moveEntity.getEndX() + " - " + moveEntity.getEndY());
         }
+         */
 
         databaseManager.disconnect();
     }

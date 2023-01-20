@@ -9,6 +9,7 @@ import org.checkers.board.BoardController;
 import org.checkers.menu.MenuController;
 import org.checkers.server.CheckersServer;
 import org.checkers.server.ServerService;
+import org.checkers.utils.GameType;
 
 import java.util.ArrayList;;
 
@@ -168,8 +169,20 @@ public class Game extends Application implements Runnable {
                                     alert.showAndWait();
                                 });
                                 break;
+                            case "history":
+                                StringBuilder content = new StringBuilder("Saved games: \n");
+                                for(int i = 1; i < tokens.length; i += 3) {
+                                    content.append(tokens[i]).append(": ").append(GameType.INTERNATIONAL).append("  -  ").append(tokens[i+2]).append("\n");
+                                }
+                                Platform.runLater(() -> {
+                                    Alert alert = new Alert(Alert.AlertType.INFORMATION, content.toString());
+                                    alert.showAndWait();
+                                });
+                                break;
                             default:
-                                if (tokens[0].equals("draw"))
+                                if (tokens[0].equals("end"))
+                                    endGameMessage = "End of replay!";
+                                else if (tokens[0].equals("draw"))
                                     endGameMessage = "Draw!";
                                 else if ((tokens[0].equals("black") && playerId == 1) || (tokens[0].equals("white") && playerId == 0)) {
                                     endGameMessage = "You win - " + tokens[0] + " win!";

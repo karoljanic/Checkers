@@ -6,6 +6,8 @@ import org.checkers.utils.GameType;
  * interfejs do obsługi połączenia z serwerem
  */
 public interface ICheckersServer {
+    void showSavedGames();
+    void replayGame(int savedGameId);
     /**
      * @param gameType typ gry
      * @param againstBot true, jeśli klient chce grać z botem

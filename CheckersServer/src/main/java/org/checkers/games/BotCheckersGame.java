@@ -1,4 +1,4 @@
-package org.checkers;
+package org.checkers.games;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -6,7 +6,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Random;
 
+import org.checkers.Bot;
 import org.checkers.boards.Board;
+import org.checkers.database.DatabaseManager;
+import org.checkers.database.IDatabase;
+import org.checkers.enums.GameType;
 import org.checkers.piece.coordinate.Coordinate;
 import org.checkers.piece.coordinate.CoordinatesArray;
 import org.checkers.piece.coordinate.PathsArray;
@@ -17,7 +21,7 @@ import org.checkers.enums.GameStatus;
 /**
  * klasa obsługuje grę między klientem a botem
  */
-public class BotCheckersGame implements Runnable {
+public class BotCheckersGame extends CheckerGame {
     /**
      * połączenie z klientem
      */
@@ -26,14 +30,7 @@ public class BotCheckersGame implements Runnable {
      * bot wykonujący ruchy
      */
     private final Bot bot;
-    /**
-     * plansza gry
-     */
-    private final Board board;
-    /**
-     * aktualny status gry
-     */
-    private GameStatus gameStatus;
+
     /**
      * true, jeśli bot ma białe pionki
      */
@@ -44,15 +41,20 @@ public class BotCheckersGame implements Runnable {
      * @param board plansza do gry
      * konstruktor ustawia niezbędne paramatery dla nowego obiektu
      */
-    public BotCheckersGame(Socket player, Board board) {
+    public BotCheckersGame(Socket player, GameType gameType, Board board, DatabaseManager databaseManager) {
+        super(gameType, board, databaseManager);
+
         isBotWhite = new Random(System.currentTimeMillis()).nextBoolean();
-        this.player = player;
-        this.board = board;
         if (isBotWhite)
             this.bot = new Bot(board, CheckerColor.WHITE);
         else
             this.bot = new Bot(board, CheckerColor.BLACK);
+
+        this.player = player;
         gameStatus = GameStatus.WHITE_TURN;
+
+        gameIdInDatabase = databaseManager.addNewGame(gameType);
+        currentTurn = 0;
     }
 
     /**
@@ -83,7 +85,6 @@ public class BotCheckersGame implements Runnable {
                         String[] tokens = request.split("/");
 
                         if (tokens[0].equals("move")) {
-                            
                             int x1 = Integer.parseInt(tokens[1]);
                             int y1 = Integer.parseInt(tokens[2]);
                             int x2 = Integer.parseInt(tokens[3]);
@@ -97,9 +98,15 @@ public class BotCheckersGame implements Runnable {
                             for (Coordinate coordinate : tmp.getList())
                                 path.add(coordinate.getX(), coordinate.getY());
 
+                            int turnIdInDatabase = databaseManager.addNewTurn(gameIdInDatabase, currentTurn, gameStatus == GameStatus.WHITE_TURN ? CheckerColor.WHITE : CheckerColor.BLACK);
+                            currentTurn += 1;
+                            int movesCounter = 0;
+
                             for (int i = 1; i < path.size(); i++) {
                                 Coordinate last = path.getList().get(i - 1);
                                 Coordinate now = path.getList().get(i);
+
+                                CustomClock.waitMillis(200);
 
                                 out.println("update-piece-position/" + last.getX() + "/" + last.getY() + "/" + now.getX() + "/" + now.getY());
 
@@ -107,14 +114,17 @@ public class BotCheckersGame implements Runnable {
                                 int dy = now.getY() > last.getY() ? 1 : -1;
                                 int steps = Math.abs(now.getX() - last.getX());
 
-                                CustomClock.waitMillis(200);
-
+                                boolean wasBeat = false;
                                 for (int x = last.getX(), y = last.getY(), iter = 0; iter < steps; iter++, x += dx, y += dy) {
                                     if (board.coordinateIsWithPiece(x, y, botColor)) {
                                         board.removePiece(x, y);
                                         out.println("remove-piece/" + x + "/" + y);
+                                        wasBeat = true;
                                     }
                                 }
+
+                                databaseManager.addNewMove(turnIdInDatabase, movesCounter, wasBeat, last.getX(), last.getY(), now.getX(), now.getY());
+                                movesCounter += 1;
 
                                 if (i != path.size() - 1)
                                     CustomClock.waitMillis(300);
@@ -130,7 +140,7 @@ public class BotCheckersGame implements Runnable {
                     }
                     else { //now bot moves
                         CoordinatesArray botsMove = bot.makeMove();
-                        CustomClock.waitMillis(500);
+                        CustomClock.waitMillis(400);
 
                         int x1 = botsMove.getList().get(0).getX();
                         int y1 = botsMove.getList().get(0).getY();
@@ -146,6 +156,10 @@ public class BotCheckersGame implements Runnable {
                         for (Coordinate coordinate : tmp.getList())
                             path.add(coordinate.getX(), coordinate.getY());
 
+                        int turnIdInDatabase = databaseManager.addNewTurn(gameIdInDatabase, currentTurn, gameStatus == GameStatus.WHITE_TURN ? CheckerColor.WHITE : CheckerColor.BLACK);
+                        currentTurn += 1;
+                        int movesCounter = 0;
+
                         for (int i = 1; i < path.size(); i++) {
                             Coordinate last = path.getList().get(i - 1);
                             Coordinate now = path.getList().get(i);
@@ -158,12 +172,17 @@ public class BotCheckersGame implements Runnable {
 
                             CustomClock.waitMillis(200);
 
+                            boolean wasBeat = false;
                             for (int x = last.getX(), y = last.getY(), iter = 0; iter < steps; iter++, x += dx, y += dy) {
                                 if (board.coordinateIsWithPiece(x, y, playerColor)) {
                                     board.removePiece(x, y);
                                     out.println("remove-piece/" + x + "/" + y);
+                                    wasBeat = true;
                                 }
                             }
+
+                            databaseManager.addNewMove(turnIdInDatabase, movesCounter, wasBeat, last.getX(), last.getY(), now.getX(), now.getY());
+                            movesCounter += 1;
 
                             if (i != path.size() - 1)
                                 CustomClock.waitMillis(300);
@@ -203,47 +222,4 @@ public class BotCheckersGame implements Runnable {
             ex.printStackTrace();
         }
     }
-
-    /**
-     * @return opis parametrów planszy dla klienów
-     */
-    private String prepareBoardDescription() {
-        CoordinatesArray whitePieces = board.getPieces(CheckerColor.WHITE);
-        CoordinatesArray blackPieces = board.getPieces(CheckerColor.BLACK);
-
-        StringBuilder result = new StringBuilder("/" + board.getSize() + "/" + whitePieces.size());
-        for(Coordinate coordinate: whitePieces.getList()) {
-            result.append("/").append(coordinate.getX()).append("/").append(coordinate.getY());
-        }
-
-        for(Coordinate coordinate: blackPieces.getList()) {
-            result.append("/").append(coordinate.getX()).append("/").append(coordinate.getY());
-        }
-
-        return result.toString();
-    }
-
-    /**
-     * @param checkerColor kolor pionków klienta
-     * @return możliwe ruchy dla klienta o określonym kolorze pinków
-     */
-    private String preparePossibleMoves(CheckerColor checkerColor) {
-        PathsArray[][] possibleMoves = board.getPossibleMoves(checkerColor);
-
-        StringBuilder result = new StringBuilder();
-        for(int i = 0; i < board.getSize(); i++) {
-            for(int j = 0; j < board.getSize(); j++) {
-                for(CoordinatesArray coordinatesArray: possibleMoves[i][j].getList()) {
-                    result.append("/").append(i).append("/").append(j);
-                    for(Coordinate coordinate: coordinatesArray.getList()) {
-                        result.append("/").append(coordinate.getX()).append("/").append(coordinate.getY());
-                    }
-                    result.append("/;");
-                }
-            }
-        }
-
-        return result.toString();
-    }
-
 }

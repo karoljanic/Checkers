@@ -46,4 +46,12 @@ public class DatabaseManager {
     public ArrayList<MoveEntity> getAllMoves(int turnId) {
         return iDatabase.getAllMoves(turnId);
     }
+
+    public ArrayList<MoveEntity> getAllMovesInGame(int gameId) {
+        return iDatabase.getAllMovesInGame(gameId);
+    }
+
+    public GameType getGameType(int gameType) {
+        return GameType.values()[iDatabase.getGameType(gameType) - 1];
+    }
 }

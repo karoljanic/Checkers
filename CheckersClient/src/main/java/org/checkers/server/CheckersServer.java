@@ -13,11 +13,11 @@ public class CheckersServer implements ICheckersServer {
     /**
      * adres serwera
      */
-    private static final String SOCKET_HOST = "192.168.112.129";
+    private static final String SOCKET_HOST = "localhost";
     /**
      * port do połączenia z serwerem
      */
-    private static final int SOCKET_PORT = 4444;
+    private static final int SOCKET_PORT = 5555;
 
     /**
      * gniazdo do komunikacja z serwerem
@@ -49,6 +49,17 @@ public class CheckersServer implements ICheckersServer {
             System.exit(1);
         }
     }
+
+    @Override
+    public void showSavedGames() {
+        outputStream.println("show-saved-games/");
+    }
+
+    @Override
+    public void replayGame(int savedGameId) {
+        outputStream.println("replay-game/" + savedGameId);
+    }
+
 
     /* (non-Javadoc)
      * @see org.checkers.server.ICheckersServer#initializeNewGame(org.checkers.utils.GameType)

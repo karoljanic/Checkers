@@ -37,7 +37,7 @@ public class TurnEntity {
         this.gameId = gameId;
     }
 
-    public Object getCheckerColor() {
+    public String getCheckerColor() {
         return checkerColor;
     }
 

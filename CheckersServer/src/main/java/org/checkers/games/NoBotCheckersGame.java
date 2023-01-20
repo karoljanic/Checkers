@@ -1,4 +1,4 @@
-package org.checkers;
+package org.checkers.games;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -7,6 +7,9 @@ import java.net.Socket;
 import java.util.Random;
 
 import org.checkers.boards.Board;
+import org.checkers.database.DatabaseManager;
+import org.checkers.database.IDatabase;
+import org.checkers.enums.GameType;
 import org.checkers.piece.coordinate.Coordinate;
 import org.checkers.piece.coordinate.CoordinatesArray;
 import org.checkers.piece.coordinate.PathsArray;
@@ -17,7 +20,7 @@ import org.checkers.enums.GameStatus;
 /**
  * klasa obsługuje grę między dwoma klientami
  */
-public class CheckersGame implements Runnable {
+public class NoBotCheckersGame extends CheckerGame {
     /**
      * połączenie z pierwszym klientem
      */
@@ -26,14 +29,6 @@ public class CheckersGame implements Runnable {
      * połączenie z drugim klientem
      */
     private final Socket player2;
-    /**
-     * plansza gry
-     */
-    private final Board board;
-    /**
-     * aktualny status gry
-     */
-    private GameStatus gameStatus;
 
     /**
      * @param player1 połączenie z pierwszym klientem
@@ -41,7 +36,9 @@ public class CheckersGame implements Runnable {
      * @param board plansza do gry
      * konstruktor ustawia niezbędne paramatery dla nowego obiektu
      */
-    public CheckersGame(Socket player1, Socket player2, Board board) {
+    public NoBotCheckersGame(Socket player1, Socket player2, GameType gameType, Board board, DatabaseManager databaseManager) {
+        super(gameType, board, databaseManager);
+
         boolean changeOrder = new Random(System.currentTimeMillis()).nextBoolean();
         if(changeOrder) {
             this.player1 = player2;
@@ -52,8 +49,10 @@ public class CheckersGame implements Runnable {
             this.player2 = player2;
         }
 
-        this.board = board;
         gameStatus = GameStatus.WHITE_TURN;
+
+        gameIdInDatabase = databaseManager.addNewGame(gameType);
+        currentTurn = 0;
     }
 
     /**
@@ -123,6 +122,10 @@ public class CheckersGame implements Runnable {
                         for (Coordinate coordinate : tmp.getList())
                             path.add(coordinate.getX(), coordinate.getY());
 
+                        int turnIdInDatabase = databaseManager.addNewTurn(gameIdInDatabase, currentTurn, gameStatus == GameStatus.WHITE_TURN ? CheckerColor.WHITE : CheckerColor.BLACK);
+                        currentTurn += 1;
+                        int movesCounter = 0;
+
                         for (int i = 1; i < path.size(); i++) {
                             Coordinate last = path.getList().get(i - 1);
                             Coordinate now = path.getList().get(i);
@@ -136,13 +139,18 @@ public class CheckersGame implements Runnable {
                             int dy = now.getY() > last.getY() ? 1 : -1;
                             int steps = Math.abs(now.getX() - last.getX());
 
+                            boolean wasBeat = false;
                             for (int x = last.getX(), y = last.getY(), iter = 0; iter < steps; iter++, x += dx, y += dy) {
                                 if (board.coordinateIsWithPiece(x, y, otherColor)) {
                                     board.removePiece(x, y);
                                     out.println("remove-piece/" + x + "/" + y);
                                     otherOut.println("remove-piece/" + x + "/" + y);
+                                    wasBeat = true;
                                 }
                             }
+
+                            databaseManager.addNewMove(turnIdInDatabase, movesCounter, wasBeat, last.getX(), last.getY(), now.getX(), now.getY());
+                            movesCounter += 1;
 
                             if (i != path.size() - 1)
                                 CustomClock.waitMillis(300);
@@ -190,47 +198,4 @@ public class CheckersGame implements Runnable {
             ex.printStackTrace();
         }
     }
-
-    /**
-     * @return opis parametrów planszy dla klienów
-     */
-    private String prepareBoardDescription() {
-        CoordinatesArray whitePieces = board.getPieces(CheckerColor.WHITE);
-        CoordinatesArray blackPieces = board.getPieces(CheckerColor.BLACK);
-
-        StringBuilder result = new StringBuilder("/" + board.getSize() + "/" + whitePieces.size());
-        for(Coordinate coordinate: whitePieces.getList()) {
-            result.append("/").append(coordinate.getX()).append("/").append(coordinate.getY());
-        }
-
-        for(Coordinate coordinate: blackPieces.getList()) {
-            result.append("/").append(coordinate.getX()).append("/").append(coordinate.getY());
-        }
-
-        return result.toString();
-    }
-
-    /**
-     * @param checkerColor kolor pionków klienta
-     * @return możliwe ruchy dla klienta o określonym kolorze pinków
-     */
-    private String preparePossibleMoves(CheckerColor checkerColor) {
-        PathsArray[][] possibleMoves = board.getPossibleMoves(checkerColor);
-
-        StringBuilder result = new StringBuilder();
-        for(int i = 0; i < board.getSize(); i++) {
-            for(int j = 0; j < board.getSize(); j++) {
-                for(CoordinatesArray coordinatesArray: possibleMoves[i][j].getList()) {
-                    result.append("/").append(i).append("/").append(j);
-                    for(Coordinate coordinate: coordinatesArray.getList()) {
-                        result.append("/").append(coordinate.getX()).append("/").append(coordinate.getY());
-                    }
-                    result.append("/;");
-                }
-            }
-        }
-
-        return result.toString();
-    }
-
 }
