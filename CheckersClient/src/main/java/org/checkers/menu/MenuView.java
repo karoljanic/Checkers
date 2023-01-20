@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import org.checkers.utils.WindowProperties;
 
@@ -20,7 +21,13 @@ public class MenuView extends VBox {
     /**
      * checkbox daje wybór użytkownikowi, czy chce grać z botem
      */
+
+    private final Button showSavedGamesButton;
+
+    private final Button replayGameButton;
     private final CheckBox againstBotCheckBox;
+
+    private final TextField gameToReplayId;
 
     /**
      * @param gameTypes możliwe rodzaje gry
@@ -28,7 +35,7 @@ public class MenuView extends VBox {
      * konstruktor ustawia niezbędne parametry nowego obiektu i ustawia jego wygląd
      */
     MenuView(ArrayList<String> gameTypes, MenuController menuController) {
-        double buttonHeight = WindowProperties.calculateWindowStageSize() / 9.0;
+        double buttonHeight = WindowProperties.calculateWindowStageSize() / 12.0;
         double buttonWidth = WindowProperties.calculateWindowStageSize() / 3.0;
 
         setAlignment(Pos.CENTER);
@@ -49,8 +56,29 @@ public class MenuView extends VBox {
         }
 
         againstBotCheckBox = new CheckBox("I want to play against bot");
-        againstBotCheckBox.setPrefHeight(buttonWidth / 6.0);
+        againstBotCheckBox.setPrefHeight(buttonWidth / 5.0);
         getChildren().add(againstBotCheckBox);
+
+        showSavedGamesButton = new Button("Show saved games");
+
+        showSavedGamesButton.setPrefHeight(buttonHeight);
+        showSavedGamesButton.setPrefWidth(buttonWidth);
+        showSavedGamesButton.setOnAction(menuController);
+
+        getChildren().add(showSavedGamesButton);
+
+        gameToReplayId  = new TextField();
+        gameToReplayId.setPrefHeight(buttonHeight / 2.0);
+        gameToReplayId.setPrefWidth(buttonWidth);
+        getChildren().add(gameToReplayId);
+
+        replayGameButton = new Button("Replay game with given ID");
+
+        replayGameButton.setPrefHeight(buttonHeight);
+        replayGameButton.setPrefWidth(buttonWidth);
+        replayGameButton.setOnAction(menuController);
+
+        getChildren().add(replayGameButton);
     }
 
     /**
@@ -60,7 +88,14 @@ public class MenuView extends VBox {
         return buttons;
     }
 
+    public Button getShowSavedGamesButton() { return showSavedGamesButton; }
+
+    public Button getReplayGameButton() { return replayGameButton; }
+
     public boolean playAgainstBot() {
         return againstBotCheckBox.isSelected();
     }
+
+    public int getGameToReplayId() { return Integer.parseInt(gameToReplayId.getText()); }
+
 }

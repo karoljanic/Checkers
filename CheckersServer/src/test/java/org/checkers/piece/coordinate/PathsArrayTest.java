@@ -1,6 +1,5 @@
 package org.checkers.piece.coordinate;
 
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -11,6 +11,14 @@ public class ServerService {
      */
     private static CheckersServer _checkersServer = null;
 
+    public static void showSavedGames() {
+        _checkersServer.showSavedGames();
+    }
+
+    public static void replayGame(int savedGameId) {
+        _checkersServer.replayGame(savedGameId);
+    }
+
     /**
      * @param checkersServer nowa instancja klasy CheckersServer
      * funkcja ustawia obiekt CheckersServer

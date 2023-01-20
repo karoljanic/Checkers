@@ -5,7 +5,6 @@ import org.checkers.boards.ThaiBoard;
 import org.checkers.enums.CheckerColor;
 import org.checkers.enums.CheckerType;
 import org.checkers.enums.MoveDirection;
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

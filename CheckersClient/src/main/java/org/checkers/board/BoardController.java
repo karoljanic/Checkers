@@ -91,6 +91,7 @@ public class BoardController implements EventHandler<ActionEvent> {
      */
     public void removePiece(int x, int y) {
         model.removePiece(x, y);
+        showView();
     }
 
     /**

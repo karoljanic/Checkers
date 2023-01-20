@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import org.checkers.board.BoardController;
 import org.checkers.server.ServerService;
 import org.checkers.utils.GameType;
 
@@ -67,10 +68,18 @@ public class MenuController implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event) {
         Object source = event.getSource();
-        for(Button button: view.getButtons()) {
-            if(source.equals(button)) {
-                GameType gameType = GameType.valueOf(button.getText());
-                ServerService.initializeCheckers(gameType, view.playAgainstBot());
+        if(source.equals(view.getShowSavedGamesButton())) {
+            ServerService.showSavedGames();
+        }
+        else if(source.equals(view.getReplayGameButton())) {
+            ServerService.replayGame(view.getGameToReplayId());
+        }
+        else {
+            for(Button button: view.getButtons()) {
+                if(source.equals(button)) {
+                    GameType gameType = GameType.valueOf(button.getText());
+                    ServerService.initializeCheckers(gameType, view.playAgainstBot());
+                }
             }
         }
     }
